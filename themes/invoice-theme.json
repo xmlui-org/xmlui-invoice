@@ -14,7 +14,8 @@
           "themeVars": {
             "backgroundColor-NavPanel": "$color-primary-950",
             "backgroundColor-AppHeader": "$color-primary-800",
-            "backgroundColor-TextBox": "$color-surface-100"
+            "backgroundColor-TextBox": "$color-surface-100",
+            "textColor-TextBox": "$color-primary-950"
           }
         }
       }
