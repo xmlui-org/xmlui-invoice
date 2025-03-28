@@ -1,10 +1,21 @@
 {
     "name": "Simple Invoice",
     "id": "invoice-theme",
-    "themeVars": {
+        "themeVars": {
         "fontFamily": "Tahoma",
-        "backgroundColor-NavPanel": "#1a2733",
-        "textColor-NavLink": "white",
-        "backgroundColor-AppHeader": "#2c3e50"
-    }
+        "tone": "dark"
+    },
+    "tones": {
+        "light": {
+          "themeVars": {
+          }
+        },
+        "dark": {
+          "themeVars": {
+            "backgroundColor-NavPanel": "$color-primary-950",
+            "backgroundColor-AppHeader": "$color-primary-800",
+            "backgroundColor-TextBox": "$color-surface-100"
+          }
+        }
+      }
   }
