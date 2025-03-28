@@ -4,6 +4,7 @@
     "themeVars": {
         "fontFamily": "Tahoma",
         "backgroundColor-NavPanel": "#1a2733",
-        "textColor-NavLink": "white"
+        "textColor-NavLink": "white",
+        "backgroundColor-AppHeader": "#2c3e50"
     }
   }
