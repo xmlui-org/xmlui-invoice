@@ -6,9 +6,15 @@
 
         <AppHeader>
             <HStack verticalAlignment="center">
-                <Text fontWeight="bold">SimpleInvoice</Text>
+                <HeaderText
+                    s="$fontSize-H1"
+                    w="$fontWeight-bold"
+                    t="SimpleInvoice"
+                />
                 <TextBox width="20rem" placeholder="search" />
-                <Text>Demo User</Text>
+                <HeaderText
+                    t="Demo User"
+                />
             </HStack>
         </AppHeader>
 
