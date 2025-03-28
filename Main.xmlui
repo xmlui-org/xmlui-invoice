@@ -2,44 +2,46 @@
     name="Simple Invoice"
     layout="vertical-full-header"
     defaultTheme="invoice-theme"
+    defaultTone="dark"
 >
 
-        <AppHeader>
-            <HStack verticalAlignment="center">
-                <HeaderText
-                    s="$fontSize-H1"
-                    w="$fontWeight-bold"
-                    t="SimpleInvoice"
-                />
-                <TextBox width="20rem" placeholder="search" />
-                <HeaderText
-                    t="Demo User"
-                />
-            </HStack>
-        </AppHeader>
+    <AppHeader>
+        <HStack
+            verticalAlignment="center"
+        >
+        <H1>Simple Invoice</H1>
+            <TextBox width="20rem"
+                placeholder="search" />
+        <Text>Demo User</Text>
 
-        <NavPanel width="20%">
-            <NavLink label="Dashboard" to="/" />
-            <NavLink label="Invoices" to="/invoices" />
-            <NavLink label="Clients" to="/clients" />
-        </NavPanel>
+        </HStack>
+    </AppHeader>
 
-        <Pages>
-            <Page url="/">
-                <Dashboard />
-            </Page>
-            <Page url="/invoices">
-                <Invoices />
-            </Page>
-            <Page url="/clients">
-                <Clients />
-            </Page>
-        </Pages>
+    <NavPanel width="20%">
+        <NavLink label="Dashboard" to="/" />
+        <NavLink label="Invoices" to="/invoices" />
+        <NavLink label="Clients" to="/clients" />
+    </NavPanel>
+
+    <Pages>
+        <Page url="/">
+            <Dashboard />
+        </Page>
+        <Page url="/invoices">
+            <Invoices />
+        </Page>
+        <Page url="/clients">
+            <Clients />
+        </Page>
+    </Pages>
 
 
-        <Footer>
-            Powered by XMLUI
-        </Footer>
+    <Footer> Powered by XMLUI <Button
+            variant="ghost"
+            icon="{activeThemeTone === 'light' ? 'moon' : 'sun'}"
+            onClick="setThemeTone(activeThemeTone === 'dark' ? 'light' : 'dark')"
+        />
+    </Footer>
 
 
 </App>
