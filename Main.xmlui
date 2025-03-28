@@ -1,0 +1,39 @@
+<App
+    name="Simple Invoice"
+    layout="vertical-full-header"
+    defaultTheme="invoice-theme"
+>
+
+        <AppHeader>
+            <HStack verticalAlignment="center">
+                <Text fontWeight="bold">SimpleInvoice</Text>
+                <TextBox width="20rem" placeholder="search" />
+                <Text>Demo User</Text>
+            </HStack>
+        </AppHeader>
+
+        <NavPanel width="20%">
+            <NavLink label="Dashboard" to="/" />
+            <NavLink label="Invoices" to="/invoices" />
+            <NavLink label="Clients" to="/clients" />
+        </NavPanel>
+
+        <Pages>
+            <Page url="/">
+                <Dashboard />
+            </Page>
+            <Page url="/invoices">
+                <Invoices />
+            </Page>
+            <Page url="/clients">
+                <Clients />
+            </Page>
+        </Pages>
+
+
+        <Footer>
+            Powered by XMLUI
+        </Footer>
+
+
+</App>

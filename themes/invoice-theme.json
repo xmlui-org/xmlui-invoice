@@ -1,0 +1,9 @@
+{
+    "name": "Simple Invoice",
+    "id": "invoice-theme",
+    "themeVars": {
+        "fontFamily": "Tahoma",
+        "backgroundColor-NavPanel": "#1a2733",
+        "textColor-NavLink": "white"
+    }
+  }
