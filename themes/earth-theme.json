@@ -1,0 +1,13 @@
+{
+  "id": "earth-theme",
+  "extends": "invoice-theme",
+  "themeVars": {
+    
+    "light": {
+      "backgroundColor-AppHeader": "red"
+    },
+    "dark": {
+      "backgroundColor-AppHeader": "green"
+    }
+  }
+}

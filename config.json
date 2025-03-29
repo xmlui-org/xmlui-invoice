@@ -1,5 +1,6 @@
 {
    "themes": [
-     "themes/invoice-theme.json"
+     "themes/invoice-theme.json",
+     "themes/earth-theme.json"
   ]
  }
