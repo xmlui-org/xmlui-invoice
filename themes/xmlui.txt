@@ -107,7 +107,7 @@
     "color-error": "$color-danger-600",
     "lineHeight-none": "1",
     "lineHeight-tight": "1.25",
-    "lineHeight-snug": "1.375",
+k  "lineHeight-snug": "1.375",
     "lineHeight-normal": "1.5",
     "lineHeight-relaxed": "1.625",
     "lineHeight-loose": "2",

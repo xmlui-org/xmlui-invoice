@@ -1,0 +1,101 @@
+{
+  "name": "Simple Invoice",
+  "id": "invoice",
+  "themeVars": {
+    "--- App-bound root theme variables": "",
+    "space-base": "0.25rem",
+
+    "color-surface-50": "hsl(210, 5%, 98%)",
+    "color-surface-100": "hsl(210, 5%, 95%)",
+    "color-surface-200": "hsl(210, 5%, 90%)",
+    "color-surface-300": "hsl(210, 5%, 85%)",
+    "color-surface-400": "hsl(210, 5%, 80%)",
+    "color-surface-500": "hsl(210, 5%, 75%)",
+    "color-surface-600": "hsl(210, 5%, 60%)",
+    "color-surface-700": "hsl(210, 5%, 45%)",
+    "color-surface-800": "hsl(210, 25%, 26%)",
+    "color-surface-900": "hsl(205, 33%, 15%)",
+    "color-surface-950": "hsl(205, 35%, 10%)",
+    "color-surface": "$color-surface-100",
+
+    "color-primary-50": "hsl(210, 85%, 95%)",
+    "color-primary-100": "hsl(210, 85%, 90%)",
+    "color-primary-200": "hsl(210, 85%, 80%)",
+    "color-primary-300": "hsl(210, 85%, 70%)",
+    "color-primary-400": "hsl(210, 85%, 65%)",
+    "color-primary-500": "hsl(210, 85%, 60%)",
+    "color-primary-600": "hsl(210, 85%, 55%)",
+    "color-primary-700": "hsl(210, 90%, 50%)",
+    "color-primary-800": "hsl(210, 90%, 45%)",
+    "color-primary-900": "hsl(210, 90%, 40%)",
+    "color-primary-950": "hsl(210, 90%, 35%)",
+
+    "color-secondary-50": "hsl(210, 25%, 98%)",
+    "color-secondary-100": "hsl(210, 25%, 95%)",
+    "color-secondary-200": "hsl(210, 25%, 90%)",
+    "color-secondary-300": "hsl(210, 25%, 80%)",
+    "color-secondary-400": "hsl(210, 50%, 70%)",
+    "color-secondary-500": "hsl(210, 50%, 60%)",
+    "color-secondary-600": "hsl(210, 50%, 50%)",
+    "color-secondary-700": "hsl(210, 50%, 40%)",
+    "color-secondary-800": "hsl(210, 50%, 30%)",
+    "color-secondary-900": "hsl(210, 50%, 20%)",
+    "color-secondary-950": "hsl(210, 50%, 15%)",
+
+    "borderRadius-Admonition": "$space-4",
+    "marginTop-Admonition": "1rem",
+    "marginTop-Blockquote": "1rem",
+    "padding-Admonition": "1rem",
+    "padding-Blockquote": ".5rem",
+    "marginBottom-Admonition": "1rem",
+    "marginBotton-Blockquote": "1rem",
+    "iconSize-Admonition": "1.5rem",
+    "accentWidth": "3px",
+
+    "light": {
+      "backgroundColor-NavLink": "$color-surface-900",
+      "backgroundColor-NavLink--active": "$color-primary-400",
+      "backgroundColor-AppHeader": "$color-surface-800",
+      "textColor-NavLink": "$color-surface-50",
+      "textColor-H1": "$color-surface-50",
+      "textColor-H2": "$color-surface-50",
+      "fontSize-NavLink": "normal",
+      "borderRadius-NavLink": "0",
+      "padding-NavPanel": "0"
+    },
+    "dark": {
+      "backgroundColor": "black",
+      "backgroundColor-AppHeader": "black",
+      "backgroundColor-NavPanel": "black",
+      "backgroundColor-Blockquote": "black",
+      "backgroundColor-Admonition": "black",
+
+      "backgroundColor-Text-markdown": "black",
+      "backgroundColor-Text-codefence": "black"
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

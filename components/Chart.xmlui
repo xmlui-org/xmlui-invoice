@@ -1,0 +1,21 @@
+<Component name="Chart" xmlns:XMLUIExtensions="component-ns">
+
+    <VStack>
+        <H1>{$props.title}</H1>
+
+        <Card height="400px">
+            <XMLUIExtensions:BarChart
+                layout="horizontal"
+                data="resources/data.json"
+                dataKeys="{['total']}" nameKey="month"
+                tickFormatter="{(value) => {
+  const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+  const date = getDate(value);
+  return months[date.getMonth()];
+}}"
+            />
+        </Card>
+
+    </VStack>
+
+</Component>
