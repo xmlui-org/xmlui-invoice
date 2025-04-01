@@ -1,8 +1,7 @@
 <App
     name="Simple Invoice"
     layout="vertical-full-header"
-    defaultTheme="invoice-theme"
-    defaultTone="dark"
+    defaultTheme="invoice"
 >
 
     <AppHeader>
@@ -11,16 +10,26 @@
         >
         <H1>Simple Invoice</H1>
             <TextBox width="20rem"
-                placeholder="search" />
-        <Text>Demo User</Text>
+               placeholder="search" />
+            <Icon
+                width="2rem"
+                height="2rem"
+                name="search"
+                padding="6px"
+                margin="6px"
+                color="white"
+                backgroundColor="$color-primary-600"
+            />
+        <H2>Demo User</H2>
 
         </HStack>
     </AppHeader>
 
-    <NavPanel width="20%">
+    <NavPanel>
         <NavLink label="Dashboard" to="/" />
         <NavLink label="Invoices" to="/invoices" />
         <NavLink label="Clients" to="/clients" />
+        <NavLink label="Palettes" to="/palettes" />
     </NavPanel>
 
     <Pages>
@@ -32,6 +41,9 @@
         </Page>
         <Page url="/clients">
             <Clients />
+        </Page>
+        <Page url="/palettes">
+            <Palettes />
         </Page>
     </Pages>
 

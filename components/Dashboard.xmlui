@@ -1,5 +1,11 @@
 <Component name="Dashboard">
 
-<Text>Dashboard</Text>
+
+<HStack>
+    <H1 color="black">Dashboard</H1>
+    <Button label="Create Invoice"/>
+</HStack>
+
+<Chart title="Monthly Revenue" />
 
 </Component>
