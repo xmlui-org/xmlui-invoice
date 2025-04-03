@@ -4,25 +4,87 @@
     defaultTheme="invoice"
 >
 
-    <AppHeader>
+    <AppHeader height="3rem" verticalAlignment="center">
+
+        <Stack width="30%">
+
+            <Text
+                color="white"
+                fontWeight="bold"
+                fontSize="1.5rem"
+            >
+                SimpleInvoice
+            </Text>
+        </Stack>
+
         <HStack
+            gap="0"
+            height="2rem"
             verticalAlignment="center"
-        >
-        <H1>Simple Invoice</H1>
-            <TextBox width="20rem"
-               placeholder="search" />
-            <Icon
-                width="2rem"
+            width="60%"
+            >
+
+            <TextBox
+                borderRadius="4px 0 0 4px"
                 height="2rem"
+                width="30rem"
+                placeholder="search invoices, clients, etc."
+            />
+
+            <Icon
+                borderRadius="0 4px 4px 0"
+                height="2rem"
+                width="2rem"
                 name="search"
                 padding="6px"
-                margin="6px"
                 color="white"
                 backgroundColor="$color-primary-600"
             />
-        <H2>Demo User</H2>
-
         </HStack>
+
+        <Stack width="10%">
+            <Text width="10rem" color="white">Demo User</Text>
+        </Stack>
+
+        <!--
+        <FlowLayout>
+
+            <Stack width="30%">
+
+                <Text
+                    color="white"
+                    fontWeight="bold"
+                    fontSize="1.5rem"
+                >
+                    Simple Invoice
+                </Text>
+            </Stack>
+
+            <HStack gap="0" height="2rem" verticalAlignment="center" width="60%">
+                <TextBox
+                    borderRadius="4px"
+                    height="2rem"
+                    width="30rem"
+                    placeholder="search invoices, clients, etc." />
+
+                <Icon
+                    height="2rem"
+                    width="2rem"
+                    name="search"
+                    padding="6px"
+                    margin="6px"
+                    color="white"
+                    backgroundColor="$color-primary-600"
+                />
+            </HStack>
+
+            <Stack width="10%">
+                <Text width="10rem" color="white">Demo User</Text>
+            </Stack>
+
+        </FlowLayout>
+-->
+
     </AppHeader>
 
     <NavPanel>
@@ -42,9 +104,12 @@
         <Page url="/clients">
             <Clients />
         </Page>
+
         <Page url="/palettes">
             <Palettes />
         </Page>
+
+
     </Pages>
 
 
