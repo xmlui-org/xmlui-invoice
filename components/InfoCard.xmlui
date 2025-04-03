@@ -1,0 +1,8 @@
+<Component name="InfoCard">
+
+        <Card width="{$props.width}" borderRadius="8px" boxShadow="$boxShadow-spread">
+            <Text>{$props.title}</Text>
+            <Text fontWeight="$fontWeight-extra-bold" fontSize="larger">{$props.value}</Text>
+        </Card>
+
+</Component>

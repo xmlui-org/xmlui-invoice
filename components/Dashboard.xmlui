@@ -1,11 +1,38 @@
 <Component name="Dashboard">
 
 
-<HStack>
-    <H1 color="black">Dashboard</H1>
-    <Button label="Create Invoice"/>
-</HStack>
+    <FlowLayout>
+        <Stack width="80%">
+            <H1>Dashboard</H1>
+        </Stack>
+        <Stack width="20%">
+            <Button label="Create Invoice" />
+        </Stack>
+    </FlowLayout>
 
-<Chart title="Monthly Revenue" />
+    <FlowLayout>
+        <InfoCard
+            width="25%"
+            title="Outstanding"
+            value="$135,122.95"
+        />
+        <InfoCard
+            width="25%"
+            title="Paid This Year"
+            value="$647,690.10"
+        />
+        <InfoCard
+            width="25%"
+            title="Total Invoices"
+            value="120"
+        />
+        <InfoCard
+            width="25%"
+            title="Total Clients"
+            value="30"
+        />
+    </FlowLayout>
+
+    <Chart title="Monthly Revenue" />
 
 </Component>
