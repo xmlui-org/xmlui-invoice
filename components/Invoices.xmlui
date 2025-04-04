@@ -1,5 +1,25 @@
 <Component name="Invoices">
 
-<Text>Invoices</Text>
+    <FlowLayout>
+        <Stack width="80%">
+            <H1>Invoices</H1>
+        </Stack>
+        <Stack width="20%">
+            <Button label="Create Invoice" />
+        </Stack>
+    </FlowLayout>
+
+    <DataSource id="invoices" url="{ window.xmluiHost + '/query' }" body='{ window.invoices() }' method="POST" />
+
+    <Table data="{invoices}">
+        <Column bindTo="Invoice #" />
+        <Column bindTo="Client" />
+        <Column bindTo="Issue Date" />
+        <Column bindTo="Due Date" />
+        <Column canSort="true" bindTo="Amount">
+          <Text>{formatAsCurrency($item.Amount)}</Text>
+        </Column>
+        <Column bindTo="Status" />
+    </Table>
 
 </Component>
