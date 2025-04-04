@@ -87,6 +87,25 @@
                 `
             return { sql: query }
         }
+
+        window.invoices = function () {
+            const query = `
+                select
+                    invoices.invoice_number as "Invoice #",
+                    clients.name as "Client",
+                    substr(invoices.issue_date, 0, 11) as "Issue Date",
+                    substr(invoices.due_date, 0, 11) as "Due Date",
+                    invoices.total as "Amount",
+                    upper(invoices.status) as "Status"
+                from
+                    invoices
+                join
+                    clients on invoices.client_id = clients.id
+                order by
+                    invoices.invoice_number asc
+            `
+            return { sql: query }
+        }
     </script>
 </head>
 
