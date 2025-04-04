@@ -3,7 +3,7 @@
     <DataSource
         id="revenue"
         url="{ window.xmluiHost + '/query' }"
-        body="{ window.monthly_revenue() }"
+        body="{ window.monthlyRevenue() }"
         method="POST" />
 
     <VStack>

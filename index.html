@@ -7,9 +7,17 @@
     <script src="xmlui/0.9.5.js"></script>
     <script src="xmlui/charts-0.1.12.js"></script>
     <script>
-        window.xmluiHost = "http://localhost:8080"
+        window.xmluiHost = "http://hn.jonudell.info:8083"
 
-        window.monthly_revenue = function () {
+        window.formatAsCurrency = function (value) {
+            const num = parseFloat(value);
+            if (isNaN(num)) {
+                return '$0.00';
+            }
+            return '$' + num.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+
+        window.monthlyRevenue = function () {
             const query = `
                 select
                     substr(
@@ -32,6 +40,51 @@
                 order by
                     strftime('%m', issue_date)
             `
+            return { sql: query }
+        }
+
+        window.outstanding = function () {
+            const query = `
+                select
+                    sum(total) as value
+                from
+                    invoices
+                where
+                    status != 'paid'
+                `
+            return { sql: query }
+        }
+
+        window.paidThisYear = function () {
+            const query = `
+                select
+                    sum(total) as value
+                from
+                    invoices
+                where
+                    status = 'paid'
+                    and strftime('%Y', issue_date) = strftime('%Y', 'now');
+                `
+            return { sql: query }
+        }
+
+        window.totalInvoices = function () {
+            const query = `
+                select
+                    count(*) as value
+                from
+                    invoices
+                `
+            return { sql: query }
+        }
+
+        window.totalClients = function () {
+            const query = `
+                select
+                    count(*) as value
+                from
+                clients;
+                `
             return { sql: query }
         }
     </script>
