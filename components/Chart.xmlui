@@ -1,12 +1,18 @@
 <Component name="Chart" xmlns:XMLUIExtensions="component-ns">
 
+    <DataSource
+        id="revenue"
+        url="{ window.xmluiHost + '/query' }"
+        body="{ window.monthly_revenue() }"
+        method="POST" />
+
     <VStack>
         <H1>{$props.title}</H1>
 
         <Card height="400px">
             <XMLUIExtensions:BarChart
                 layout="horizontal"
-                data="resources/data.json"
+                data="{ revenue.value.data }"
                 dataKeys="{['total']}" nameKey="month"
                 tickFormatter="{(value) => {
   const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
