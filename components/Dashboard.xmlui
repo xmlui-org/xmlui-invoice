@@ -14,22 +14,24 @@
         <InfoCard
             width="25%"
             title="Outstanding"
-            value="$135,122.95"
+            sql='{ window.outstanding() }'
+            currency='true'
         />
         <InfoCard
             width="25%"
             title="Paid This Year"
-            value="$647,690.10"
+            sql = '{ window.paidThisYear() }'
+            currency='true'
         />
         <InfoCard
             width="25%"
             title="Total Invoices"
-            value="120"
+            sql = '{ window.totalInvoices() }'
         />
         <InfoCard
             width="25%"
             title="Total Clients"
-            value="30"
+            sql = '{ window.totalClients() }'
         />
     </FlowLayout>
 
