@@ -6,7 +6,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="xmlui/0.9.5.js"></script>
     <script src="xmlui/charts-0.1.12.js"></script>
+    <script>
+        window.xmluiHost = "http://localhost:8080"
 
+        window.monthly_revenue = function () {
+            const query = `
+                select
+                    json_group_array(
+                        json_object(
+                            'month', month_date,
+                            'total', total
+                        )
+                    ) as data
+                from (
+                    select
+                        strftime('%Y-%m-01', issue_date) as month_date,
+                        sum(total) as total
+                    from
+                        invoices
+                    where
+                        status = 'paid'
+                    group by
+                        month_date
+                    order by
+                        month_date
+                )
+            `
+            return { sql: query }
+        }
+    </script>
 </head>
 
 <body></body>
