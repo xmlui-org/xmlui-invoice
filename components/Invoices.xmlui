@@ -1,25 +1,41 @@
-<Component name="Invoices">
+<Component var.state="list" name="Invoices">
 
-    <FlowLayout>
-        <Stack width="80%">
-            <H1>Invoices</H1>
-        </Stack>
-        <Stack width="20%">
-            <Button label="Create Invoice" />
-        </Stack>
-    </FlowLayout>
+    <Fragment when="{state === 'list'}">
 
-    <DataSource id="invoices" url="{ window.xmluiHost + '/query' }" body='{ window.invoices() }' method="POST" />
+        <FlowLayout>
+            <Stack width="80%">
+                <H1>Invoices</H1>
+            </Stack>
 
-    <Table data="{invoices}">
-        <Column bindTo="Invoice #" />
-        <Column bindTo="Client" />
-        <Column bindTo="Issue Date" />
-        <Column bindTo="Due Date" />
-        <Column canSort="true" bindTo="Amount">
-          <Text>{formatAsCurrency($item.Amount)}</Text>
-        </Column>
-        <Column bindTo="Status" />
-    </Table>
+            <Stack width="20%">
+                <Button label="Create Invoice" onClick="state = 'form'" />
+            </Stack>
+
+        </FlowLayout>
+
+        <DataSource id="invoices" url="{ window.xmluiHost + '/query' }" body='{ window.invoices() }'
+            method="POST" />
+
+        <Table data="{invoices}">
+            <Column bindTo="Invoice #" />
+            <Column canSort="true" bindTo="Client" />
+            <Column canSort="true" bindTo="Issue Date" />
+            <Column canSort="true" bindTo="Due Date" />
+            <Column canSort="true" bindTo="Amount">
+                <Text>{formatAsCurrency($item.Amount)}</Text>
+            </Column>
+            <Column canSort="true" bindTo="Status" />
+        </Table>
+
+    </Fragment>
+
+    <Fragment when="{state === 'form'}">
+
+        <H1>Create New Invoice</H1>
+
+        <Text>Client</Text>
+
+    </Fragment>
+
 
 </Component>

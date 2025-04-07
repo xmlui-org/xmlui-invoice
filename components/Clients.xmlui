@@ -1,5 +1,18 @@
 <Component name="Clients">
 
-<Text>Clients</Text>
+    <H1>Clients</H1>
+
+    <DataSource id="clients" url="{ window.xmluiHost + '/query' }" body='{ window.clients() }'
+        method="POST" />
+
+    <Table data="{clients}">
+        <Column canSort="true" bindTo="Name" />
+        <Column bindTo="Email" />
+        <Column bindTo="Phone" />
+        <Column canSort="true" bindTo="Outstanding">
+            <Text>{formatAsCurrency($item.Outstanding)}</Text>
+         </Column>
+
+    </Table>
 
 </Component>
