@@ -102,7 +102,26 @@
                 join
                     clients on invoices.client_id = clients.id
                 order by
-                    invoices.invoice_number asc
+                    invoices.issue_date
+            `
+            return { sql: query }
+        }
+
+        window.clients = function () {
+            const query = `
+                select
+                    c.name as "Name",
+                    c.email as "Email",
+                    c.phone as "Phone",
+                    coalesce(sum(case when i.status != 'paid' then i.total else 0 end), 0) as "Outstanding"
+                from
+                    clients c
+                left join
+                    invoices i on c.id = i.client_id and i.status != 'paid'
+                group by
+                    c.id, c.name, c.email, c.phone
+                order by
+                    "Outstanding" desc;
             `
             return { sql: query }
         }

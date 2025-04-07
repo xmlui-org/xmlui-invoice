@@ -6,6 +6,7 @@
 
     <AppHeader height="3rem" verticalAlignment="center">
 
+
         <Stack width="30%">
 
             <Text
@@ -22,7 +23,7 @@
             height="2rem"
             verticalAlignment="center"
             width="60%"
-            >
+        >
 
             <TextBox
                 borderRadius="4px 0 0 4px"
@@ -83,7 +84,7 @@
             </Stack>
 
         </FlowLayout>
--->
+        -->
 
     </AppHeader>
 
@@ -98,9 +99,15 @@
         <Page url="/">
             <Dashboard />
         </Page>
+
         <Page url="/invoices">
             <Invoices />
         </Page>
+
+        <Page url="/invoice">
+            <Invoice />
+        </Page>
+
         <Page url="/clients">
             <Clients />
         </Page>
