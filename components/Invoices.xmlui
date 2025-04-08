@@ -13,10 +13,7 @@
 
         </FlowLayout>
 
-        <DataSource id="invoices" url="{ window.xmluiHost + '/query' }" body='{ window.invoices() }'
-            method="POST" />
-
-        <Table data="{invoices}">
+        <Table data="{$props.dsInvoices}">
             <Column bindTo="Invoice #" />
             <Column canSort="true" bindTo="Client" />
             <Column canSort="true" bindTo="Issue Date" />
@@ -29,12 +26,96 @@
 
     </Fragment>
 
-    <Fragment when="{state === 'form'}">
+    <Fragment
+        when="{state === 'form'}"
+        var.productDescription=""
+        var.productPrice=""
+    >
 
-        <H1>Create New Invoice</H1>
+        <Card borderRadius="$space-4" boxShadow="0 2px 8px $color-surface-00" border="none">
+            <H1>Create New Invoice</H1>
 
-        <Text>Client</Text>
+            <H2>Client Information</H2>
 
+            <Text>Client</Text>
+
+            <Select placeholder="select client" dropdownHeight="40rem">
+                <Items data="{$props.dsClients}">
+                    <Option value="{$item.Name}" label="{$item.Name}" />
+                </Items>
+            </Select>
+
+            <H2>Invoice Details</H2>
+
+            <FlowLayout>
+
+                <Card border="none" width="33%">
+                    <Text>Issue Date</Text>
+                    <DatePicker dateFormat="yyyy-MM-dd" initialValue="{ formatToday() }" />
+                </Card>
+
+                <Card border="none" width="33%">
+                    <Text>Due Date</Text>
+                    <DatePicker dateFormat="yyyy-MM-dd" initialValue="{ formatToday(30) }" />
+                </Card>
+
+                <Card border="none" width="33%">
+                    <Text>Status</Text>
+                    <Select initialValue="draft">
+                        <Items data="{$props.dsInvoiceStatuses}">
+                            <Option value="{$item.status}" label="{$item.status}" />
+                        </Items>
+                    </Select>
+                </Card>
+
+
+            </FlowLayout>
+
+            <H2>Line Items</H2>
+
+            <FlowLayout fontWeight="bold" padding="1rem" backgroundColor="$color-surface-100">
+
+                <Text width="20%">Product/Service</Text>
+                <Text width="20%">Description</Text>
+                <Text width="20%">Quantity</Text>
+                <Text width="20%">Price</Text>
+                <Text width="20%">Amount</Text>
+
+            </FlowLayout>
+
+            <FlowLayout>
+
+
+             <DataSource
+                id="productDetails"
+                url="{ window.xmluiHost + '/query' }"
+                body="{ window.productDetails(window.selectedProduct) }"
+                errorNotificationMessage="{ window.selectedProduct }"
+                method="POST"
+               />
+
+
+                <Select
+                    id="selectProduct"
+                    placeholder="select product"
+                    width="20%"
+                    dropdownHeight="30rem"
+                    onDidChange="(name) => { window.selectedProduct = name}"
+                >
+                    <Items data="{$props.dsProducts}">
+                        <Option value="{$item.name}" label="{$item.name}" />
+                    </Items>
+                </Select>
+
+                <Text width="20%"> { productDetails.value[0].description ? productDetails.value[0].description : '' } </Text>
+                <Text width="20%">Quantity</Text>
+                <Text width="20%"> { formatAsCurrency(productDetails.value[0].price) } </Text>
+                <Text width="20%">Amount</Text>
+
+            </FlowLayout>
+
+
+        </Card>
     </Fragment>
 
 

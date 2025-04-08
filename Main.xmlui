@@ -4,8 +4,19 @@
     defaultTheme="invoice"
 >
 
-    <AppHeader height="3rem" verticalAlignment="center">
+    <DataSource id="clients" url="{ window.xmluiHost + '/query' }" body='{ window.clients() }'
+        method="POST" />
 
+    <DataSource id="invoices" url="{ window.xmluiHost + '/query' }" body='{ window.invoices() }'
+        method="POST" />
+
+    <DataSource id="invoiceStatuses" url="{ window.xmluiHost + '/query' }" body='{ window.invoiceStatuses() }'
+        method="POST" />
+
+    <DataSource id="products" url="{ window.xmluiHost + '/query' }" body='{ window.products() }'
+        method="POST" />
+
+    <AppHeader height="3rem" verticalAlignment="center">
 
         <Stack width="30%">
 
@@ -101,15 +112,16 @@
         </Page>
 
         <Page url="/invoices">
-            <Invoices />
-        </Page>
-
-        <Page url="/invoice">
-            <Invoice />
+            <Invoices
+                dsInvoices="{invoices}"
+                dsClients="{clients}"
+                dsInvoiceStatuses="{invoiceStatuses}"
+                dsProducts="{products}"
+            />
         </Page>
 
         <Page url="/clients">
-            <Clients />
+            <Clients ds="{clients}" />
         </Page>
 
         <Page url="/palettes">

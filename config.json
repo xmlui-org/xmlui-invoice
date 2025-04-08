@@ -1,5 +1,5 @@
 {
-   "themes": [
-     "themes/invoice.json"
-  ]
- }
+  "themes": ["themes/invoice.json"],
+  "appGlobals": {
+  }
+}
