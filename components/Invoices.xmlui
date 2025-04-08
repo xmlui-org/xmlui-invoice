@@ -106,11 +106,10 @@
                         <Option value="{$item.name}" label="{$item.name}" />
                     </Items>
                 </Select>
-
-                <Text width="20%"> { productDetails.value[0].description ? productDetails.value[0].description : '' } </Text>
-                <Text width="20%">Quantity</Text>
-                <Text width="20%"> { formatAsCurrency(productDetails.value[0].price) } </Text>
-                <Text width="20%">Amount</Text>
+                <Text width="20%">{ productDetails.value[0].description ? productDetails.value[0].description : '' } </Text>
+                <TextBox id="quantity" initialValue="1" width="20%"/>
+                <TextBox id="price" initialValue="{ productDetails.value[0].price }" width="20%" />
+                <TextBox initialValue="{ formatAsCurrency(quantity.value * price.value) } " width="20%" />
 
             </FlowLayout>
 

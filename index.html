@@ -114,7 +114,7 @@
                     substr(invoices.issue_date, 0, 11) as "Issue Date",
                     substr(invoices.due_date, 0, 11) as "Due Date",
                     invoices.total as "Amount",
-                    upper(invoices.status) as "Status"
+                    invoices.status as "Status"
                 from
                     invoices
                 join
