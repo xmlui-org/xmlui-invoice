@@ -2,10 +2,7 @@
 
     <H1>Clients</H1>
 
-    <DataSource id="clients" url="{ window.xmluiHost + '/query' }" body='{ window.clients() }'
-        method="POST" />
-
-    <Table data="{clients}">
+    <Table data="{$props.ds}">
         <Column canSort="true" bindTo="Name" />
         <Column bindTo="Email" />
         <Column bindTo="Phone" />

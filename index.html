@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="xmlui/0.9.5.js"></script>
+    <script src="xmlui/0.9.8.js"></script>
     <script src="xmlui/charts-0.1.12.js"></script>
     <script>
         window.xmluiHost = "http://hn.jonudell.info:8083"
@@ -15,6 +15,14 @@
                 return '$0.00';
             }
             return '$' + num.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+
+        window.formatToday = function (plusDays = 0) {
+            const date = new Date();
+            if (plusDays !== 0) {
+                date.setDate(date.getDate() + plusDays);
+            }
+            return date.toISOString().slice(0, 10).replace(/-/g, '/');
         }
 
         window.monthlyRevenue = function () {
@@ -88,6 +96,16 @@
             return { sql: query }
         }
 
+        window.invoiceStatuses = function () {
+            const query = `
+                select distinct
+                   status
+                from
+                invoices;
+                `
+            return { sql: query }
+        }
+
         window.invoices = function () {
             const query = `
                 select
@@ -121,10 +139,29 @@
                 group by
                     c.id, c.name, c.email, c.phone
                 order by
-                    "Outstanding" desc;
+                    Name
             `
             return { sql: query }
         }
+
+        window.products = function () {
+            const query = `
+                select * from products order by name
+            `
+            return { sql: query }
+        }
+
+        window.selectedProduct = ""
+
+        window.productDetails = function (name) {
+            console.log('productDetails for', name)
+            const query = `
+                select * from products where name = '${name}'
+            `
+            return { sql: query }
+        }
+
+
     </script>
 </head>
 
