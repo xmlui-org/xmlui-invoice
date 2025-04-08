@@ -1,4 +1,8 @@
-<Component var.state="list" name="Invoices">
+<Component
+    name="Invoices"
+    var.state="list"
+    var.orderItems=""
+>
 
     <Fragment when="{state === 'list'}">
 
@@ -86,17 +90,17 @@
             <FlowLayout>
 
 
-             <DataSource
-                id="productDetails"
-                url="{ window.xmluiHost + '/query' }"
-                body="{ window.productDetails(window.selectedProduct) }"
-                errorNotificationMessage="{ window.selectedProduct }"
-                method="POST"
-               />
+                <DataSource
+                    id="productDetails"
+                    url="{ window.xmluiHost + '/query' }"
+                    body="{ window.productDetails(window.selectedProduct) }"
+                    errorNotificationMessage="{ window.selectedProduct }"
+                    method="POST"
+                />
 
 
                 <Select
-                    id="selectProduct"
+                    id="product"
                     placeholder="select product"
                     width="20%"
                     dropdownHeight="30rem"
@@ -106,12 +110,52 @@
                         <Option value="{$item.name}" label="{$item.name}" />
                     </Items>
                 </Select>
-                <Text width="20%">{ productDetails.value[0].description ? productDetails.value[0].description : '' } </Text>
-                <TextBox id="quantity" initialValue="1" width="20%"/>
+                <Text width="20%">{ productDetails.value[0].description ?
+                    productDetails.value[0].description : '' } </Text>
+                <TextBox id="quantity" initialValue="1" width="20%" />
                 <TextBox id="price" initialValue="{ productDetails.value[0].price }" width="20%" />
-                <TextBox initialValue="{ formatAsCurrency(quantity.value * price.value) } " width="20%" />
+                <TextBox initialValue="{ formatAsCurrency(quantity.value * price.value) } "
+                    width="20%" />
 
             </FlowLayout>
+
+            <Button
+                onClick="{ orderItems = [ productDetails.value[0] ]; console.log('orderItems', orderItems, 'asStr', JSON.stringify(orderItems)); }"
+            >
+                Add Item
+            </Button>
+
+            <Table
+                data="{
+                [
+                    {
+                        created_at: '2022-08-21T13:57:56.675Z',
+                        description: 'Migrate systems to cloud infrastructure',
+                        name: 'Cloud Migration',
+                        price: 130,
+                        id: 16
+                    }
+                ]
+            }"
+            >
+                <Column bindTo="created_at" />
+                <Column bindTo="id" />
+                <Column bindTo="name" />
+                <Column bindTo="description" />
+                <Column bindTo="price" />
+            </Table>
+
+            <!--
+
+            <Table data="{ orderItems }">
+                <Column bindTo="created_at" />
+                <Column bindTo="id" />
+                <Column bindTo="name" />
+                <Column bindTo="description" />
+                <Column bindTo="price" />
+            </Table>
+
+-->
 
 
         </Card>
