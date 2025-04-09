@@ -98,21 +98,19 @@
                     method="POST"
                 />
 
-<!--
                 <DataSource
                     id="currentLineItems"
                     url="{ window.xmluiHost + '/query' }"
-                    body="{ window.getInvoiceLineItems() } "
-                    errorNotificationMessage="{ window.selectedProduct }"
+                    body="{ window.getInvoiceLineItems() }"
+                    isInProgressNotficationMessage="{ fetching lineitems }"
                     method="POST"
                 />
--->
 
                 <Select
                     id="product"
                     placeholder="select product"
                     width="20%"
-                    dropdownHeight5="30rem"
+                    dropdownHeight="30rem"
                     onDidChange="(name) => {
                         window.selectedProduct = name;
                         console.log('new name', name);
@@ -137,50 +135,23 @@
                 Add Item
                 <event name="click">
                   { console.log('click') }
-                  { console.log(productDetails.value[0]) }
-                  <!--
+                  { console.log('quantity', quantity.value) }
+                  { console.log('details', productDetails.value[0]) }i
                     <APICall
                         method="post"
                         url="{ window.xmluiHost + '/query' }"
-                        body="{ window.addInvoiceLineItem(productDetails.value[0]) }"
+                        body="{ window.addInvoiceLineItem(productDetails.value[0], quantity.value) }"
                     />
-                    -->
                 </event>
             </Button>
 
-            <!--
-            <Table
-                data="{
-                [
-                    {
-                        created_at: '2022-08-21T13:57:56.675Z',
-                        description: 'Migrate systems to cloud infrastructure',
-                        name: 'Cloud Migration',
-                        price: 130,
-                        id: 16
-                    }
-                ]
-            }"
-            >
-                <Column bindTo="created_at" />
+            <Table data="{ currentLineItems }">
                 <Column bindTo="id" />
                 <Column bindTo="name" />
                 <Column bindTo="description" />
                 <Column bindTo="price" />
             </Table>
-
-
-            <Table hideHeader="true" data="{ window.orderItems }">
-                <Column bindTo="created_at" />
-                <Column bindTo="id" />
-                <Column bindTo="name" />
-                <Column bindTo="description" />
-                <Column bindTo="price" />
-            </Table>
-
-            -->
-
-
+a
         </Card>
     </Fragment>
 

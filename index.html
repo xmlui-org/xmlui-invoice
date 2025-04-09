@@ -156,15 +156,16 @@
             const query = `
                 select * from products where name = '${name}'
             `
+            console.log(query)
             return { sql: query }
         }
 
-        window.addInvoiceLineItem = function (item) {
+        window.addInvoiceLineItem = function (item, quantity) {
             console.log('addInvoiceLineItem', item)
             window.currentLineItem = item
             const query = `
                 insert into invoice_lineitems (name, description, quantity, price)
-                values ( '${item.name}', '${item.description}', ${item.quantity}, ${item.price} )
+                values ( '${item.name}', '${item.description}', ${quantity}, ${item.price} )
             `
             console.log(query)
             return { sql: query }
@@ -175,6 +176,7 @@
             const query = `
                 select * from invoice_lineitems
             `
+            console.log(query)
             return { sql: query }
         }
 
