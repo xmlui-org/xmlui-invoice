@@ -151,8 +151,6 @@
             return { sql: query }
         }
 
-        window.selectedProduct = ""
-
         window.productDetails = function (name) {
             console.log('productDetails for', name)
             const query = `
@@ -160,6 +158,46 @@
             `
             return { sql: query }
         }
+
+        window.addInvoiceLineItem = function (item) {
+            console.log('addInvoiceLineItem', item)
+            window.currentLineItem = item
+            const query = `
+                insert into invoice_lineitems (name, description, quantity, price)
+                values ( '${item.name}', '${item.description}', ${item.quantity}, ${item.price} )
+            `
+            console.log(query)
+            return { sql: query }
+        }
+
+        window.getInvoiceLineItems = function () {
+            console.log('getInvoiceLineItems')
+            const query = `
+                select * from invoice_lineitems
+            `
+            return { sql: query }
+        }
+
+        window.deleteInvoiceLineItem = function (name) {
+            console.log('deleteInvoiceLineItem', item)
+            const query = `
+                delete from invoice_lineitems
+                where name = '${name}'
+            `
+            return { sql: query }
+        }
+
+        window.clearInvoiceLineItems = function () {
+            const query = `
+                delete from invoice_lineitems
+            `
+            return { sql: query }
+        }
+
+        window.selectedProduct = ""
+
+        window.currentLineItem = ""
+
 
 
     </script>

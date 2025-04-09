@@ -98,13 +98,27 @@
                     method="POST"
                 />
 
+<!--
+                <DataSource
+                    id="currentLineItems"
+                    url="{ window.xmluiHost + '/query' }"
+                    body="{ window.getInvoiceLineItems() } "
+                    errorNotificationMessage="{ window.selectedProduct }"
+                    method="POST"
+                />
+-->
 
                 <Select
                     id="product"
                     placeholder="select product"
                     width="20%"
-                    dropdownHeight="30rem"
-                    onDidChange="(name) => { window.selectedProduct = name}"
+                    dropdownHeight5="30rem"
+                    onDidChange="(name) => {
+                        window.selectedProduct = name;
+                        console.log('new name', name);
+                        delay(500);
+                        console.log(productDetails.value[0]);
+                    }"
                 >
                     <Items data="{$props.dsProducts}">
                         <Option value="{$item.name}" label="{$item.name}" />
@@ -119,12 +133,22 @@
 
             </FlowLayout>
 
-            <Button
-                onClick="{ orderItems = [ productDetails.value[0] ]; console.log('orderItems', orderItems, 'asStr', JSON.stringify(orderItems)); }"
-            >
+            <Button>
                 Add Item
+                <event name="click">
+                  { console.log('click') }
+                  { console.log(productDetails.value[0]) }
+                  <!--
+                    <APICall
+                        method="post"
+                        url="{ window.xmluiHost + '/query' }"
+                        body="{ window.addInvoiceLineItem(productDetails.value[0]) }"
+                    />
+                    -->
+                </event>
             </Button>
 
+            <!--
             <Table
                 data="{
                 [
@@ -145,9 +169,8 @@
                 <Column bindTo="price" />
             </Table>
 
-            <!--
 
-            <Table data="{ orderItems }">
+            <Table hideHeader="true" data="{ window.orderItems }">
                 <Column bindTo="created_at" />
                 <Column bindTo="id" />
                 <Column bindTo="name" />
@@ -155,7 +178,7 @@
                 <Column bindTo="price" />
             </Table>
 
--->
+            -->
 
 
         </Card>
