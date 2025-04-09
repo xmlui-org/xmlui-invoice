@@ -1,7 +1,6 @@
 <Component
     name="Invoices"
     var.state="list"
-    var.orderItems=""
 >
 
     <Fragment when="{state === 'list'}">
@@ -35,6 +34,19 @@
         var.productDescription=""
         var.productPrice=""
     >
+
+        <ChangeListener listenTo="state">
+
+            <event name="didChange">
+                <APICall
+                    method="POST"
+                    url="{ window.xmluiHost + '/query' }"
+                    body="{ window.clearInvoiceLineItems() }"
+                />
+            </event>
+
+        </ChangeListener>
+
 
         <Card borderRadius="$space-4" boxShadow="0 2px 8px $color-surface-00" border="none">
             <H1>Create New Invoice</H1>
@@ -131,14 +143,10 @@
 
             </FlowLayout>
 
-            <Button>
-                Add Item
-                <event name="click">
-                  { console.log('click') }
-                  { console.log('quantity', quantity.value) }
-                  { console.log('details', productDetails.value[0]) }i
-                    <APICall
-                        method="post"
+            <Button> Add Item <event name="click"> { console.log('click') } {
+                console.log('quantity', quantity.value) } { console.log('details',
+                productDetails.value[0]) }i <APICall
+                        method="POST"
                         url="{ window.xmluiHost + '/query' }"
                         body="{ window.addInvoiceLineItem(productDetails.value[0], quantity.value) }"
                     />
@@ -151,7 +159,7 @@
                 <Column bindTo="description" />
                 <Column bindTo="price" />
             </Table>
-a
+
         </Card>
     </Fragment>
 

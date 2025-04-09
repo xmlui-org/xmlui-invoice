@@ -186,13 +186,16 @@
                 delete from invoice_lineitems
                 where name = '${name}'
             `
+            console.log(query)
             return { sql: query }
         }
 
         window.clearInvoiceLineItems = function () {
+            console.log('clearInvoiceLineItems')
             const query = `
                 delete from invoice_lineitems
             `
+            console.log(query)
             return { sql: query }
         }
 
