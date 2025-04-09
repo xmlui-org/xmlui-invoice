@@ -10,7 +10,8 @@
     <DataSource id="invoices" url="{ window.xmluiHost + '/query' }" body='{ window.invoices() }'
         method="POST" />
 
-    <DataSource id="invoiceStatuses" url="{ window.xmluiHost + '/query' }" body='{ window.invoiceStatuses() }'
+    <DataSource id="invoiceStatuses" url="{ window.xmluiHost + '/query' }"
+        body='{ window.invoiceStatuses() }'
         method="POST" />
 
     <DataSource id="products" url="{ window.xmluiHost + '/query' }" body='{ window.products() }'
