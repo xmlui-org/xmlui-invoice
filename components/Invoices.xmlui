@@ -47,6 +47,10 @@
 
         </ChangeListener>
 
+        <ChangeListener
+            listenTo="window.currentLineItem"
+            onDidChange="{ console.log('changed', window.currentLineItem) }"
+        />
 
         <Card borderRadius="$space-4" boxShadow="0 2px 8px $color-surface-00" border="none">
             <H1>Create New Invoice</H1>
@@ -126,8 +130,8 @@
                     onDidChange="(name) => {
                         window.selectedProduct = name;
                         console.log('new name', name);
-                        delay(500);
-                        console.log(productDetails.value[0]);
+                        //delay(500);
+                        //console.log(productDetails.value[0]);
                     }"
                 >
                     <Items data="{$props.dsProducts}">
@@ -137,15 +141,16 @@
                 <Text width="20%">{ productDetails.value[0].description ?
                     productDetails.value[0].description : '' } </Text>
                 <TextBox id="quantity" initialValue="1" width="20%" />
-                <TextBox id="price" initialValue="{ productDetails.value[0].price }" width="20%" />
+                <TextBox initialValue="{ productDetails.value[0].price }" width="20%" />
                 <TextBox initialValue="{ formatAsCurrency(quantity.value * price.value) } "
                     width="20%" />
 
             </FlowLayout>
 
-            <Button> Add Item <event name="click"> { console.log('click') } {
-                console.log('quantity', quantity.value) } { console.log('details',
-                productDetails.value[0]) }i <APICall
+            <Button>
+                Add Item
+                <event name="click">
+                 <APICall
                         method="POST"
                         url="{ window.xmluiHost + '/query' }"
                         body="{ window.addInvoiceLineItem(productDetails.value[0], quantity.value) }"
