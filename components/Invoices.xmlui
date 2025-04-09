@@ -164,21 +164,33 @@
             </Button>
 
             <Table data="{ currentLineItems }">
-                <Column bindTo="name" />
-                <Column bindTo="description" />
-                <Column bindTo="quantity" />
-                <Column bindTo="price" />
+                <Column width="3*" bindTo="name" />
+                <Column width="4*" bindTo="description" />
+                <Column width="*" bindTo="quantity" />
+                <Column width="*" bindTo="price" />
             </Table>
 
-            <HStack horizontalAlignment="end">
+            <HStack paddingRight="5rem" horizontalAlignment="end">
                 <Text fontWeight="bold">
                     {
                     currentLineItems.value.length > 0
-                    ? 'Total: ' + currentLineItems.value.reduce((sum, item) => sum + item.price, 0)
+                    ? 'Total $' + currentLineItems.value.reduce((sum, item) => sum + item.price, 0)
                     : ''
                     }
                 </Text>
             </HStack>
+
+            <H2>Notes</H2>
+
+            <TextArea />
+
+            <HStack horizontalAlignment="end">
+
+                <Button>Cancel</Button>
+                <Button>Save Invoice</Button>
+
+            </HStack>
+
 
         </Card>
     </Fragment>
