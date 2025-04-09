@@ -162,9 +162,6 @@
 
         window.addInvoiceLineItem = function (item, quantity) {
             console.log('addInvoiceLineItem', item)
-            window.currentLineItem = item
-            window.currentLineItem.quantity = quantity
-            console.log('window.currentLineItem', window.currentLineItem)
             const query = `
                 insert into invoice_lineitems (name, description, quantity, price)
                 values ( '${item.name}', '${item.description}', ${quantity}, ${item.price} )
@@ -202,9 +199,6 @@
         }
 
         window.selectedProduct = ""
-
-        window.currentLineItem = ""
-
 
 
     </script>

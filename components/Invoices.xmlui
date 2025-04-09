@@ -1,6 +1,7 @@
 <Component
     name="Invoices"
     var.state="list"
+    var.currentLineItem=""
 >
 
     <Fragment when="{state === 'list'}">
@@ -31,8 +32,6 @@
 
     <Fragment
         when="{state === 'form'}"
-        var.productDescription=""
-        var.productPrice=""
     >
 
         <ChangeListener listenTo="state">
@@ -48,8 +47,8 @@
         </ChangeListener>
 
         <ChangeListener
-            listenTo="window.currentLineItem"
-            onDidChange="{ console.log('changed', window.currentLineItem) }"
+            listenTo="{ currentLineItem }"
+            onDidChange="{ console.log('new currentLineItem', currentLineItem) }"
         />
 
         <Card borderRadius="$space-4" boxShadow="0 2px 8px $color-surface-00" border="none">
@@ -128,29 +127,35 @@
                     width="20%"
                     dropdownHeight="30rem"
                     onDidChange="(name) => {
+                        console.log('currentLineItem', currentLineItem);
                         window.selectedProduct = name;
                         console.log('new name', name);
-                        //delay(500);
-                        //console.log(productDetails.value[0]);
+                        delay(1000);
+                        currentLineItem = productDetails.value[0];
+                        console.log('new currentLineItem', currentLineItem);
                     }"
                 >
                     <Items data="{$props.dsProducts}">
                         <Option value="{$item.name}" label="{$item.name}" />
                     </Items>
                 </Select>
-                <Text width="20%">{ productDetails.value[0].description ?
-                    productDetails.value[0].description : '' } </Text>
+                <Text width="20%">
+                    { productDetails.value[0].description ?
+                    productDetails.value[0].description : '' }
+                </Text>
                 <TextBox id="quantity" initialValue="1" width="20%" />
-                <TextBox initialValue="{ productDetails.value[0].price }" width="20%" />
-                <TextBox initialValue="{ formatAsCurrency(quantity.value * price.value) } "
+                <TextBox id="price" initialValue="{ productDetails.value[0].price }" width="20%" />
+                <TextBox id="amount"
+                    initialValue="{ formatAsCurrency(quantity.value * price.value) } "
                     width="20%" />
 
             </FlowLayout>
 
             <Button>
-                Add Item
+                <Text value="Add Item" />
+
                 <event name="click">
-                 <APICall
+                    <APICall
                         method="POST"
                         url="{ window.xmluiHost + '/query' }"
                         body="{ window.addInvoiceLineItem(productDetails.value[0], quantity.value) }"
@@ -159,11 +164,21 @@
             </Button>
 
             <Table data="{ currentLineItems }">
-                <Column bindTo="id" />
                 <Column bindTo="name" />
                 <Column bindTo="description" />
+                <Column bindTo="quantity" />
                 <Column bindTo="price" />
             </Table>
+
+            <HStack horizontalAlignment="end">
+                <Text fontWeight="bold">
+                    {
+                    currentLineItems.value.length > 0
+                    ? 'Total: ' + currentLineItems.value.reduce((sum, item) => sum + item.price, 0)
+                    : ''
+                    }
+                </Text>
+            </HStack>
 
         </Card>
     </Fragment>
