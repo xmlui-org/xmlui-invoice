@@ -1,6 +1,6 @@
 <Component
     name="Invoices"
-    var.state="form"
+    var.state="list"
     var.lineitems="{[]}"
     var.currentLineItem="{{}}"
     var.invoiceData="{{}}"
@@ -173,7 +173,6 @@
                 <Button>Cancel</Button>
                 <Button onClick="
                     invoiceData.client = client.value
-                    invoiceData.product = product.value
                     invoiceData.issueDate = issueDate.value
                     invoiceData.dueDate = dueDate.value
                     invoiceData.status = status.value
