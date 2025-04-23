@@ -1,14 +1,11 @@
 <Component name="Dashboard">
 
 
-    <FlowLayout>
-        <Stack width="80%">
-            <H1>Dashboard</H1>
-        </Stack>
-        <Stack width="20%">
-            <Button label="Create Invoice" />
-        </Stack>
-    </FlowLayout>
+    <HStack>
+        <H1>Dashboard</H1>
+        <SpaceFiller/>
+        <Button label="Create Invoice" onClick="navigate('/invoices/new')" />
+    </HStack>
 
     <FlowLayout>
         <InfoCard

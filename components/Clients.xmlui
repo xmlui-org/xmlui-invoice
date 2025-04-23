@@ -1,8 +1,10 @@
 <Component name="Clients">
+    <DataSource id="clients" url="/query" body='{ window.clients() }'
+                method="POST" />
 
     <H1>Clients</H1>
 
-    <Table data="{$props.ds}">
+    <Table data="{clients}">
         <Column canSort="true" bindTo="Name" />
         <Column bindTo="Email" />
         <Column bindTo="Phone" />

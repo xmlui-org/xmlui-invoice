@@ -1,5 +1,6 @@
 {
   "themes": ["themes/invoice.json"],
   "appGlobals": {
+    "apiUrl": "http://hn.jonudell.info:8083"
   }
 }
