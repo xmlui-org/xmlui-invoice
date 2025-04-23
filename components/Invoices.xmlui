@@ -1,193 +1,23 @@
 <Component
     name="Invoices"
-    var.state="list"
-    var.lineitems="{[]}"
-    var.currentLineItem="{{}}"
-    var.invoiceData="{{}}"
 >
+  <DataSource id="invoices" url="/query" body='{ window.invoices() }'
+              method="POST" />
+    <HStack>
+      <H1>Invoices</H1>
+      <SpaceFiller/>
+      <Button label="Create Invoice" onClick="navigate('/invoices/new')" />
+    </HStack>
 
-    <Fragment when="{state === 'list'}">
-
-        <FlowLayout>
-            <Stack width="80%">
-                <H1>Invoices</H1>
-            </Stack>
-
-            <Stack width="20%">
-                <Button label="Create Invoice" onClick="state = 'form'" />
-            </Stack>
-
-        </FlowLayout>
-
-        <Table data="{$props.dsInvoices}">
-            <Column bindTo="Invoice #" />
-            <Column canSort="true" bindTo="Client" />
-            <Column canSort="true" bindTo="Issue Date" />
-            <Column canSort="true" bindTo="Due Date" />
-            <Column canSort="true" bindTo="Amount">
-                <Text>{formatAsCurrency($item.Amount)}</Text>
-            </Column>
-            <Column canSort="true" bindTo="Status" />
-        </Table>
-
-    </Fragment>
-
-    <Fragment when="{state === 'form'}">
-    >
-
-        <Card borderRadius="$space-4" boxShadow="0 2px 8px $color-surface-00" border="none">
-            <H1>Create New Invoice</H1>
-
-            <H2>Client Information</H2>
-
-            <Text>Client</Text>
-
-            <Select width="30%" id="client" placeholder="select client" dropdownHeight="40rem">
-                <Items data="{$props.dsClients}">
-                    <Option value="{$item.Name}" label="{$item.Name}" />
-                </Items>
-            </Select>
-
-            <H2>Invoice Details</H2>
-
-            <FlowLayout>
-
-                <Card border="none" width="33%">
-                    <Text>Issue Date</Text>
-                    <DatePicker id="issueDate" dateFormat="yyyy-MM-dd" initialValue="{ formatToday() }" />
-                </Card>
-
-                <Card border="none" width="33%">
-                    <Text>Due Date</Text>
-                    <DatePicker id="dueDate" dateFormat="yyyy-MM-dd" initialValue="{ formatToday(30) }" />
-                </Card>
-
-                <Card border="none" width="33%">
-                    <Text>Status</Text>
-                    <Select id="status" initialValue="draft">
-                        <Items data="{$props.dsInvoiceStatuses}">
-                            <Option value="{$item.status}" label="{$item.status}" />
-                        </Items>
-                    </Select>
-                </Card>
-
-
-            </FlowLayout>
-
-            <H2>Line Items</H2>
-
-            <FlowLayout fontWeight="bold" padding="1rem" backgroundColor="$color-surface-100">
-
-                <Text width="20%">Product/Service</Text>
-                <Text width="20%">Description</Text>
-                <Text width="20%">Quantity</Text>
-                <Text width="20%">Price</Text>
-                <Text width="20%">Amount</Text>
-
-            </FlowLayout>
-
-            <FlowLayout>
-
-
-                <DataSource
-                    id="productDetails"
-                    url="{ window.xmluiHost + '/query' }"
-                    body="{ window.productDetails(window.selectedProduct) }"
-                    errorNotificationMessage="{ window.selectedProduct }"
-                    method="POST"
-                />
-
-                <DataSource
-                    id="currentLineItems"
-                    url="{ window.xmluiHost + '/query' }"
-                    body="{ window.getInvoiceLineItems() }"
-                    isInProgressNotficationMessage="{ fetching lineitems }"
-                    method="POST"
-                />
-
-                <Select
-                    id="product"
-                    placeholder="select product"
-                    width="20%"
-                    dropdownHeight="30rem"
-                    onDidChange="(name) => {
-                        console.log('currentLineItem', currentLineItem);
-                        window.selectedProduct = name;
-                        console.log('new name', name);
-                        delay(1000);
-                        currentLineItem = productDetails.value[0];
-                        console.log('new currentLineItem', currentLineItem);
-                    }"
-                >
-                    <Items data="{$props.dsProducts}">
-                        <Option value="{$item.name}" label="{$item.name}" />
-                    </Items>
-                </Select>
-                <Text id="description" width="20%">
-                    { productDetails.value[0].description ?
-                    productDetails.value[0].description : '' }
-                 </Text>
-                <TextBox id="quantity" initialValue="1" width="20%" />
-                <TextBox id="price" initialValue="{ productDetails.value[0].price }" width="20%" />
-                <TextBox id="amount"
-                    initialValue="{ formatAsCurrency(quantity.value * price.value) } "
-                    width="20%" />
-
-            </FlowLayout>
-
-            <Button onClick="
-                currentLineItem = productDetails.value[0];
-                currentLineItem.product = product.value;
-                currentLineItem.quantity = quantity.value;
-                currentLineItem.amount = price.value * quantity.value;
-                lineitems.push(currentLineItem);
-                "
-            >
-            Add Item
-            </Button>
-
-            <Table data="{ lineitems }">
-                <Column width="3*" bindTo="name" />
-                <Column width="4*" bindTo="description" />
-                <Column width="*" bindTo="quantity" />
-                <Column width="*" bindTo="price" />
-                <Column width="*" bindTo="amount" />
-            </Table>
-
-            <HStack paddingRight="5rem" horizontalAlignment="end">
-                <Text fontWeight="bold">
-                    {
-                    currentLineItems.value.length > 0
-                    ? 'Total $' + currentLineItems.value.reduce((sum, item) => sum + item.price, 0)
-                    : ''
-                    }
-                </Text>
-            </HStack>
-
-            <H2>Notes</H2>
-
-            <TextArea id="notes" />
-
-            <HStack horizontalAlignment="end">
-
-                <Button>Cancel</Button>
-                <Button onClick="
-                    invoiceData.client = client.value
-                    invoiceData.issueDate = issueDate.value
-                    invoiceData.dueDate = dueDate.value
-                    invoiceData.status = status.value
-                    invoiceData.lineitems = lineitems
-                    invoiceData.notes = notes.value
-                    console.log(JSON.stringify(invoiceData))
-                ">
-                Save Invoice
-                </Button>
-
-            </HStack>
-
-
-        </Card>
-    </Fragment>
-
+    <Table data="{invoices}">
+        <Column bindTo="Invoice #" />
+        <Column canSort="true" bindTo="Client" />
+        <Column canSort="true" bindTo="Issue Date" />
+        <Column canSort="true" bindTo="Due Date" />
+        <Column canSort="true" bindTo="Amount">
+            <Text>{formatAsCurrency($item.Amount)}</Text>
+        </Column>
+        <Column canSort="true" bindTo="Status" />
+    </Table>
 
 </Component>

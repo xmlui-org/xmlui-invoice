@@ -1,144 +1,60 @@
 <App
-    name="Simple Invoice"
-    layout="vertical-full-header"
-    defaultTheme="invoice"
+  name="Simple Invoice"
+  layout="vertical-full-header"
+  defaultTheme="invoice"
 >
-
-    <DataSource id="clients" url="{ window.xmluiHost + '/query' }" body='{ window.clients() }'
-        method="POST" />
-
-    <DataSource id="invoices" url="{ window.xmluiHost + '/query' }" body='{ window.invoices() }'
-        method="POST" />
-
-    <DataSource id="invoiceStatuses" url="{ window.xmluiHost + '/query' }"
-        body='{ window.invoiceStatuses() }'
-        method="POST" />
-
-    <DataSource id="products" url="{ window.xmluiHost + '/query' }" body='{ window.products() }'
-        method="POST" />
-
-    <AppHeader height="3rem" verticalAlignment="center">
-
-        <Stack width="30%">
-
-            <Text
-                color="white"
-                fontWeight="bold"
-                fontSize="1.5rem"
-            >
-                SimpleInvoice
-            </Text>
-        </Stack>
-
-        <HStack
-            gap="0"
-            height="2rem"
-            verticalAlignment="center"
-            width="60%"
-        >
-
-            <TextBox
-                borderRadius="4px 0 0 4px"
-                height="2rem"
-                width="30rem"
-                placeholder="search invoices, clients, etc."
-            />
-
-            <Icon
-                borderRadius="0 4px 4px 0"
-                height="2rem"
-                width="2rem"
-                name="search"
-                padding="6px"
-                color="white"
-                backgroundColor="$color-primary-600"
-            />
-        </HStack>
-
-        <Stack width="10%">
-            <Text width="10rem" color="white">Demo User</Text>
-        </Stack>
-
-        <!--
-        <FlowLayout>
-
-            <Stack width="30%">
-
-                <Text
-                    color="white"
-                    fontWeight="bold"
-                    fontSize="1.5rem"
-                >
-                    Simple Invoice
-                </Text>
-            </Stack>
-
-            <HStack gap="0" height="2rem" verticalAlignment="center" width="60%">
-                <TextBox
-                    borderRadius="4px"
-                    height="2rem"
-                    width="30rem"
-                    placeholder="search invoices, clients, etc." />
-
-                <Icon
-                    height="2rem"
-                    width="2rem"
-                    name="search"
-                    padding="6px"
-                    margin="6px"
-                    color="white"
-                    backgroundColor="$color-primary-600"
-                />
-            </HStack>
-
-            <Stack width="10%">
-                <Text width="10rem" color="white">Demo User</Text>
-            </Stack>
-
-        </FlowLayout>
-        -->
-
-    </AppHeader>
-
-    <NavPanel>
-        <NavLink label="Dashboard" to="/" />
-        <NavLink label="Invoices" to="/invoices" />
-        <NavLink label="Clients" to="/clients" />
-        <NavLink label="Palettes" to="/palettes" />
-    </NavPanel>
-
-    <Pages>
-        <Page url="/">
-            <Dashboard />
-        </Page>
-
-        <Page url="/invoices">
-            <Invoices
-                dsInvoices="{invoices}"
-                dsClients="{clients}"
-                dsInvoiceStatuses="{invoiceStatuses}"
-                dsProducts="{products}"
-            />
-        </Page>
-
-        <Page url="/clients">
-            <Clients ds="{clients}" />
-        </Page>
-
-        <Page url="/palettes">
-            <Palettes />
-        </Page>
-
-
-    </Pages>
-
-
-    <Footer> Powered by XMLUI <Button
-            variant="ghost"
-            icon="{activeThemeTone === 'light' ? 'moon' : 'sun'}"
-            onClick="setThemeTone(activeThemeTone === 'dark' ? 'light' : 'dark')"
+  <Theme tone="dark">
+    <AppHeader>
+      <property name="titleTemplate">
+        <H1>
+          SimpleInvoice
+        </H1>
+      </property>
+      <property name="profileMenuTemplate">
+        <Text>Demo User</Text>
+      </property>
+      <HStack horizontalAlignment="center" width="100%">
+        <TextBox
+          maxWidth="30rem"
+          placeholder="search invoices, clients, etc."
+          endIcon="search"
         />
-    </Footer>
+      </HStack>
+    </AppHeader>
+    <NavPanel>
+      <NavLink label="Dashboard" to="/"/>
+      <NavLink label="Invoices" to="/invoices"/>
+      <NavLink label="Clients" to="/clients"/>
+      <NavLink label="Palettes" to="/palettes"/>
+    </NavPanel>
+  </Theme>
 
+  <Pages>
+    <Page url="/">
+      <Dashboard/>
+    </Page>
+
+    <Page url="/invoices">
+      <Invoices/>
+    </Page>
+
+    <Page url="/invoices/new">
+      <CreateInvoice/>
+    </Page>
+
+    <Page url="/clients">
+      <Clients/>
+    </Page>
+
+    <Page url="/palettes">
+      <Palettes/>
+    </Page>
+  </Pages>
+
+  <Theme tone="dark">
+    <Footer>Powered by XMLUI
+      <ToneChangerButton/>
+    </Footer>
+  </Theme>
 
 </App>

@@ -6,25 +6,6 @@
 
     "color-primary": "hsl(205, 76%, 58%)",
     "color-secondary": "hsl(210, 30%, 60%)",
-    "color-surface": "hsl(0, 0%, 96%)",
-
-    "backgroundColor-AppHeader": "#2c3e50",
-    "backgroundColor-NavPanel": "#1a2733",
-    "backgroundColor-Button": "#1171dd",
-
-    "textColor-Footer": "white",
-    "textColor-Button": "white",
-    "textColor-NavLink": "white",
-    "textColor-AppHeader": "white",
-
-    "fontWeight-H1": "$fontWeight-extra-bold",
-    "fontSize-H1": "2rem",
-
-    "light": {
-      "textColor-primary": "black"
-    },
-    "dark": {
-      "textColor-primary": "white"
-    }
+    "color-surface": "hsl(0, 0%, 96%)"
   }
 }

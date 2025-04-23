@@ -2,21 +2,18 @@
 
     <DataSource
         id="revenue"
-        url="{ window.xmluiHost + '/query' }"
+        url="/query"
         body="{ window.monthlyRevenue() }"
         method="POST" />
 
-    <VStack>
-        <H1>{$props.title}</H1>
+    <H1>{$props.title}</H1>
 
-        <Card height="400px">
-            <XMLUIExtensions:BarChart
-                layout="horizontal"
-                data="{ revenue }"
-                dataKeys="{['total']}" nameKey="month"
-            />
-        </Card>
-
-    </VStack>
+    <Card height="400px">
+        <XMLUIExtensions:BarChart
+          layout="horizontal"
+          data="{ revenue }"
+          dataKeys="{['total']}" nameKey="month"
+        />
+    </Card>
 
 </Component>
