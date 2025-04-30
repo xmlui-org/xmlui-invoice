@@ -50,7 +50,7 @@
       </FlowLayout>
 
 
-      <FormItem bindTo="lineItems" type="items" id="lineItems">
+      <FormItem bindTo="lineItems" type="items" id="lineItems" >
         <FlowLayout width="100%" verticalAlignment="center">
           <DataSource
             id="productDetails"
@@ -70,15 +70,22 @@
             </Items>
           </FormItem>
           <Text width="20%">{ productDetails.value[0].description }</Text>
-          <FormItem width="20%" bindTo="quantity" initialValue="1"/>
-          <FormItem width="20%" bindTo="price" initialValue="{ productDetails.value[0].price }"/>
-          <FormItem width="13%" bindTo="amount" initialValue="{ formatAsCurrency($item.quantity * $item.price) } "/>
+          <FormItem width="20%" bindTo="quantity" type="number" initialValue="1"/>
+          <FormItem width="20%" bindTo="price" startText="$" initialValue="{ productDetails.value[0].price }"/>
+          <FormItem width="13%" bindTo="amount" startText="$" initialValue="{ $item.price ? $item.quantity * $item.price : '' } "/>
           <Button width="*" variant="ghost" themeColor="attention" icon="close" onClick="lineItems.removeItem($itemIndex)"/>
         </FlowLayout>
       </FormItem>
-      <Button onClick="lineItems.addItem()">
-        Add Item
-      </Button>
+      <!-- Total calculation -->
+      <HStack>
+        <Button onClick="lineItems.addItem()">
+          Add Item
+        </Button>
+        <SpaceFiller/>
+        <Text fontWeight="bold">
+          Total: {formatAsCurrency(($data.lineItems || []).reduce((sum, item) => sum + (item.amount || 0), 0))}
+        </Text>
+      </HStack>
     </Card>
     <event name="submit">
       <APICall
@@ -88,6 +95,7 @@
         completedNotificationMessage="Invoice saved successfully"
         body="{ window.saveInvoice($param) }"
       />
+<!--      body="{ window.saveInvoice($data) }"-->
       <!--        BUG: $data context variable is not available here... -->
     </event>
   </Form>
