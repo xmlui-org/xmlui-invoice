@@ -199,6 +199,41 @@
 
         window.selectedProduct = ""
 
+        window.saveInvoice = function (invoiceData) {
+            console.log('Saving invoice data:', invoiceData);
+
+            // Calculate total amount from line items
+            const total = invoiceData.lineItems?.reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
+
+            // Get client ID based on name
+            const clientName = invoiceData.client;
+
+            const query = `
+                INSERT INTO invoices (
+                    client_id,
+                    invoice_number,
+                    issue_date,
+                    due_date,
+                    total,
+                    status
+                )
+                SELECT
+                    c.id,
+                    'INV-' || (SELECT COUNT(*) + 1001 FROM invoices),
+                    '${invoiceData.issueDate}',
+                    '${invoiceData.dueDate}',
+                    ${total},
+                    '${invoiceData.status}'
+                FROM
+                    clients c
+                WHERE
+                    c.name = '${clientName}'
+            `;
+
+            console.log('Save invoice query:', query);
+            return { sql: query };
+        };
+
 
     </script>
 </head>

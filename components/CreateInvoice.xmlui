@@ -10,27 +10,19 @@
   <DataSource id="products" url="/query" body='{ window.products() }'
               method="POST"/>
 
-  <Form data="{{ lineItems: [{
-          product: null,
-          quantity: null,
-          price: null,
-          amount: null
-        }] }}" id="myForm" onCancel="myForm.reset()" inspect="true">
-    <Card boxShadow="$boxShadow" border="none">
+  <Form>
+    <Card>
       <H1>Create New Invoice</H1>
 
       <H2>Client Information</H2>
-
-      <FormItem type="select" placeholder="select client" dropdownHeight="40rem" bindTo="client" label="Client">
+      <FormItem type="select" placeholder="select client" bindTo="client" label="Client">
         <Items data="{clients}">
           <Option value="{$item.Name}" label="{$item.Name}"/>
         </Items>
       </FormItem>
 
       <H2>Invoice Details</H2>
-
       <FlowLayout>
-
         <Card border="none" width="33.33%" padding="0">
           <FormItem type="datePicker" dateFormat="yyyy-MM-dd" initialValue="{ formatToday() }" bindTo="issueDate" label="Issue date"/>
         </Card>
@@ -46,70 +38,57 @@
             </Items>
           </FormItem>
         </Card>
-
-
       </FlowLayout>
 
       <H2>Line Items</H2>
-
-      <FlowLayout fontWeight="bold" padding="1rem" backgroundColor="$color-surface-100">
-
+      <FlowLayout fontWeight="bold" backgroundColor="$color-surface-100" padding="$space-2">
         <Text width="20%">Product/Service</Text>
         <Text width="20%">Description</Text>
         <Text width="20%">Quantity</Text>
         <Text width="20%">Price</Text>
         <Text width="20%">Amount</Text>
-
       </FlowLayout>
 
 
-      <FormItem bindTo="lineItems">
-        <script>
-          var lineItems = $value;
-        </script>
-
-        <Items items="{lineItems}">
-          <Form data="{$item}" >
-            <FlowLayout>
-              <DataSource
-                id="productDetails"
-                url="/query"
-                when="{$data.product != null}"
-                body="{ window.productDetails($data.product) }"
-                method="POST"
-              />
-              <!--        TODO bug here, have a maxHeight for dropdown (100vh) -->
-              <FormItem
-                bindTo="product"
-                type="select"
-                width="*"
-                placeholder="select product"
-              >
-                <Items data="{products}">
-                  <Option value="{$item.name}" label="{$item.name}"/>
-                </Items>
-              </FormItem>
-              <!--        TODO bug here (note the extra space after the expression)-->
-              <Text width="*">{ productDetails.value[0].description }</Text>
-              <FormItem width="*" bindTo="quantity" initialValue="1"/>
-              <FormItem width="*" bindTo="price" initialValue="{ productDetails.value[0].price }"/>
-              <FormItem width="*" bindTo="amount" initialValue="{ formatAsCurrency(quantity.value * price.value) } "/>
-            </FlowLayout>
-          </Form>
-        </Items>
-
-        <Button onClick="{ $setValue( [...$value, {
-        product: null,
-        quantity: null,
-        price: null,
-        amount: null
-      }]) }">
-          Add Item
-        </Button>
+      <FormItem bindTo="lineItems" type="items" id="lineItems">
+        <FlowLayout width="100%" verticalAlignment="center">
+          <DataSource
+            id="productDetails"
+            url="/query"
+            when="{$item.product != null}"
+            body="{ window.productDetails($item.product) }"
+            method="POST"
+          />
+          <FormItem
+            bindTo="product"
+            type="select"
+            placeholder="select product"
+            width="20%"
+          >
+            <Items data="{products}">
+              <Option value="{$item.name}" label="{$item.name}"/>
+            </Items>
+          </FormItem>
+          <Text width="20%">{ productDetails.value[0].description }</Text>
+          <FormItem width="20%" bindTo="quantity" initialValue="1"/>
+          <FormItem width="20%" bindTo="price" initialValue="{ productDetails.value[0].price }"/>
+          <FormItem width="13%" bindTo="amount" initialValue="{ formatAsCurrency($item.quantity * $item.price) } "/>
+          <Button width="*" variant="ghost" themeColor="attention" icon="close" onClick="lineItems.removeItem($itemIndex)"/>
+        </FlowLayout>
       </FormItem>
+      <Button onClick="lineItems.addItem()">
+        Add Item
+      </Button>
     </Card>
-    <Text preserveLinebreaks="true">
-      {JSON.stringify($data, null, 2)}
-    </Text>
+    <event name="submit">
+      <APICall
+        url="/query"
+        method="POST"
+        inProgressNotificationMessage="Saving invoice..."
+        completedNotificationMessage="Invoice saved successfully"
+        body="{ window.saveInvoice($param) }"
+      />
+      <!--        BUG: $data context variable is not available here... -->
+    </event>
   </Form>
 </Component>
