@@ -1,5 +1,5 @@
 <App
-  name="Simple Invoice"
+  name="XMLUI Invoice"
   layout="vertical-full-header"
   defaultTheme="invoice"
 >
