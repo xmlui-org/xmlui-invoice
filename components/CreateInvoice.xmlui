@@ -8,7 +8,9 @@
 
   <variable name="firstProduct" value="{products[0]}"/>
 
-  <Form id="invoiceForm">
+  <Form
+    id="invoiceForm"
+    onCancel="invoiceForm.reset()">
     <Card>
       <H1>Create New Invoice</H1>
 
