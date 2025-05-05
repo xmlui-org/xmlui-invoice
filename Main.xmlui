@@ -52,7 +52,7 @@
   </Pages>
 
   <Theme tone="dark">
-    <Footer>Powered by XMLUI
+    <Footer>Built with XMLUI
       <ToneChangerButton/>
     </Footer>
   </Theme>

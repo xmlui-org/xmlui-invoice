@@ -4,9 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="xmlui/0.9.8.js"></script>
+    <script src="xmlui/0.9.23.js"></script>
     <script src="xmlui/charts-0.1.12.js"></script>
-    <script src="xmlui/xmlui-devtools.js"></script>
     <script>
         window.formatAsCurrency = function (value) {
             const num = parseFloat(value);
@@ -30,11 +29,6 @@
                     substr(
                         'JanFebMarAprMayJunJulAugSepOctNovDec', -- A string containing all month abbreviations concatenated together
                         1 + 3 * (strftime('%m', issue_date) - 1), -- Calculate the starting position for extraction
-                        -- Breaking down the position calculation:
-                        -- strftime('%m', issue_date)     -- Extract month number (1-12)
-                        -- strftime('%m', issue_date) - 1 -- Convert to 0-based index (0-11)
-                        -- 3 * (...)                      -- Multiply by 3 because each abbreviation is 3 chars
-                        -- 1 + ...                        -- Add 1 because SQLite substr is 1-indexed
                         3 -- Extract exactly 3 characters (the month abbreviation)
                     ) as month,
                     sum(total) as total
@@ -95,16 +89,6 @@
             return { sql: query }
         }
 
-        window.invoiceStatuses = function () {
-            const query = `
-                select distinct
-                   status
-                from
-                invoices;
-                `
-            return { sql: query }
-        }
-
         window.invoices = function () {
             const query = `
                 select
@@ -123,6 +107,19 @@
             `
             return { sql: query }
         }
+
+        window.totalInvoicesByStatus = function (status) {
+            const query = `
+                select
+                    count(*) as value
+                from
+                    invoices
+                where
+                    status = '${status}'
+            `
+            return { sql: query }
+        }
+
 
         window.clients = function () {
             const query = `
@@ -159,46 +156,6 @@
             return { sql: query }
         }
 
-        window.addInvoiceLineItem = function (item, quantity) {
-            console.log('addInvoiceLineItem', item)
-            const query = `
-                insert into invoice_lineitems (name, description, quantity, price)
-                values ( '${item.name}', '${item.description}', ${quantity}, ${item.price} )
-            `
-            console.log(query)
-            return { sql: query }
-        }
-
-        window.getInvoiceLineItems = function () {
-            console.log('getInvoiceLineItems')
-            const query = `
-                select * from invoice_lineitems
-            `
-            console.log(query)
-            return { sql: query }
-        }
-
-        window.deleteInvoiceLineItem = function (name) {
-            console.log('deleteInvoiceLineItem', item)
-            const query = `
-                delete from invoice_lineitems
-                where name = '${name}'
-            `
-            console.log(query)
-            return { sql: query }
-        }
-
-        window.clearInvoiceLineItems = function () {
-            console.log('clearInvoiceLineItems')
-            const query = `
-                delete from invoice_lineitems
-            `
-            console.log(query)
-            return { sql: query }
-        }
-
-        window.selectedProduct = ""
-
         window.saveInvoice = function (invoiceData) {
             console.log('Saving invoice data:', invoiceData);
 
@@ -209,7 +166,7 @@
             const clientName = invoiceData.client;
 
             const query = `
-                INSERT INTO invoices (
+                insert into invoices (
                     client_id,
                     invoice_number,
                     issue_date,
@@ -217,16 +174,16 @@
                     total,
                     status
                 )
-                SELECT
+                select
                     c.id,
-                    'INV-' || (SELECT COUNT(*) + 1001 FROM invoices),
+                    'INV-' || (SELECT COUNT(*) + 1001 from invoices),
                     '${invoiceData.issueDate}',
                     '${invoiceData.dueDate}',
                     ${total},
                     '${invoiceData.status}'
-                FROM
+                from
                     clients c
-                WHERE
+                where
                     c.name = '${clientName}'
             `;
 

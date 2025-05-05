@@ -9,26 +9,31 @@
 
     <FlowLayout>
         <InfoCard
-            width="25%"
+            width="20%"
             title="Outstanding"
             sql='{ window.outstanding() }'
             currency='true'
         />
         <InfoCard
-            width="25%"
+            width="*"
             title="Paid This Year"
             sql = '{ window.paidThisYear() }'
             currency='true'
         />
         <InfoCard
-            width="25%"
-            title="Total Invoices"
-            sql = '{ window.totalInvoices() }'
+            width="*"
+            title="Draft"
+            sql = '{ window.totalInvoicesByStatus("draft") }'
         />
         <InfoCard
-            width="25%"
-            title="Total Clients"
-            sql = '{ window.totalClients() }'
+            width="*"
+            title="Sent"
+            sql = '{ window.totalInvoicesByStatus("sent") }'
+        />
+        <InfoCard
+            width="*"
+            title="Paid"
+            sql = '{ window.totalInvoicesByStatus("paid") }'
         />
     </FlowLayout>
 
