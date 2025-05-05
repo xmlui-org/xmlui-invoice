@@ -94,7 +94,8 @@
                     substr(invoices.due_date, 0, 11) as "Due Date",
                     invoices.total as Amount,
                     invoices.status as Status,
-                    invoices.notes as Notes
+                    invoices.notes,
+                    invoices.items
                 from
                     invoices
                 join

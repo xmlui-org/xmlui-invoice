@@ -6,7 +6,8 @@
   <DataSource id="products" url="/query" body='{ window.products() }'
     method="POST" />
 
-  <variable name="firstProduct" value="{products[0]}"/>
+
+  <variable name="firstProduct" value="{products[0]}" />
 
   <Form
     id="invoiceForm"
@@ -92,9 +93,10 @@
       <!-- Total calculation -->
       <HStack>
         <!--
-        <Button onClick="lineItems.addItem({ product: products.value[0].name, quantity: 1, price: products[0]?.price })">
+        <Button onClick="lineItems.addItem({ product: products.value[0].name, quantity: 1, price:
+        products[0]?.price })">
         -->
-        <Button onClick="lineItems.addItem()" >
+        <Button onClick="lineItems.addItem()">
           Add Item
         </Button>
         <SpaceFiller />

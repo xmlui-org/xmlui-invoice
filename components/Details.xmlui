@@ -1,0 +1,23 @@
+<Component name="Details">
+
+    <variable name="details" value="{$props.details}" />
+
+    <VStack gap="0">
+
+    <Text>{details["Invoice #"]}</Text>
+    <Text>Client: {details["Client"]}</Text>
+    <Text>Issue Date: {details["Issue Date"]}</Text>
+    <Text>Due Date: {details["Due Date"]}</Text>
+    <Text>Amount: ${details["Amount"]}</Text>
+    <Text>Status: {details["Status"]}</Text>
+    <Text>Notes: {details.notes}</Text>
+
+    <Table data="{JSON.parse(details.items)}" >
+        <Column bindTo="product" />
+        <Column bindTo="quantity" />
+        <Column bindTo="amount" />
+        <Column bindTo="price" />
+    </Table>
+</VStack>
+
+</Component>

@@ -27,6 +27,7 @@
       <NavLink label="Dashboard" to="/"/>
       <NavLink label="Invoices" to="/invoices"/>
       <NavLink label="Clients" to="/clients"/>
+      <NavLink label="Icons" to="/icons"/>
       <NavLink label="Palettes" to="/palettes"/>
     </NavPanel>
   </Theme>
@@ -46,6 +47,10 @@
 
     <Page url="/clients">
       <Clients/>
+    </Page>
+
+    <Page url="/icons">
+      <Icons/>
     </Page>
 
     <Page url="/palettes">
