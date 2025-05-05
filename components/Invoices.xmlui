@@ -11,7 +11,6 @@
 
     <ModalDialog
         id="detailsDialog"
-        title="Details"
     >
         <Details details="{$params[0]}" />
     </ModalDialog>
