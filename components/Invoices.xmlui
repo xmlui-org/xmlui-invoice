@@ -1,12 +1,16 @@
 <Component
     name="Invoices"
 >
-  <DataSource id="invoices" url="/query" body='{ window.invoices() }'
-              method="POST" />
+    <DataSource
+        id="invoices"
+        url="/query"
+        body='{ window.invoices() }'
+        method="POST"
+    />
     <HStack>
-      <H1>Invoices</H1>
-      <SpaceFiller/>
-      <Button label="Create Invoice" onClick="navigate('/invoices/new')" />
+        <H1>Invoices</H1>
+        <SpaceFiller />
+        <Button label="Create Invoice" onClick="navigate('/invoices/new')" />
     </HStack>
 
     <Table data="{invoices}">

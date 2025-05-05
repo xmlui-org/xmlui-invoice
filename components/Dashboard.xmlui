@@ -3,7 +3,7 @@
 
     <HStack>
         <H1>Dashboard</H1>
-        <SpaceFiller/>
+        <SpaceFiller />
         <Button label="Create Invoice" onClick="navigate('/invoices/new')" />
     </HStack>
 
@@ -17,23 +17,23 @@
         <InfoCard
             width="*"
             title="Paid This Year"
-            sql = '{ window.paidThisYear() }'
+            sql='{ window.paidThisYear() }'
             currency='true'
         />
         <InfoCard
             width="*"
             title="Draft"
-            sql = '{ window.totalInvoicesByStatus("draft") }'
+            sql='{ window.totalInvoicesByStatus("draft") }'
         />
         <InfoCard
             width="*"
             title="Sent"
-            sql = '{ window.totalInvoicesByStatus("sent") }'
+            sql='{ window.totalInvoicesByStatus("sent") }'
         />
         <InfoCard
             width="*"
             title="Paid"
-            sql = '{ window.totalInvoicesByStatus("paid") }'
+            sql='{ window.totalInvoicesByStatus("paid") }'
         />
     </FlowLayout>
 
