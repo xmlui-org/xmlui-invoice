@@ -2,22 +2,36 @@
 
     <variable name="details" value="{$props.details}" />
 
-    <VStack gap="0">
+        <VStack gap="$space-2">
 
-    <Text>{details["Invoice #"]}</Text>
-    <Text>Client: {details["Client"]}</Text>
-    <Text>Issue Date: {details["Issue Date"]}</Text>
-    <Text>Due Date: {details["Due Date"]}</Text>
-    <Text>Amount: ${details["Amount"]}</Text>
-    <Text>Status: {details["Status"]}</Text>
-    <Text>Notes: {details.notes}</Text>
+            <Table data="{[details]}">
+                <Column bindTo="Invoice #" />
+                <Column bindTo="Client" />
+                <Column bindTo="Issue Date" />
+                <Column bindTo="Due Date" />
+                <Column bindTo="Status" />
+            </Table>
 
-    <Table data="{JSON.parse(details.items)}" >
-        <Column bindTo="product" />
-        <Column bindTo="quantity" />
-        <Column bindTo="amount" />
-        <Column bindTo="price" />
-    </Table>
-</VStack>
+            <Text>Notes:</Text>
+            <TextArea title="Notes">
+                Notes: {details.notes}
+            </TextArea>
+
+            <Text>Status:</Text>
+            <Select initialValue="{details.Status}">
+                <Option label="draft" />
+                <Option label="sent" />
+                <Option label="paid" />
+            </Select>
+
+            <Table data="{JSON.parse(details.items)}">
+                <Column bindTo="product" />
+                <Column bindTo="quantity" />
+                <Column bindTo="amount" />
+                <Column bindTo="price" />
+            </Table>
+
+            <Button label="Update"/>
+        </VStack>
 
 </Component>
