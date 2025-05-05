@@ -7,12 +7,13 @@
     <AppHeader>
       <property name="titleTemplate">
         <H1>
-          SimpleInvoice
+          XMLUI Invoice
         </H1>
       </property>
       <property name="profileMenuTemplate">
         <Text>Demo User</Text>
       </property>
+      <!--
       <HStack horizontalAlignment="center" width="100%">
         <TextBox
           maxWidth="30rem"
@@ -20,6 +21,7 @@
           endIcon="search"
         />
       </HStack>
+      -->
     </AppHeader>
     <NavPanel>
       <NavLink label="Dashboard" to="/"/>
