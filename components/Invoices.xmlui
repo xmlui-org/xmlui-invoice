@@ -7,6 +7,16 @@
         body='{ window.invoices() }'
         method="POST"
     />
+
+
+    <ModalDialog
+        id="detailsDialog"
+        title="Details"
+    >
+        <Details details="{$params[0]}" />
+    </ModalDialog>
+
+
     <HStack>
         <H1>Invoices</H1>
         <SpaceFiller />
@@ -16,13 +26,18 @@
     <Table data="{invoices}">
         <Column canSort="true" bindTo="Invoice #" />
         <Column canSort="true" bindTo="Client" />
-        <Column canSort="true" bindTo="Issue Date" />
+        <Column
+            canSort="true" bindTo="Issue Date" />
         <Column canSort="true" bindTo="Due Date" />
-        <Column canSort="true" bindTo="Amount">
+        <Column
+            canSort="true" bindTo="Amount">
             <Text>{formatAsCurrency($item.Amount)}</Text>
         </Column>
-        <Column canSort="true" bindTo="Status" />
-        <Column canSort="true" bindTo="Notes" />
+        <Column canSort="true"
+            bindTo="Status" />
+        <Column header="Details">
+            <Icon name="doc-outline" onClick="detailsDialog.open($item)" />
+        </Column>
     </Table>
 
 </Component>
