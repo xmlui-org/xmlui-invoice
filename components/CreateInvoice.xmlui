@@ -112,16 +112,7 @@
       <!--      body="{ window.saveInvoice($data) }"-->
       <!--        BUG: $data context variable is not available here... -->
     </event>
-    <Text preserveLinebreaks="true">
-      param: {JSON.stringify($param, null, 2) }
-    </Text>
-    <Text preserveLinebreaks="true">
-      data: {JSON.stringify($param, null, 2) }
-    </Text>
-    <Text preserveLinebreaks="true">
-      invoiceForm: {JSON.stringify(invoiceForm, null, 2) }
-    </Text>
-
+    
   </Form>
 
 
