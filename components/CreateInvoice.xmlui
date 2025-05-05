@@ -1,43 +1,46 @@
 <Component name="CreateInvoice">
   <DataSource id="invoices" url="/query" body='{ window.invoices() }'
-              method="POST"/>
+    method="POST" />
   <DataSource id="clients" url="/query" body='{ window.clients() }'
-              method="POST"/>
+    method="POST" />
 
   <DataSource id="invoiceStatuses" url="/query" body='{ window.invoiceStatuses() }'
-              method="POST"/>
+    method="POST" />
 
   <DataSource id="products" url="/query" body='{ window.products() }'
-              method="POST"/>
+    method="POST" />
 
-  <Form>
+  <Form id="invoiceForm">
     <Card>
       <H1>Create New Invoice</H1>
 
-      <H2>Client Information</H2>
-      <FormItem type="select" placeholder="select client" bindTo="client" label="Client">
-        <Items data="{clients}">
-          <Option value="{$item.Name}" label="{$item.Name}"/>
-        </Items>
-      </FormItem>
 
-      <H2>Invoice Details</H2>
       <FlowLayout>
-        <Card border="none" width="33.33%" padding="0">
-          <FormItem type="datePicker" dateFormat="yyyy-MM-dd" initialValue="{ formatToday() }" bindTo="issueDate" label="Issue date"/>
-        </Card>
 
-        <Card border="none" width="33.33%" padding="0">
-          <FormItem type="datePicker" dateFormat="yyyy-MM-dd" initialValue="{ formatToday(30) }" bindTo="dueDate" label="Due date"/>
-        </Card>
-
-        <Card border="none" width="33.33%" padding="0">
-          <FormItem type="select" initialValue="draft" label="Status" bindTo="status">
-            <Items data="{invoiceStatuses}">
-              <Option value="{$item.status}" label="{$item.status}"/>
+        <Card border="none" width="50%" padding="0">
+          <FormItem
+            type="select"
+            placeholder="select client"
+            bindTo="client"
+            label="Client"
+            required="true"
+          >
+            <Items data="{clients}">
+              <Option value="{$item.Name}" label="{$item.Name}" />
             </Items>
           </FormItem>
         </Card>
+
+        <Card border="none" width="25%" padding="0">
+          <FormItem type="datePicker" dateFormat="yyyy-MM-dd" initialValue="{ formatToday() }"
+            bindTo="issueDate" label="Issue date" />
+        </Card>
+
+        <Card border="none" width="25%" padding="0">
+          <FormItem type="datePicker" dateFormat="yyyy-MM-dd" initialValue="{ formatToday(30) }"
+            bindTo="dueDate" label="Due date" />
+        </Card>
+
       </FlowLayout>
 
       <H2>Line Items</H2>
@@ -49,9 +52,16 @@
         <Text width="20%">Amount</Text>
       </FlowLayout>
 
-
-      <FormItem bindTo="lineItems" type="items" id="lineItems" >
-        <FlowLayout width="100%" verticalAlignment="center">
+      <FormItem
+        bindTo="lineItems"
+        type="items"
+        id="lineItems"
+        required="true"
+        onValidate="(value) => Array.isArray(value) && value.length > 0"
+        requiredInvalidMessage="At least one line item is required."
+      >
+        <FlowLayout width="100%"
+          verticalAlignment="center">
           <DataSource
             id="productDetails"
             url="/query"
@@ -66,14 +76,17 @@
             width="20%"
           >
             <Items data="{products}">
-              <Option value="{$item.name}" label="{$item.name}"/>
+              <Option value="{$item.name}" label="{$item.name}" />
             </Items>
           </FormItem>
           <Text width="20%">{ productDetails.value[0].description }</Text>
-          <FormItem width="20%" bindTo="quantity" type="number" initialValue="1"/>
-          <FormItem width="20%" bindTo="price" startText="$" initialValue="{ productDetails.value[0].price }"/>
-          <FormItem width="13%" bindTo="amount" startText="$" initialValue="{ $item.price ? $item.quantity * $item.price : '' } "/>
-          <Button width="*" variant="ghost" themeColor="attention" icon="close" onClick="lineItems.removeItem($itemIndex)"/>
+          <FormItem width="20%" bindTo="quantity" type="number" initialValue="1" />
+          <FormItem width="20%" bindTo="price" startText="$"
+            initialValue="{ productDetails.value[0].price }" />
+          <FormItem width="13%" bindTo="amount" startText="$"
+            initialValue="{ $item.price ? $item.quantity * $item.price : '' } " />
+          <Button width="*" variant="ghost" themeColor="attention" icon="close"
+            onClick="lineItems.removeItem($itemIndex)" />
         </FlowLayout>
       </FormItem>
       <!-- Total calculation -->
@@ -81,9 +94,10 @@
         <Button onClick="lineItems.addItem()">
           Add Item
         </Button>
-        <SpaceFiller/>
+        <SpaceFiller />
         <Text fontWeight="bold">
-          Total: {formatAsCurrency(($data.lineItems || []).reduce((sum, item) => sum + (item.amount || 0), 0))}
+          Total: {formatAsCurrency(($data.lineItems || []).reduce((sum, item) => sum + (item.amount
+          || 0), 0))}
         </Text>
       </HStack>
     </Card>
@@ -95,8 +109,20 @@
         completedNotificationMessage="Invoice saved successfully"
         body="{ window.saveInvoice($param) }"
       />
-<!--      body="{ window.saveInvoice($data) }"-->
+      <!--      body="{ window.saveInvoice($data) }"-->
       <!--        BUG: $data context variable is not available here... -->
     </event>
+    <Text preserveLinebreaks="true">
+      param: {JSON.stringify($param, null, 2) }
+    </Text>
+    <Text preserveLinebreaks="true">
+      data: {JSON.stringify($param, null, 2) }
+    </Text>
+    <Text preserveLinebreaks="true">
+      invoiceForm: {JSON.stringify(invoiceForm, null, 2) }
+    </Text>
+
   </Form>
+
+
 </Component>
