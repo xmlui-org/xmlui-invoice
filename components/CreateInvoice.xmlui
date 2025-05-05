@@ -32,12 +32,12 @@
         </Card>
 
         <Card border="none" width="25%" padding="0">
-          <FormItem type="datePicker" dateFormat="yyyy-MM-dd" initialValue="{ formatToday() }"
+          <FormItem type="datePicker" dateFormat="yyyy/MM/dd" initialValue="{ formatToday() }"
             bindTo="issueDate" label="Issue date" />
         </Card>
 
         <Card border="none" width="25%" padding="0">
-          <FormItem type="datePicker" dateFormat="yyyy-MM-dd" initialValue="{ formatToday(30) }"
+          <FormItem type="datePicker" dateFormat="yyyy/MM/dd" initialValue="{ formatToday(30) }"
             bindTo="dueDate" label="Due date" />
         </Card>
 

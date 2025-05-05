@@ -14,7 +14,7 @@
     </HStack>
 
     <Table data="{invoices}">
-        <Column bindTo="Invoice #" />
+        <Column canSort="true" bindTo="Invoice #" />
         <Column canSort="true" bindTo="Client" />
         <Column canSort="true" bindTo="Issue Date" />
         <Column canSort="true" bindTo="Due Date" />
@@ -22,6 +22,7 @@
             <Text>{formatAsCurrency($item.Amount)}</Text>
         </Column>
         <Column canSort="true" bindTo="Status" />
+        <Column canSort="true" bindTo="Notes" />
     </Table>
 
 </Component>
