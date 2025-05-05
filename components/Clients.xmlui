@@ -1,6 +1,11 @@
 <Component name="Clients">
-    <DataSource id="clients" url="/query" body='{ window.clients() }'
-                method="POST" />
+
+    <DataSource
+      id="clients"
+      url="/query"
+      body='{ window.clients() }'
+      method="POST"
+    />
 
     <H1>Clients</H1>
 

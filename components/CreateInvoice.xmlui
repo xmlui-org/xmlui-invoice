@@ -1,10 +1,6 @@
 <Component name="CreateInvoice">
-  <DataSource id="invoices" url="/query" body='{ window.invoices() }'
-    method="POST" />
-  <DataSource id="clients" url="/query" body='{ window.clients() }'
-    method="POST" />
 
-  <DataSource id="invoiceStatuses" url="/query" body='{ window.invoiceStatuses() }'
+  <DataSource id="clients" url="/query" body='{ window.clients() }'
     method="POST" />
 
   <DataSource id="products" url="/query" body='{ window.products() }'
@@ -112,7 +108,7 @@
       <!--      body="{ window.saveInvoice($data) }"-->
       <!--        BUG: $data context variable is not available here... -->
     </event>
-    
+
   </Form>
 
 

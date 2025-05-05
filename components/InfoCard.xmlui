@@ -2,13 +2,14 @@
 
     <DataSource id="data" url="/query" body='{ $props.sql }' method="POST" />
 
-        <Card width="{$props.width}" borderRadius="8px" boxShadow="$boxShadow-spread">
+    <Card width="{$props.width}" borderRadius="8px" boxShadow="$boxShadow-spread">
 
-            <Text>{$props.title}</Text>
+        <Text>{$props.title}</Text>
 
-            <Text fontWeight="$fontWeight-extra-bold" fontSize="larger">
-                { $props.currency === 'true' ? formatAsCurrency(data.value[0].value) : data.value[0].value }
-            </Text>
-        </Card>
+        <Text fontWeight="$fontWeight-extra-bold" fontSize="larger">
+            { $props.currency === 'true' ? formatAsCurrency(data.value[0].value) :
+            data.value[0].value }
+        </Text>
+    </Card>
 
 </Component>
