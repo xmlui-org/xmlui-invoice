@@ -13,7 +13,7 @@
         <InfoCard
             width="20%"
             title="Outstanding"
-            value="{dashboardStats.value[0].outstanding}"
+            value="{ window.coalesce(dashboardStats.value[0].outstanding, 0) }"
             currency='true'
         />
         <InfoCard
