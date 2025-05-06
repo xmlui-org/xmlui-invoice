@@ -7,13 +7,11 @@
         method="GET"
     />
 
-
-    <ModalDialog
-        id="detailsDialog"
-    >
-        <Details details="{$params[0]}" />
-    </ModalDialog>
-
+    <Theme maxWidth-ModalDialog="50%">
+        <ModalDialog id="detailsDialog" >
+            <InvoiceDetails details="{$params[0]}" />
+        </ModalDialog>
+    </Theme>
 
     <HStack>
         <H1>Invoices</H1>
@@ -27,7 +25,7 @@
         <Column canSort="true" bindTo="Issue Date" />
         <Column canSort="true" bindTo="Due Date" />
         <Column canSort="true" header="Amount" >
-            <Text>{window.formatAsCurrency($item.Amount)}</Text>
+            ${$item.Amount}
         </Column>
         <Column canSort="true"
             bindTo="Status" />

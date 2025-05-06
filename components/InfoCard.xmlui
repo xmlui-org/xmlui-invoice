@@ -5,7 +5,7 @@
         <Text>{$props.title}</Text>
 
         <Text fontWeight="$fontWeight-extra-bold" fontSize="larger">
-            { $props.currency === 'true' ? formatAsCurrency($props.value) : $props.value }
+            { $props.currency === 'true' ? '$' + $props.value : $props.value }
         </Text>
     </Card>
 

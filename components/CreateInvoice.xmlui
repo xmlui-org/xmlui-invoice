@@ -4,9 +4,6 @@
 
   <DataSource id="products" url="/api/products" method="GET" />
 
-
-  <variable name="firstProduct" value="{products[0]}" />
-
   <Form
     id="invoiceForm"
     onCancel="invoiceForm.reset()">
