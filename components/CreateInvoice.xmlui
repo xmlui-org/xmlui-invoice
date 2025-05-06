@@ -10,7 +10,7 @@
     <Card>
       <H1>Create New Invoice</H1>
 
-      <FlowLayout>
+        <FlowLayout>
 
         <Card border="none" width="50%" padding="0">
           <FormItem
@@ -91,9 +91,11 @@
           Add Item
         </Button>
         <SpaceFiller />
-        <Text fontWeight="bold">
-          Total: {formatAsCurrency(($data.lineItems || []).reduce((sum, item) => sum + (item.amount
-          || 0), 0))}
+        <Text>
+         <!--
+        Total: { getTotalAmount($data.lineItems) }
+         -->
+         Total: ${ ($data.lineItems || []).reduce((sum, item) => sum + (item.amount || 0), 0) }
         </Text>
       </HStack>
     </Card>
