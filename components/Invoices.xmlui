@@ -24,7 +24,7 @@
         <Column canSort="true" bindTo="Client" />
         <Column canSort="true" bindTo="Issue Date" />
         <Column canSort="true" bindTo="Due Date" />
-        <Column canSort="true" header="Amount" >
+        <Column alignItems="end" canSort="true" header="Amount" >
             ${$item.Amount}
         </Column>
         <Column canSort="true"

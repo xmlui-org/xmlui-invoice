@@ -49,6 +49,10 @@
       <Clients/>
     </Page>
 
+    <Page url="/clients/new">
+      <CreateClient/>
+    </Page>
+
     <Page url="/icons">
       <Icons/>
     </Page>
