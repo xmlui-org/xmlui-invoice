@@ -9,7 +9,7 @@
       "methods": {
         "GET": {
           "description": "Get all clients with their outstanding balances",
-          "sql": "SELECT c.id, c.name as \"Name\", c.email as \"Email\", c.phone as \"Phone\", c.address, coalesce(sum(case when i.status != 'paid' then i.total else 0 end), 0) as \"Outstanding\" FROM clients c LEFT JOIN invoices i ON c.id = i.client_id AND i.status != 'paid' GROUP BY c.id, c.name, c.email, c.phone ORDER BY Name"
+          "sql": "SELECT c.id, c.name, c.email, c.phone, c.address, coalesce(sum(case when i.status != 'paid' then i.total else 0 end), 0) as outstanding FROM clients c LEFT JOIN invoices i ON c.id = i.client_id AND i.status != 'paid' GROUP BY c.id, c.name, c.email, c.phone ORDER BY name"
         },
         "POST": {
           "description": "Create a new client",

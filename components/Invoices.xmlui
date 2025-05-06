@@ -8,7 +8,7 @@
     />
 
     <Theme maxWidth-ModalDialog="50%">
-        <ModalDialog id="detailsDialog" >
+        <ModalDialog id="detailsDialog">
             <InvoiceDetails details="{$params[0]}" />
         </ModalDialog>
     </Theme>
@@ -24,11 +24,10 @@
         <Column canSort="true" bindTo="Client" />
         <Column canSort="true" bindTo="Issue Date" />
         <Column canSort="true" bindTo="Due Date" />
-        <Column alignItems="end" canSort="true" header="Amount" >
+        <Column canSort="true" header="Amount">
             ${$item.Amount}
         </Column>
-        <Column canSort="true"
-            bindTo="Status" />
+        <Column canSort="true" bindTo="Status" />
         <Column header="Details">
             <Icon name="doc-outline" onClick="detailsDialog.open($item)" />
         </Column>
