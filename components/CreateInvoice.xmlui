@@ -77,13 +77,11 @@
             </Items>
           </FormItem>
           <Text width="20%">{ productDetails.value[0].description }</Text>
-          <FormItem width="20%" bindTo="quantity" type="number" initialValue="1" />
-          <FormItem width="20%" bindTo="price" startText="$"
-            initialValue="{ productDetails.value[0].price }" />
-          <FormItem width="13%" bindTo="amount" startText="$"
-            initialValue="{ $item.price ? $item.quantity * $item.price : '' } " />
-          <Button width="*" variant="ghost" themeColor="attention" icon="close"
-            onClick="lineItems.removeItem($itemIndex)" />
+          <FormItem width="20%" bindTo="quantity"               type="number"   initialValue="1" minValue="1" />
+          <FormItem width="20%" bindTo="price"  startText="$"                   initialValue="{ productDetails.value[0].price }" />
+          <FormItem width="13%" bindTo="amount" startText="$"   enabled="false" initialValue="{ $item.price ? $item.quantity * $item.price : '' } " />
+
+          <Button width="*" variant="ghost" themeColor="attention" icon="close" onClick="lineItems.removeItem($itemIndex)" />
         </FlowLayout>
       </FormItem>
       <!-- Total calculation -->

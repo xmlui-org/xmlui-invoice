@@ -24,12 +24,10 @@
     <Table data="{invoices}">
         <Column canSort="true" bindTo="Invoice #" />
         <Column canSort="true" bindTo="Client" />
-        <Column
-            canSort="true" bindTo="Issue Date" />
+        <Column canSort="true" bindTo="Issue Date" />
         <Column canSort="true" bindTo="Due Date" />
-        <Column
-            canSort="true" bindTo="Amount">
-            <Text>{formatAsCurrency($item.Amount)}</Text>
+        <Column canSort="true" header="Amount" >
+            <Text>{window.formatAsCurrency($item.Amount)}</Text>
         </Column>
         <Column canSort="true"
             bindTo="Status" />
