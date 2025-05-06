@@ -10,13 +10,13 @@
 
     <VStack gap="$space-4">
 
-        <TextBox label="name"    id="name" initialValue="{client.name}" />
-        <TextBox label="email"   id="email" initialValue="{client.email}" />
-        <TextBox label="phone"   id="phone" initialValue="{client.phone}" />
-        <TextBox label="address" id="address" initialValue="{client.address}" />
+        <Form>
+            <FormItem label="name" bindTo="name" initialValue="{client.name}" />
+            <FormItem label="email" bindTo="email" initialValue="{client.email}" />
+            <FormItem label="phone" bindTo="phone" initialValue="{client.phone}" />
+            <FormItem label="address" bindTo="address" initialValue="{client.address}" />
 
-        <Button label="Update Client">
-            <event name="click">
+            <event name="submit">
                 <APICall
                     url="/api/clients/{client.id}"
                     method="PUT"
@@ -25,15 +25,15 @@
                     body="{
                       {
                        id: client.id,
-                       name: name.value,
-                       email: email.value,
-                       phone: phone.value,
-                       address: address.value
+                       name: $param.name,
+                       email: $param.email,
+                       phone: $param.phone,
+                       address: $param.address
                        }
                     }"
                 />
             </event>
-        </Button>
+        </Form>
 
     </VStack>
 </Component>

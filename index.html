@@ -7,6 +7,10 @@
     <script src="xmlui/0.9.23.js"></script>
     <script src="xmlui/charts-0.1.12.js"></script>
     <script>
+        window.coalesce = function(value, defaultValue = '') {
+          return value ?? defaultValue;
+        }
+
         window.formatToday = function (plusDays = 0) {
             const date = new Date();
             if (plusDays !== 0) {
