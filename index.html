@@ -192,6 +192,21 @@
             return { sql: query };
         };
 
+        window.updateInvoice = function (number, status, notes) {
+            console.log('Updating invoice:', number, status, notes)
+
+            const query = `
+                update invoices
+                set
+                    status = '${status}',
+                    notes = '${notes}'
+                where
+                    invoice_number = '${number}'
+            `;
+
+            console.log('Update invoice query:', query);
+            return { sql: query };
+        };
 
     </script>
 </head>
