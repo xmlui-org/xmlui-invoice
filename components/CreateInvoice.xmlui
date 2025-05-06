@@ -1,10 +1,8 @@
 <Component name="CreateInvoice">
 
-  <DataSource id="clients" url="/query" body='{ window.clients() }'
-    method="POST" />
+  <DataSource id="clients" url="/api/clients" method="GET" />
 
-  <DataSource id="products" url="/query" body='{ window.products() }'
-    method="POST" />
+  <DataSource id="products" url="/api/products" method="GET" />
 
 
   <variable name="firstProduct" value="{products[0]}" />
@@ -64,10 +62,9 @@
           verticalAlignment="center">
           <DataSource
             id="productDetails"
-            url="/query"
+            url="/api/products/byname/{$item.product}"
             when="{$item.product != null}"
-            body="{ window.productDetails($item.product) }"
-            method="POST"
+            method="GET"
           />
           <FormItem
             bindTo="product"
@@ -107,11 +104,19 @@
     </Card>
     <event name="submit">
       <APICall
-        url="/query"
+        url="/api/invoices"
         method="POST"
         inProgressNotificationMessage="Saving invoice..."
         completedNotificationMessage="Invoice saved successfully"
-        body="{ window.saveInvoice($param) }"
+        body="{
+          {
+          client: $param.client,
+          issueDate: $param.issueDate,
+          dueDate: $param.dueDate,
+          total: ($param.lineItems || []).reduce((sum, item) => sum + (Number(item.amount) || 0), 0),
+          items: JSON.stringify($param.lineItems || [])
+          }
+        }"
       />
       <!--      body="{ window.saveInvoice($data) }"-->
       <!--        BUG: $data context variable is not available here... -->

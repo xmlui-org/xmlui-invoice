@@ -3,9 +3,8 @@
 >
     <DataSource
         id="invoices"
-        url="/query"
-        body='{ window.invoices() }'
-        method="POST"
+        url="/api/invoices"
+        method="GET"
     />
 
 
