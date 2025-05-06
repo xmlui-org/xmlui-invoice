@@ -10,9 +10,9 @@
 
     <VStack gap="$space-4">
 
-        <TextBox label="name" id="name" initialValue="{client.name}" />
-        <TextBox label="email" id="email" initialValue="{client.email}" />
-        <TextBox label="phone" id="phone" initialValue="{client.phone}" />
+        <TextBox label="name"    id="name" initialValue="{client.name}" />
+        <TextBox label="email"   id="email" initialValue="{client.email}" />
+        <TextBox label="phone"   id="phone" initialValue="{client.phone}" />
         <TextBox label="address" id="address" initialValue="{client.address}" />
 
         <Button label="Update Client">
@@ -24,15 +24,16 @@
                     completedNotificationMessage="Client updated successfully"
                     body="{
                       {
-                       name: name,
-                       email: email,
-                       phone: phone,
-                       address: address
+                       id: client.id,
+                       name: name.value,
+                       email: email.value,
+                       phone: phone.value,
+                       address: address.value
                        }
                     }"
                 />
             </event>
         </Button>
-        
+
     </VStack>
 </Component>

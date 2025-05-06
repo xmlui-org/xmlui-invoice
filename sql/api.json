@@ -29,7 +29,7 @@
         "PUT": {
           "description": "Update a client",
           "sql": "UPDATE clients SET name = :name, email = :email, phone = :phone, address = :address WHERE id = :id",
-          "params": ["id", "name", "email", "phone", "address"]
+          "params": ["name", "email", "phone", "address", "id"]
         },
         "DELETE": {
           "description": "Delete a client",
