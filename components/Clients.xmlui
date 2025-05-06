@@ -5,16 +5,39 @@
     url="/api/clients"
     method="GET"
   />
-  <H1>Clients</H1>
+
+  <ModalDialog
+    id="clientDetailsDialog"
+    width="800px"
+  >
+    <ClientDetails client="{$params[0]}" onCancel="clientDetailsDialog.close()" />
+  </ModalDialog>
+
+  <HStack>
+    <H1>Clients</H1>
+    <SpaceFiller />
+    <Button label="Add Client" themeColor="primary" onClick="navigate('/clients/new')" />
+  </HStack>
 
   <Table data="{clients}">
     <Column canSort="true" bindTo="Name" />
     <Column bindTo="Email" />
     <Column bindTo="Phone" />
-    <Column canSort="true" header="Outstanding">
-      ${$item.Outstanding}
+    <Column canSort="true" bindTo="Outstanding">
+      <Text>{$item.Outstanding ? '$' + $item.Outstanding : ''}</Text>
     </Column>
-
+    <Column header="Actions" width="100px">
+      <DataSource
+        id="clientDetails"
+        url="/api/clients/{$item.id}"
+        method="GET"
+      />
+      <Button
+        icon="edit"
+        variant="ghost"
+        onClick="clientDetails.load().then(() => clientDetailsDialog.open(clientDetails.value[0]))"
+      />
+    </Column>
   </Table>
 
 </Component>

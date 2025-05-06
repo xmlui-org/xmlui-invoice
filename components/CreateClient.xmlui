@@ -1,0 +1,63 @@
+<Component name="CreateClient">
+
+    <VStack gap="$space-4">
+        <H1>Add New Client</H1>
+
+        <Form id="newClientForm">
+            <Card padding="$space-4">
+                <VStack gap="$space-4">
+                    <FormItem
+                        type="text"
+                        bindTo="name"
+                        label="Name"
+                        placeholder="Enter client name"
+                        required="true"
+                    />
+
+                    <FormItem
+                        type="text"
+                        pattern="email"
+                        bindTo="email"
+                        label="Email"
+                        placeholder="example@email.com"
+                        required="true"
+                    />
+
+                    <FormItem
+                        type="text"
+                        bindTo="phone"
+                        label="Phone"
+                        placeholder="(123) 456-7890"
+                        required="true"
+                    />
+
+                    <FormItem
+                        type="textarea"
+                        bindTo="address"
+                        label="Address"
+                        placeholder="Enter client address"
+                    />
+
+                </VStack>
+            </Card>
+            <event name="submit">
+                <APICall
+                    url="/api/clients"
+                    method="POST"
+                    inProgressNotificationMessage="Creating client..."
+                    completedNotificationMessage="Client created successfully"
+                    body="{
+                      {
+                      name: $param.name,
+                      email: $param.email,
+                      phone: $param.phone,
+                      address: $param.address || ''
+                      }
+                    }"
+                    onComplete="navigate('/clients')"
+                />
+            </event>
+        </Form>
+    </VStack>
+
+</Component>
