@@ -6,8 +6,12 @@
     method="GET"
   />
 
+  <!--
+  <Text>{JSON.stringify(clients.value[0])}</Text>
+  -->
+
   <ModalDialog
-    id="clientDetailsDialog"
+    id="detailsDialog"
     width="800px"
   >
     <ClientDetails client="{$params[0]}" onCancel="clientDetailsDialog.close()" />
@@ -20,23 +24,14 @@
   </HStack>
 
   <Table data="{clients}">
-    <Column canSort="true" bindTo="Name" />
-    <Column bindTo="Email" />
-    <Column bindTo="Phone" />
-    <Column canSort="true" bindTo="Outstanding">
-      <Text>{$item.Outstanding ? '$' + $item.Outstanding : ''}</Text>
+    <Column canSort="true" bindTo="name" />
+    <Column bindTo="email" />
+    <Column bindTo="phone" />
+    <Column canSort="true" bindTo="outstanding">
+      <Text>{$item.outstanding ? '$' + $item.outstanding : ''}</Text>
     </Column>
-    <Column header="Actions" width="100px">
-      <DataSource
-        id="clientDetails"
-        url="/api/clients/{$item.id}"
-        method="GET"
-      />
-      <Button
-        icon="edit"
-        variant="ghost"
-        onClick="clientDetails.load().then(() => clientDetailsDialog.open(clientDetails.value[0]))"
-      />
+    <Column header="Details">
+      <Icon name="doc-outline" onClick="detailsDialog.open($item)" />
     </Column>
   </Table>
 

@@ -2,93 +2,37 @@
 
     <variable name="client" value="{$props.client}" />
 
+    <H2>Client Details</H2>
+
+    <!--
+    <Text>{JSON.stringify(client)}</Text>
+    -->
+
     <VStack gap="$space-4">
-        <H2>Client Details</H2>
 
-        <Form id="clientForm">
-            <VStack gap="$space-3">
-                <FormItem 
-                    type="text" 
-                    bindTo="name" 
-                    label="Name" 
-                    initialValue="{client.name}" 
-                    required="true"
-                />
-                
-                <FormItem 
-                    type="email" 
-                    bindTo="email" 
-                    label="Email" 
-                    initialValue="{client.email}" 
-                    required="true"
-                />
-                
-                <FormItem 
-                    type="text" 
-                    bindTo="phone" 
-                    label="Phone" 
-                    initialValue="{client.phone}" 
-                    required="true"
-                />
-                
-                <FormItem 
-                    type="textarea" 
-                    bindTo="address" 
-                    label="Address" 
-                    initialValue="{client.address}"
-                />
+        <TextBox label="name" id="name" initialValue="{client.name}" />
+        <TextBox label="email" id="email" initialValue="{client.email}" />
+        <TextBox label="phone" id="phone" initialValue="{client.phone}" />
+        <TextBox label="address" id="address" initialValue="{client.address}" />
 
-                <HStack>
-                    <Button label="Update Client" themeColor="primary" type="submit">
-                        <event name="click">
-                            <APICall
-                                url="/api/clients/{client.id}"
-                                method="PUT"
-                                inProgressNotificationMessage="Updating client..."
-                                completedNotificationMessage="Client updated successfully"
-                                body="{
-                                    id: client.id,
-                                    name: $data.name,
-                                    email: $data.email,
-                                    phone: $data.phone,
-                                    address: $data.address
-                                }"
-                            />
-                        </event>
-                    </Button>
-                    
-                    <Button 
-                        label="Cancel" 
-                        variant="outline" 
-                        onClick="$props.onCancel ? $props.onCancel() : null"
-                    />
-                </HStack>
-            </VStack>
-        </Form>
-
-        <VStack gap="$space-3">
-            <H3>Client Statistics</H3>
-            <HStack gap="$space-4">
-                <Card padding="$space-3" width="33%">
-                    <VStack>
-                        <Text>Invoice Count</Text>
-                        <Text fontWeight="bold" fontSize="$fontSize-2xl">{client.invoice_count}</Text>
-                    </VStack>
-                </Card>
-                <Card padding="$space-3" width="33%">
-                    <VStack>
-                        <Text>Outstanding</Text>
-                        <Text fontWeight="bold" fontSize="$fontSize-2xl">${client.outstanding_total || 0}</Text>
-                    </VStack>
-                </Card>
-                <Card padding="$space-3" width="33%">
-                    <VStack>
-                        <Text>Paid Total</Text>
-                        <Text fontWeight="bold" fontSize="$fontSize-2xl">${client.paid_total || 0}</Text>
-                    </VStack>
-                </Card>
-            </HStack>
-        </VStack>
+        <Button label="Update Client">
+            <event name="click">
+                <APICall
+                    url="/api/clients/{client.id}"
+                    method="PUT"
+                    inProgressNotificationMessage="Updating client..."
+                    completedNotificationMessage="Client updated successfully"
+                    body="{
+                      {
+                       name: name,
+                       email: email,
+                       phone: phone,
+                       address: address
+                       }
+                    }"
+                />
+            </event>
+        </Button>
+        
     </VStack>
-
 </Component>
