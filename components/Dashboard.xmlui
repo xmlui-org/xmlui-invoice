@@ -1,6 +1,8 @@
 <Component name="Dashboard">
 
 
+    <DataSource id="dashboardStats" url="/api/dashboard/stats" method="GET" />
+
     <HStack>
         <H1>Dashboard</H1>
         <SpaceFiller />
@@ -11,29 +13,29 @@
         <InfoCard
             width="20%"
             title="Outstanding"
-            sql='{ window.outstanding() }'
+            value="{dashboardStats.value[0].outstanding}"
             currency='true'
         />
         <InfoCard
             width="*"
             title="Paid This Year"
-            sql='{ window.paidThisYear() }'
+            value="{dashboardStats.value[0].paid_this_year}"
             currency='true'
         />
         <InfoCard
             width="*"
             title="Draft"
-            sql='{ window.totalInvoicesByStatus("draft") }'
+            value="{dashboardStats.value[0].draft_invoices}"
         />
         <InfoCard
             width="*"
             title="Sent"
-            sql='{ window.totalInvoicesByStatus("sent") }'
+            value="{dashboardStats.value[0].sent_invoices}"
         />
         <InfoCard
             width="*"
             title="Paid"
-            sql='{ window.totalInvoicesByStatus("paid") }'
+            value="{dashboardStats.value[0].paid_invoices}"
         />
     </FlowLayout>
 

@@ -1,14 +1,11 @@
 <Component name="InfoCard">
 
-    <DataSource id="data" url="/query" body='{ $props.sql }' method="POST" />
-
     <Card width="{$props.width}" borderRadius="8px" boxShadow="$boxShadow-spread">
 
         <Text>{$props.title}</Text>
 
         <Text fontWeight="$fontWeight-extra-bold" fontSize="larger">
-            { $props.currency === 'true' ? formatAsCurrency(data.value[0].value) :
-            data.value[0].value }
+            { $props.currency === 'true' ? formatAsCurrency($props.value) : $props.value }
         </Text>
     </Card>
 

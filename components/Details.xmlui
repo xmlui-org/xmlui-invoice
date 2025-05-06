@@ -14,7 +14,7 @@
 
             <Text>Notes:</Text>
             <TextArea id="notes" initialValue="{details.notes}" />
-            
+
             <Text>Status:</Text>
             <Select id="status" initialValue="{details.Status}">
                 <Option label="sent"  value="sent"/>
@@ -30,13 +30,23 @@
             </Table>
 
             <Button label="Update">
+                <variable name="invoiceNumber" value="{details['Invoice #']}"/>
+                <!--
+                # {invoiceNumber} s {status.value} n {notes.value}
+                -->
                 <event name="click">
                     <APICall
-                      url="/query"
-                      method="POST"
+                      url="/api/invoices/{invoiceNumber}"
+                      method="PUT"
                       inProgressNotificationMessage="Updating invoice..."
-                      completedNotificationMessage="Invoice updated successfully"
-                      body="{ window.updateInvoice(details['Invoice #'], status.value, notes.value) }"
+                      completedNotificationMessage="Invoice {invoiceNumber} updated successfully with status {status.value}, notes [{notes.value}]"
+                      body="{
+                        {
+                        number: invoiceNumber,
+                        status: status.value,
+                        notes: notes.value
+                        }
+                      }"
                     />
                 </event>
 
