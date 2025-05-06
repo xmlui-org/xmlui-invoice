@@ -13,15 +13,13 @@
             </Table>
 
             <Text>Notes:</Text>
-            <TextArea title="Notes">
-                Notes: {details.notes}
-            </TextArea>
-
+            <TextArea id="notes" initialValue="{details.notes}" />
+            
             <Text>Status:</Text>
-            <Select initialValue="{details.Status}">
-                <Option label="draft" />
-                <Option label="sent" />
-                <Option label="paid" />
+            <Select id="status" initialValue="{details.Status}">
+                <Option label="sent"  value="sent"/>
+                <Option label="paid"  value="paid" />
+                <Option label="draft" value="draft" />
             </Select>
 
             <Table data="{JSON.parse(details.items)}">
@@ -31,7 +29,18 @@
                 <Column bindTo="price" />
             </Table>
 
-            <Button label="Update"/>
+            <Button label="Update">
+                <event name="click">
+                    <APICall
+                      url="/query"
+                      method="POST"
+                      inProgressNotificationMessage="Updating invoice..."
+                      completedNotificationMessage="Invoice updated successfully"
+                      body="{ window.updateInvoice(details['Invoice #'], status.value, notes.value) }"
+                    />
+                </event>
+
+            </Button>
         </VStack>
 
 </Component>
