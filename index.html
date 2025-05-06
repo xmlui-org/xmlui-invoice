@@ -7,6 +7,22 @@
     <script src="xmlui/0.9.23.js"></script>
     <script src="xmlui/charts-0.1.12.js"></script>
     <script>
+
+/*
+        window.getTotalAmount = function(lineItems) {
+            // If lineItems is not present, use an empty array
+            const items = lineItems || [];
+
+            // Sum the 'amount' fields, treating missing amounts as 0
+            const total = items.reduce((sum, item) => {
+                const amount = item.amount || 0; // default to 0 if amount is undefined or null
+                return sum + amount;
+            }, 0);
+
+            return total;
+        }
+*/
+
         window.formatAsCurrency = function (value) {
             const num = parseFloat(value);
             if (isNaN(num)) {
