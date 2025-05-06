@@ -1,0 +1,148 @@
+{
+  "apiVersion": "1.0",
+  "name": "xmlui-invoice-api",
+  "description": "API for the XMLUI Invoice application",
+  "basePath": "/api",
+  "endpoints": [
+    {
+      "path": "/clients",
+      "methods": {
+        "GET": {
+          "description": "Get all clients with their outstanding balances",
+          "sql": "SELECT c.id, c.name as \"Name\", c.email as \"Email\", c.phone as \"Phone\", c.address, coalesce(sum(case when i.status != 'paid' then i.total else 0 end), 0) as \"Outstanding\" FROM clients c LEFT JOIN invoices i ON c.id = i.client_id AND i.status != 'paid' GROUP BY c.id, c.name, c.email, c.phone ORDER BY Name"
+        },
+        "POST": {
+          "description": "Create a new client",
+          "sql": "INSERT INTO clients (name, email, phone, address) VALUES (:name, :email, :phone, :address)",
+          "params": ["name", "email", "phone", "address"]
+        }
+      }
+    },
+    {
+      "path": "/clients/:id",
+      "methods": {
+        "GET": {
+          "description": "Get a specific client by ID",
+          "sql": "SELECT c.id, c.name, c.email, c.phone, c.address, (SELECT COUNT(*) FROM invoices WHERE client_id = c.id) as invoice_count, (SELECT SUM(total) FROM invoices WHERE client_id = c.id AND status = 'paid') as paid_total, (SELECT SUM(total) FROM invoices WHERE client_id = c.id AND status != 'paid') as outstanding_total FROM clients c WHERE c.id = :id",
+          "params": ["id"]
+        },
+        "PUT": {
+          "description": "Update a client",
+          "sql": "UPDATE clients SET name = :name, email = :email, phone = :phone, address = :address WHERE id = :id",
+          "params": ["id", "name", "email", "phone", "address"]
+        },
+        "DELETE": {
+          "description": "Delete a client",
+          "sql": "DELETE FROM clients WHERE id = :id",
+          "params": ["id"]
+        }
+      }
+    },
+    {
+      "path": "/clients/:id/invoices",
+      "methods": {
+        "GET": {
+          "description": "Get all invoices for a specific client",
+          "sql": "SELECT invoice_number as \"Invoice #\", substr(issue_date, 0, 11) as \"Issue Date\", substr(due_date, 0, 11) as \"Due Date\", total as Amount, status as Status, notes, items FROM invoices WHERE client_id = :id ORDER BY due_date DESC",
+          "params": ["id"]
+        }
+      }
+    },
+    {
+      "path": "/invoices",
+      "methods": {
+        "GET": {
+          "description": "Get all invoices with client information",
+          "sql": "SELECT invoices.id, invoices.invoice_number as \"Invoice #\", clients.name as Client, substr(invoices.issue_date, 0, 11) as \"Issue Date\", substr(invoices.due_date, 0, 11) as \"Due Date\", invoices.total as Amount, invoices.status as Status, invoices.notes, invoices.items FROM invoices JOIN clients ON invoices.client_id = clients.id ORDER BY invoices.due_date DESC"
+        },
+        "POST": {
+          "description": "Create a new invoice",
+          "sql": "INSERT INTO invoices (client_id, invoice_number, issue_date, due_date, total, items, status) VALUES ((SELECT id FROM clients WHERE name = :client), 'INV-' || (SELECT COUNT(*) + 1001 FROM invoices), :issueDate, :dueDate, :total, :items, 'draft')",
+          "params": ["client", "issueDate", "dueDate", "total", "items"]
+        }
+      }
+    },
+    {
+      "path": "/invoices/:number",
+      "methods": {
+        "GET": {
+          "description": "Get a specific invoice by invoice number",
+          "sql": "SELECT invoices.id, invoices.invoice_number, clients.name as client_name, clients.email as client_email, clients.phone as client_phone, substr(invoices.issue_date, 0, 11) as issue_date, substr(invoices.due_date, 0, 11) as due_date, invoices.total, invoices.status, invoices.notes, invoices.items FROM invoices JOIN clients ON invoices.client_id = clients.id WHERE invoices.invoice_number = :number",
+          "params": ["number"]
+        },
+        "PUT": {
+          "description": "Update an invoice status and notes",
+          "sql": "UPDATE invoices SET status = :status, notes = :notes WHERE invoice_number = :number",
+          "params": ["status", "notes", "number"]
+        },
+        "DELETE": {
+          "description": "Delete an invoice",
+          "sql": "DELETE FROM invoices WHERE invoice_number = :number",
+          "params": ["number"]
+        }
+      }
+    },
+    {
+      "path": "/products",
+      "methods": {
+        "GET": {
+          "description": "Get all products",
+          "sql": "SELECT * FROM products ORDER BY name"
+        },
+        "POST": {
+          "description": "Create a new product",
+          "sql": "INSERT INTO products (name, description, price) VALUES (:name, :description, :price)",
+          "params": ["name", "description", "price"]
+        }
+      }
+    },
+    {
+      "path": "/products/:id",
+      "methods": {
+        "GET": {
+          "description": "Get a specific product by ID",
+          "sql": "SELECT * FROM products WHERE id = :id",
+          "params": ["id"]
+        },
+        "PUT": {
+          "description": "Update a product",
+          "sql": "UPDATE products SET name = :name, description = :description, price = :price WHERE id = :id",
+          "params": ["id", "name", "description", "price"]
+        },
+        "DELETE": {
+          "description": "Delete a product",
+          "sql": "DELETE FROM products WHERE id = :id",
+          "params": ["id"]
+        }
+      }
+    },
+    {
+      "path": "/products/byname/:name",
+      "methods": {
+        "GET": {
+          "description": "Get a specific product by name",
+          "sql": "SELECT * FROM products WHERE name = :name",
+          "params": ["name"]
+        }
+      }
+    },
+    {
+      "path": "/dashboard/stats",
+      "methods": {
+        "GET": {
+          "description": "Get dashboard statistics",
+          "sql": "SELECT (SELECT COUNT(*) FROM invoices) AS total_invoices, (SELECT COUNT(*) FROM clients) AS total_clients, (SELECT SUM(total) FROM invoices WHERE status != 'paid') AS outstanding, (SELECT SUM(total) FROM invoices WHERE status = 'paid' AND substr(issue_date, 1, 4) = strftime('%Y', 'now')) AS paid_this_year, (SELECT COUNT(*) FROM invoices WHERE status = 'draft') AS draft_invoices, (SELECT COUNT(*) FROM invoices WHERE status = 'sent') AS sent_invoices, (SELECT COUNT(*) FROM invoices WHERE status = 'paid') AS paid_invoices"
+        }
+      }
+    },
+    {
+      "path": "/dashboard/revenue",
+      "methods": {
+        "GET": {
+          "description": "Get monthly revenue data",
+          "sql": "SELECT substr(issue_date, 1, 7) AS month, sum(total) AS total FROM invoices WHERE status = 'paid' GROUP BY month ORDER BY month"
+        }
+      }
+    }
+  ]
+}

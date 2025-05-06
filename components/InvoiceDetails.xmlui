@@ -1,0 +1,66 @@
+<Component name="InvoiceDetails">
+
+    <variable name="details" value="{$props.details}" />
+
+    <Text>{JSON.stringify(details)}</Text>
+
+    <VStack gap="$space-4">
+
+        <Table width="100%" data="{[details]}">
+            <Column bindTo="Invoice #" />
+            <Column bindTo="Client" />
+            <Column bindTo="Issue Date" />
+            <Column bindTo="Due Date" />
+            <Column bindTo="Status" />
+        </Table>
+
+        <VStack gap="0">
+            <Text>Notes:</Text>
+            <TextArea id="notes" initialValue="{details.notes}" />
+        </VStack>
+
+        <VStack gap="0">
+            <Text>Status:</Text>
+            <Select id="status" initialValue="{details.Status}">
+                <Option label="sent" value="sent" />
+                <Option label="paid" value="paid" />
+                <Option label="draft" value="draft" />
+            </Select>
+        </VStack>
+
+        <Table width="100%" data="{JSON.parse(details.items)}">
+            <Column bindTo="product" />
+            <Column bindTo="quantity" />
+            <Column header="amount" >
+                ${$item.amount}
+            </Column>
+            <Column header="price">
+                ${$item.price}
+            </Column>
+        </Table>
+
+        <Button label="Update">
+            <variable name="invoiceNumber" value="{details['Invoice #']}" />
+            <!--
+                # {invoiceNumber} s {status.value} n {notes.value}
+                -->
+            <event name="click">
+                <APICall
+                    url="/api/invoices/{invoiceNumber}"
+                    method="PUT"
+                    inProgressNotificationMessage="Updating invoice..."
+                    completedNotificationMessage="Invoice {invoiceNumber} updated successfully with status {status.value}, notes [{notes.value}]"
+                    body="{
+                        {
+                        number: invoiceNumber,
+                        status: status.value,
+                        notes: notes.value
+                        }
+                      }"
+                />
+            </event>
+
+        </Button>
+    </VStack>
+
+</Component>

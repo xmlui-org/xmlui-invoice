@@ -11,8 +11,8 @@
     <Column canSort="true" bindTo="Name" />
     <Column bindTo="Email" />
     <Column bindTo="Phone" />
-    <Column canSort="true" bindTo="Outstanding">
-      <Text>{formatAsCurrency($item.Outstanding)}</Text>
+    <Column canSort="true" header="Outstanding">
+      ${$item.Outstanding}
     </Column>
 
   </Table>
