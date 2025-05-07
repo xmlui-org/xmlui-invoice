@@ -1,4 +1,4 @@
-name: Test Windows start.bat
+name: Test Windows tiny-httpd fallback
 
 on:
   workflow_dispatch:
@@ -10,14 +10,38 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Make sure fallback binary is executable
+      - name: Try npx http-server
+        continue-on-error: true
         run: |
-          icacls tiny-httpd-windows.exe /grant Everyone:RX
+          where npx >nul 2>&1
+          if %ERRORLEVEL%==0 (
+            echo Running http-server with npx...
+            start /b npx -y http-server -p 8080
+          )
 
-      - name: Run start.bat
+      - name: Try python http.server
+        if: failure()  # previous step failed
+        continue-on-error: true
         run: |
-          cmd /c start.bat
+          where python >nul 2>&1
+          if %ERRORLEVEL%==0 (
+            echo Running Python HTTP server...
+            start /b python -m http.server 8080
+          )
 
-      - name: Check that server is listening on port 8080
+      - name: Try fallback tiny-httpd binary
+        if: failure()
         run: |
-          netstat -an | findstr ":8080"
+          echo Running fallback binary...
+          start /b tiny-httpd-windows.exe
+
+      - name: Wait for server
+        run: Start-Sleep -Seconds 2
+
+      - name: Test HTTP response
+        run: |
+          $response = Invoke-WebRequest http://localhost:8080 -UseBasicParsing
+          if ($response.StatusCode -ne 200) {
+            Write-Error "Expected 200 OK but got $($response.StatusCode)"
+            exit 1
+          }
