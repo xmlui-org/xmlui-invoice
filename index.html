@@ -19,7 +19,6 @@
         }
 
         window.formatMonth = function(month) {
-            console.log('formatMonth');
             // Input: '2022-06'
             const [year, monthNum] = month.split('-');
             const date = new Date(year, monthNum - 1);
@@ -145,11 +144,11 @@
             if (!API_ROUTES || !API_ROUTES.endpoints) {
                 return null;
             }
-            
+
             // Remove API base path
             const apiBasePath = API_ROUTES.basePath || '/api';
             let pathToMatch = urlPath;
-            
+
             if (urlPath.startsWith(apiBasePath)) {
                 pathToMatch = urlPath.substring(apiBasePath.length) || '/';
             }
@@ -158,7 +157,7 @@
 
             // Find exact match first
             let endpoint = API_ROUTES.endpoints.find(e => e.path === pathToMatch);
-            
+
             if (endpoint) {
                 console.log('Found exact match endpoint:', endpoint);
                 return endpoint;
@@ -168,15 +167,15 @@
             for (const e of API_ROUTES.endpoints) {
                 const routeParts = e.path.split('/').filter(p => p !== '');
                 const urlParts = pathToMatch.split('/').filter(p => p !== '');
-                
+
                 // Skip if different number of parts (excluding empty parts)
                 if (routeParts.length !== urlParts.length) {
                     continue;
                 }
-                
+
                 let isMatch = true;
                 let extractedParams = {};
-                
+
                 for (let i = 0; i < routeParts.length; i++) {
                     if (routeParts[i].startsWith(':')) {
                         // This is a parameter, extract its value
@@ -187,13 +186,13 @@
                         break;
                     }
                 }
-                
+
                 if (isMatch) {
                     console.log('Found pattern match endpoint:', e.path, 'with params:', extractedParams);
                     return e;
                 }
             }
-            
+
             return null;
         }
 
@@ -241,7 +240,7 @@
         // Execute SQL query
         function executeQuery(methodDef, params) {
             console.log('query', methodDef.sql, params);
-            
+
             if (!DB) {
                 throw new Error('Database not initialized');
             }
@@ -256,7 +255,7 @@
                     for (const paramName of methodDef.params) {
                         sqlParams.push(params[paramName]);
                     }
-                    
+
                     // Rebuild the SQL with '?' placeholders in order
                     processedSql = methodDef.sql;
                     for (const paramName of methodDef.params) {
@@ -270,7 +269,7 @@
                     const paramRegex = /[:$](\w+)/g;
                     let match;
                     let paramPositions = [];
-                    
+
                     while ((match = paramRegex.exec(methodDef.sql)) !== null) {
                         paramPositions.push({
                             name: match[1],
@@ -278,21 +277,21 @@
                             fullMatch: match[0]
                         });
                     }
-                    
+
                     // Sort parameters by position (descending) to avoid affecting other replacements
                     paramPositions.sort((a, b) => b.position - a.position);
-                    
+
                     for (const param of paramPositions) {
                         const paramName = param.name;
                         const paramValue = params[paramName];
-                        
+
                         if (paramValue !== undefined) {
                             // Add parameter to the list
                             sqlParams.push(paramValue);
-                            
+
                             // Replace named parameter with ? placeholder
-                            processedSql = processedSql.substring(0, param.position) + 
-                                          '?' + 
+                            processedSql = processedSql.substring(0, param.position) +
+                                          '?' +
                                           processedSql.substring(param.position + param.fullMatch.length);
                         }
                     }
@@ -300,7 +299,7 @@
 
                 // Execute the query
                 let results;
-                
+
                 // For debugging: Show SQL with parameters substituted
                 let debugSql = processedSql;
                 sqlParams.forEach((param, index) => {
