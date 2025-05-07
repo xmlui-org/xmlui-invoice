@@ -211,7 +211,8 @@
                 if (i < urlParts.length && routeParts[i].startsWith(':')) {
                     // Extract parameter name without the colon
                     const paramName = routeParts[i].substring(1);
-                    params[paramName] = urlParts[i];
+                    // Decode URL parameters to handle spaces and special characters
+                    params[paramName] = decodeURIComponent(urlParts[i]);
                 }
             }
 
