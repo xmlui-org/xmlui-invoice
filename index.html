@@ -130,7 +130,7 @@
                 const params = extractParams(parsedUrl, endpoint.path, options);
 
                 // Execute the SQL query
-                const result = executeQuery(methodDef.sql, params);
+                const result = executeQuery(methodDef, params);
 
                 // Return the response
                 return createResponse(result);
@@ -235,50 +235,74 @@
         }
 
         // Execute SQL query
-        function executeQuery(sql, params) {
-            console.log('query', sql, params)
+        function executeQuery(methodDef, params) {
+            console.log('query', methodDef.sql, params);
+            
             if (!DB) {
                 throw new Error('Database not initialized');
             }
 
             try {
-                // Replace named parameters in the SQL query
-                let processedSql = sql;
-                const sqlParams = [];
+                let processedSql = methodDef.sql;
+                let sqlParams = [];
 
-                // Check if we have parameters in the SQL query
-                const paramRegex = /[:$](\w+)/g;
-                let match;
-                let paramPositions = [];
-
-                while ((match = paramRegex.exec(sql)) !== null) {
-                    paramPositions.push({
-                        name: match[1],
-                        position: match.index,
-                        fullMatch: match[0]
-                    });
-                }
-
-                // Sort parameters by position (descending) to avoid affecting other replacements
-                paramPositions.sort((a, b) => b.position - a.position);
-
-                for (const param of paramPositions) {
-                    const paramName = param.name;
-                    const paramValue = params[paramName];
-
-                    if (paramValue !== undefined) {
-                        // Add parameter to the list
-                        sqlParams.push(paramValue);
-
-                        // Replace named parameter with ? placeholder
-                        processedSql = processedSql.substring(0, param.position) +
-                                      '?' +
-                                      processedSql.substring(param.position + param.fullMatch.length);
+                // For queries with a params list in methodDef, ensure correct parameter order
+                if (methodDef.params && Array.isArray(methodDef.params) && methodDef.params.length > 0) {
+                    // Add parameters in the correct order as specified in the API definition
+                    for (const paramName of methodDef.params) {
+                        sqlParams.push(params[paramName]);
+                    }
+                    
+                    // Rebuild the SQL with '?' placeholders in order
+                    processedSql = methodDef.sql;
+                    for (const paramName of methodDef.params) {
+                        // Replace the named parameter with ? placeholder
+                        const paramRegex = new RegExp(':' + paramName + '\\b', 'g');
+                        processedSql = processedSql.replace(paramRegex, '?');
+                    }
+                } else {
+                    // Fallback to original parameter extraction logic
+                    // Check if we have parameters in the SQL query
+                    const paramRegex = /[:$](\w+)/g;
+                    let match;
+                    let paramPositions = [];
+                    
+                    while ((match = paramRegex.exec(methodDef.sql)) !== null) {
+                        paramPositions.push({
+                            name: match[1],
+                            position: match.index,
+                            fullMatch: match[0]
+                        });
+                    }
+                    
+                    // Sort parameters by position (descending) to avoid affecting other replacements
+                    paramPositions.sort((a, b) => b.position - a.position);
+                    
+                    for (const param of paramPositions) {
+                        const paramName = param.name;
+                        const paramValue = params[paramName];
+                        
+                        if (paramValue !== undefined) {
+                            // Add parameter to the list
+                            sqlParams.push(paramValue);
+                            
+                            // Replace named parameter with ? placeholder
+                            processedSql = processedSql.substring(0, param.position) + 
+                                          '?' + 
+                                          processedSql.substring(param.position + param.fullMatch.length);
+                        }
                     }
                 }
 
                 // Execute the query
                 let results;
+                
+                // For debugging: Show SQL with parameters substituted
+                let debugSql = processedSql;
+                sqlParams.forEach((param, index) => {
+                    debugSql = debugSql.replace('?', typeof param === 'string' ? `'${param}'` : param);
+                });
+                console.log('Debug SQL (with params):', debugSql);
 
                 if (sqlParams.length > 0) {
                     // Use prepared statement for queries with parameters
