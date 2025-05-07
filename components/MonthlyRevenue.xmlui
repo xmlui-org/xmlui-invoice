@@ -12,6 +12,10 @@
           layout="horizontal"
           data="{ revenue }"
           dataKeys="{['total']}" nameKey="month"
+          tickFormatter="{(value) => {
+            console.log('formatter called', value);
+            return window.formatMonth(value);
+          }}"
         />
     </Card>
 
