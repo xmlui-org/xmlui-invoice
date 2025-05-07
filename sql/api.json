@@ -43,7 +43,7 @@
       "methods": {
         "GET": {
           "description": "Get all invoices for a specific client",
-          "sql": "SELECT invoice_number as \"Invoice #\", substr(issue_date, 0, 11) as \"Issue Date\", substr(due_date, 0, 11) as \"Due Date\", total as Amount, status as Status, notes, items FROM invoices WHERE client_id = :id ORDER BY due_date DESC",
+          "sql": "SELECT invoice_number, substr(issue_date, 0, 11) as issue_date, substr(due_date, 0, 11) as due_date, total, status, notes, items FROM invoices WHERE client_id = :id ORDER BY due_date DESC",
           "params": ["id"]
         }
       }
@@ -53,7 +53,7 @@
       "methods": {
         "GET": {
           "description": "Get all invoices with client information",
-          "sql": "SELECT invoices.id, invoices.invoice_number as \"Invoice #\", clients.name as Client, substr(invoices.issue_date, 0, 11) as \"Issue Date\", substr(invoices.due_date, 0, 11) as \"Due Date\", invoices.total as Amount, invoices.status as Status, invoices.notes, invoices.items FROM invoices JOIN clients ON invoices.client_id = clients.id ORDER BY invoices.due_date DESC"
+          "sql": "SELECT invoices.id, invoices.invoice_number, clients.name as client, substr(invoices.issue_date, 0, 11) as issue_date, substr(invoices.due_date, 0, 11) as due_date, invoices.total, invoices.status, invoices.notes, invoices.items FROM invoices JOIN clients ON invoices.client_id = clients.id ORDER BY invoices.due_date DESC"
         },
         "POST": {
           "description": "Create a new invoice",
