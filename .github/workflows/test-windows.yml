@@ -10,30 +10,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Try npx http-server
-        continue-on-error: true
+      - name: Launch tiny-httpd (background)
+        shell: cmd
         run: |
-          where npx >nul 2>&1
-          if %ERRORLEVEL%==0 (
-            echo Running http-server with npx...
-            start /b npx -y http-server -p 8080
-          )
-
-      - name: Try python http.server
-        if: failure()  # previous step failed
-        continue-on-error: true
-        run: |
-          where python >nul 2>&1
-          if %ERRORLEVEL%==0 (
-            echo Running Python HTTP server...
-            start /b python -m http.server 8080
-          )
-
-      - name: Try fallback tiny-httpd binary
-        if: failure()
-        run: |
-          echo Running fallback binary...
-          start /b tiny-httpd-windows.exe
+          start "" /b tiny-httpd-windows.exe
 
       - name: Wait for server
         run: Start-Sleep -Seconds 2
