@@ -73,7 +73,7 @@
         "PUT": {
           "description": "Update an invoice status and notes",
           "sql": "UPDATE invoices SET status = :status, notes = :notes WHERE invoice_number = :number",
-          "params": ["number", "status", "notes"]
+          "params": ["status", "notes", "number"]
         },
         "DELETE": {
           "description": "Delete an invoice",
