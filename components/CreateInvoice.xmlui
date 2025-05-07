@@ -114,6 +114,7 @@
           items: JSON.stringify($param.lineItems || [])
           }
         }"
+        onSuccess="Actions.navigate('/invoices')"
       />
       <!--      body="{ window.saveInvoice($data) }"-->
       <!--        BUG: $data context variable is not available here... -->

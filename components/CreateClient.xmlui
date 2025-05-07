@@ -54,7 +54,7 @@
                       address: $param.address || ''
                       }
                     }"
-                    onComplete="navigate('/clients')"
+                    onSuccess="Actions.navigate('/clients')"
                 />
             </event>
         </Form>
