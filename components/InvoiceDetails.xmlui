@@ -2,9 +2,8 @@
 
     <variable name="details" value="{$props.details}" />
 
-    <!--
+
     <Text>{JSON.stringify(details)}</Text>
-    -->
 
     <Form>
 
@@ -44,18 +43,17 @@
             </Column>
         </Table>
 
-        <variable name="invoiceNumber" value="{details['Invoice #']}" />
-        <!--
-            # {invoiceNumber} s {status.value} n {notes.value}
-            -->
+        <Text>{JSON.stringify(details.invoice_number)}</Text>
+
         <event name="submit">
             <APICall
-                url="/api/invoices/{invoiceNumber}"
+                url="/api/invoices/{details.invoice_number}"
                 method="PUT"
                 inProgressNotificationMessage="Updating invoice..."
-                completedNotificationMessage="Invoice {invoiceNumber} updated successfully with status {status.value}, notes [{notes.value}]"
+                completedNotificationMessage="Invoice updated successfully"
                 body="{
                     {
+                    number: details.invoice_number,
                     status: $param.status,
                     notes: $param.notes
                     }

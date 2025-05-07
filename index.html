@@ -145,19 +145,22 @@
             if (!API_ROUTES || !API_ROUTES.endpoints) {
                 return null;
             }
-
+            
             // Remove API base path
             const apiBasePath = API_ROUTES.basePath || '/api';
             let pathToMatch = urlPath;
-
+            
             if (urlPath.startsWith(apiBasePath)) {
                 pathToMatch = urlPath.substring(apiBasePath.length) || '/';
             }
 
+            console.log('Finding endpoint for path:', pathToMatch);
+
             // Find exact match first
             let endpoint = API_ROUTES.endpoints.find(e => e.path === pathToMatch);
-
+            
             if (endpoint) {
+                console.log('Found exact match endpoint:', endpoint);
                 return endpoint;
             }
 
@@ -165,31 +168,32 @@
             for (const e of API_ROUTES.endpoints) {
                 const routeParts = e.path.split('/').filter(p => p !== '');
                 const urlParts = pathToMatch.split('/').filter(p => p !== '');
-
+                
                 // Skip if different number of parts (excluding empty parts)
                 if (routeParts.length !== urlParts.length) {
                     continue;
                 }
-
+                
                 let isMatch = true;
-
+                let extractedParams = {};
+                
                 for (let i = 0; i < routeParts.length; i++) {
                     if (routeParts[i].startsWith(':')) {
-                        // This is a parameter, it will match anything
-                        continue;
-                    }
-
-                    if (routeParts[i] !== urlParts[i]) {
+                        // This is a parameter, extract its value
+                        const paramName = routeParts[i].substring(1);
+                        extractedParams[paramName] = decodeURIComponent(urlParts[i]);
+                    } else if (routeParts[i] !== urlParts[i]) {
                         isMatch = false;
                         break;
                     }
                 }
-
+                
                 if (isMatch) {
+                    console.log('Found pattern match endpoint:', e.path, 'with params:', extractedParams);
                     return e;
                 }
             }
-
+            
             return null;
         }
 
