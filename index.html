@@ -56,10 +56,10 @@
 
                 // Set up fetch interceptor
                 setupFetchInterceptor();
-                
+
                 // Mark as initialized
                 DB_INITIALIZED = true;
-                
+
                 // Process any queued requests
                 processQueuedRequests();
             } catch (error) {
@@ -79,14 +79,14 @@
         // Set up fetch interceptor
         function setupFetchInterceptor() {
             const originalFetch = window.fetch;
-            
+
             window.fetch = function(resource, options = {}) {
                 const url = resource instanceof Request ? resource.url : resource;
-                
+
                 // Only intercept requests to the API endpoints
                 if (url.includes('/api/')) {
                     console.log('Intercepting API request:', url);
-                    
+
                     // If database is not initialized yet, queue the request
                     if (!DB_INITIALIZED) {
                         console.log('Database not initialized yet, queuing request:', url);
@@ -94,10 +94,10 @@
                             API_REQUESTS_QUEUE.push({ url, options, resolve, reject });
                         });
                     }
-                    
+
                     return handleApiRequest(url, options);
                 }
-                
+
                 // For all other requests, use the original fetch
                 return originalFetch.apply(this, arguments);
             };
@@ -109,7 +109,7 @@
                 // Find matching endpoint in API routes
                 const parsedUrl = new URL(url, window.location.origin);
                 const endpoint = findMatchingEndpoint(parsedUrl.pathname);
-                
+
                 if (!endpoint) {
                     console.error('No matching endpoint found for:', parsedUrl.pathname);
                     return createResponse({ error: 'Endpoint not found' }, 404);
@@ -117,10 +117,10 @@
 
                 // Get the HTTP method
                 const method = options.method || 'GET';
-                
+
                 // Find the method definition for the endpoint
                 const methodDef = endpoint.methods[method];
-                
+
                 if (!methodDef) {
                     console.error(`Method ${method} not supported for endpoint ${endpoint.path}`);
                     return createResponse({ error: `Method ${method} not supported` }, 405);
@@ -128,10 +128,10 @@
 
                 // Extract parameters from the URL and request body
                 const params = extractParams(parsedUrl, endpoint.path, options);
-                
+
                 // Execute the SQL query
                 const result = executeQuery(methodDef.sql, params);
-                
+
                 // Return the response
                 return createResponse(result);
             } catch (error) {
@@ -145,18 +145,18 @@
             if (!API_ROUTES || !API_ROUTES.endpoints) {
                 return null;
             }
-            
+
             // Remove API base path
             const apiBasePath = API_ROUTES.basePath || '/api';
             let pathToMatch = urlPath;
-            
+
             if (urlPath.startsWith(apiBasePath)) {
                 pathToMatch = urlPath.substring(apiBasePath.length) || '/';
             }
 
             // Find exact match first
             let endpoint = API_ROUTES.endpoints.find(e => e.path === pathToMatch);
-            
+
             if (endpoint) {
                 return endpoint;
             }
@@ -165,48 +165,48 @@
             for (const e of API_ROUTES.endpoints) {
                 const routeParts = e.path.split('/').filter(p => p !== '');
                 const urlParts = pathToMatch.split('/').filter(p => p !== '');
-                
+
                 // Skip if different number of parts (excluding empty parts)
                 if (routeParts.length !== urlParts.length) {
                     continue;
                 }
-                
+
                 let isMatch = true;
-                
+
                 for (let i = 0; i < routeParts.length; i++) {
                     if (routeParts[i].startsWith(':')) {
                         // This is a parameter, it will match anything
                         continue;
                     }
-                    
+
                     if (routeParts[i] !== urlParts[i]) {
                         isMatch = false;
                         break;
                     }
                 }
-                
+
                 if (isMatch) {
                     return e;
                 }
             }
-            
+
             return null;
         }
 
         // Extract parameters from the URL and request body
         function extractParams(urlObj, routePath, options) {
             const params = {};
-            
+
             // Extract URL parameters
             const urlPath = urlObj.pathname;
             const apiBasePath = API_ROUTES.basePath || '/api';
-            const pathWithoutBase = urlPath.startsWith(apiBasePath) 
-                ? urlPath.substring(apiBasePath.length) 
+            const pathWithoutBase = urlPath.startsWith(apiBasePath)
+                ? urlPath.substring(apiBasePath.length)
                 : urlPath;
-            
+
             const routeParts = routePath.split('/').filter(p => p !== '');
             const urlParts = pathWithoutBase.split('/').filter(p => p !== '');
-            
+
             for (let i = 0; i < routeParts.length; i++) {
                 if (i < urlParts.length && routeParts[i].startsWith(':')) {
                     // Extract parameter name without the colon
@@ -214,12 +214,12 @@
                     params[paramName] = urlParts[i];
                 }
             }
-            
+
             // Extract query parameters
             for (const [key, value] of urlObj.searchParams.entries()) {
                 params[key] = value;
             }
-            
+
             // Extract body parameters if present
             if (options.body) {
                 try {
@@ -229,26 +229,27 @@
                     console.warn('Failed to parse request body:', e);
                 }
             }
-            
+
             return params;
         }
 
         // Execute SQL query
         function executeQuery(sql, params) {
+            console.log('query', sql, params)
             if (!DB) {
                 throw new Error('Database not initialized');
             }
-            
+
             try {
                 // Replace named parameters in the SQL query
                 let processedSql = sql;
                 const sqlParams = [];
-                
+
                 // Check if we have parameters in the SQL query
                 const paramRegex = /[:$](\w+)/g;
                 let match;
                 let paramPositions = [];
-                
+
                 while ((match = paramRegex.exec(sql)) !== null) {
                     paramPositions.push({
                         name: match[1],
@@ -256,37 +257,37 @@
                         fullMatch: match[0]
                     });
                 }
-                
+
                 // Sort parameters by position (descending) to avoid affecting other replacements
                 paramPositions.sort((a, b) => b.position - a.position);
-                
+
                 for (const param of paramPositions) {
                     const paramName = param.name;
                     const paramValue = params[paramName];
-                    
+
                     if (paramValue !== undefined) {
                         // Add parameter to the list
                         sqlParams.push(paramValue);
-                        
+
                         // Replace named parameter with ? placeholder
-                        processedSql = processedSql.substring(0, param.position) + 
-                                      '?' + 
+                        processedSql = processedSql.substring(0, param.position) +
+                                      '?' +
                                       processedSql.substring(param.position + param.fullMatch.length);
                     }
                 }
-                
+
                 // Execute the query
                 let results;
-                
+
                 if (sqlParams.length > 0) {
                     // Use prepared statement for queries with parameters
                     const stmt = DB.prepare(processedSql);
-                    
+
                     if (processedSql.trim().toUpperCase().startsWith('SELECT')) {
                         // For SELECT queries, return the results
                         stmt.bind(sqlParams);
                         results = [];
-                        
+
                         while (stmt.step()) {
                             results.push(stmt.getAsObject());
                         }
@@ -295,18 +296,18 @@
                         stmt.run(sqlParams);
                         results = { changes: DB.getRowsModified() };
                     }
-                    
+
                     stmt.free();
                 } else {
                     // For queries without parameters, use exec
                     const execResults = DB.exec(processedSql);
-                    
+
                     if (execResults && execResults.length > 0) {
                         // Convert column/value format to array of objects
                         results = [];
                         const columns = execResults[0].columns;
                         const values = execResults[0].values;
-                        
+
                         for (const row of values) {
                             const obj = {};
                             for (let i = 0; i < columns.length; i++) {
@@ -319,7 +320,7 @@
                         results = { changes: DB.getRowsModified() };
                     }
                 }
-                
+
                 return results;
             } catch (error) {
                 console.error('SQL execution error:', error);
@@ -329,6 +330,7 @@
 
         // Create a Response object
         function createResponse(data, status = 200) {
+            console.log('results', data)
             return new Response(JSON.stringify(data), {
                 status: status,
                 headers: {
