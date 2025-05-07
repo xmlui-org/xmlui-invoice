@@ -20,11 +20,11 @@
     </HStack>
 
     <Table data="{invoices}">
-        <Column canSort="true" bindTo="Invoice #" />
-        <Column canSort="true" bindTo="Client" />
-        <Column canSort="true" bindTo="Issue Date" />
-        <Column canSort="true" bindTo="Due Date" />
-        <Column canSort="true" header="Amount">
+        <Column canSort="true" bindTo="invoice_number" />
+        <Column canSort="true" bindTo="client" />
+        <Column canSort="true" bindTo="issue_date" />
+        <Column canSort="true" bindTo="due_date" />
+        <Column canSort="true" header="total">
             ${$item.Amount}
         </Column>
         <Column canSort="true" bindTo="Status" />

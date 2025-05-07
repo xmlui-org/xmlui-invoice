@@ -21,7 +21,7 @@
             required="true"
           >
             <Items data="{clients}">
-              <Option value="{$item.Name}" label="{$item.Name}" />
+              <Option value="{$item.name}" label="{$item.name}" />
             </Items>
           </FormItem>
         </Card>
