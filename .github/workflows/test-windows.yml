@@ -1,0 +1,23 @@
+name: Test Windows start.bat
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Make sure fallback binary is executable
+        run: |
+          icacls tiny-httpd-windows.exe /grant Everyone:RX
+
+      - name: Run start.bat
+        run: |
+          cmd /c start.bat
+
+      - name: Check that server is listening on port 8080
+        run: |
+          netstat -an | findstr ":8080"
