@@ -25,9 +25,9 @@
         <Column canSort="true" bindTo="issue_date" />
         <Column canSort="true" bindTo="due_date" />
         <Column canSort="true" header="total">
-            ${$item.Amount}
+            ${$item.total}
         </Column>
-        <Column canSort="true" bindTo="Status" />
+        <Column canSort="true" bindTo="status" />
         <Column header="Details">
             <Icon name="doc-outline" onClick="detailsDialog.open($item)" />
         </Column>

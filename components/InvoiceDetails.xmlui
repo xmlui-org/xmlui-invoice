@@ -9,11 +9,11 @@
     <Form>
 
         <Table width="100%" data="{[details]}">
-            <Column bindTo="Invoice #" />
-            <Column bindTo="Client" />
-            <Column bindTo="Issue Date" />
-            <Column bindTo="Due Date" />
-            <Column bindTo="Status" />
+            <Column bindTo="invoice_number" />
+            <Column bindTo="client" />
+            <Column bindTo="issue_date" />
+            <Column bindTo="due_date" />
+            <Column bindTo="status" />
         </Table>
 
 
@@ -24,7 +24,7 @@
 
         <VStack gap="0">
             <Text>Status:</Text>
-            <FormItem type="select" bindTo="status" initialValue="{details.Status}">
+            <FormItem type="select" bindTo="status" initialValue="{details.status}">
                 <Option label="sent"  value="sent" />
                 <Option label="paid"  value="paid" />
                 <Option label="draft" value="draft" />
@@ -56,7 +56,6 @@
                 completedNotificationMessage="Invoice {invoiceNumber} updated successfully with status {status.value}, notes [{notes.value}]"
                 body="{
                     {
-                    number: invoiceNumber,
                     status: $param.status,
                     notes: $param.notes
                     }
