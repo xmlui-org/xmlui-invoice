@@ -1,9 +1,7 @@
 <Component name="InvoiceDetails">
 
+
     <variable name="details" value="{$props.details}" />
-
-
-    <Text>{JSON.stringify(details)}</Text>
 
     <Form>
 
@@ -42,8 +40,6 @@
                 ${$item.price}
             </Column>
         </Table>
-
-        <Text>{JSON.stringify(details.invoice_number)}</Text>
 
         <event name="submit">
             <APICall
