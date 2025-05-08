@@ -19,7 +19,31 @@ elif command -v python > /dev/null 2>&1; then
     echo "Running Python 2 http.server..."
     exec python -m SimpleHTTPServer 8080
 fi
-#
+
+
+# Set fallback binary name based on OS/arch
+UNAME="$(uname -s)"
+ARCH="$(uname -m)"
+
+case "$UNAME" in
+  Darwin)
+    if [[ "$ARCH" == "arm64" ]]; then
+      BINARY="$SCRIPT_DIR/tiny-httpd-mac-arm"
+    else
+      BINARY="$SCRIPT_DIR/tiny-httpd-mac-intel"
+    fi
+    ;;
+  Linux)
+    BINARY="$SCRIPT_DIR/tiny-httpd-linux"
+    ;;
+  MINGW* | MSYS* | CYGWIN* | Windows_NT)
+    BINARY="$SCRIPT_DIR/tiny-httpd-windows.exe"
+    ;;
+  *)
+    echo "Unsupported platform: $UNAME"
+    exit 1
+    ;;
+esac
 
 # Fallback to binary
 if [[ -f "$BINARY" ]]; then
