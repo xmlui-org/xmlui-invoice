@@ -5,13 +5,30 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Load SQL.js from CDN -->
+    <script>
+    // Early fetch interceptor to queue API requests before DB is ready
+    let DB_INITIALIZED = false;
+    let API_REQUESTS_QUEUE = [];
+    (function setupEarlyFetchInterceptor() {
+        const originalFetch = window.fetch;
+        window.fetch = function(resource, options = {}) {
+            const url = resource instanceof Request ? resource.url : resource;
+            if (url && url.includes && url.includes('/api/')) {
+                if (!DB_INITIALIZED) {
+                    return new Promise((resolve, reject) => {
+                        API_REQUESTS_QUEUE.push({ url, options, resolve, reject });
+                    });
+                }
+            }
+            return originalFetch.apply(this, arguments);
+        };
+    })();
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
     <script>
         // Global database variables
         let DB = null;
         let API_ROUTES = null;
-        let API_REQUESTS_QUEUE = [];
-        let DB_INITIALIZED = false;
 
         // Helper functions
         window.coalesce = function(value, defaultValue = '') {
@@ -61,6 +78,9 @@
 
                 // Process any queued requests
                 processQueuedRequests();
+
+                // Hide loading
+                document.getElementById('loading').style.display = 'none';
             } catch (error) {
                 console.error('Error initializing database:', error);
             }
@@ -374,6 +394,8 @@
     <script src="xmlui/charts-0.1.12.js"></script>
 </head>
 
-<body></body>
+<body>
+  <div id="loading">Loading database...</div>
+</body>
 
 </html>
