@@ -1,22 +1,25 @@
 #!/bin/bash
+
 set -e
 
+# Detect script directory
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Platform: macOS Intel vs ARM
-if [[ "$(uname)" == "Darwin" ]]; then
-  ARCH="$(uname -m)"
-  if [[ "$ARCH" == "arm64" ]]; then
-    BINARY="$SCRIPT_DIR/tiny-httpd-mac-arm"
-  else
-    BINARY="$SCRIPT_DIR/tiny-httpd-mac-intel"
-  fi
-elif [[ "$(uname)" == "Linux" ]]; then
-  BINARY="$SCRIPT_DIR/tiny-httpd-linux"
-else
-  echo "Unsupported platform: $(uname)"
-  exit 1
+# Try Node.js via npx
+if command -v npx > /dev/null 2>&1; then
+    echo "Running http-server with npx..."
+    exec npx -y http-server -p 8080 -o
 fi
+
+# Try Python http.server
+if command -v python3 > /dev/null 2>&1; then
+    echo "Running Python 3 http.server..."
+    exec python3 -m http.server 8080
+elif command -v python > /dev/null 2>&1; then
+    echo "Running Python 2 http.server..."
+    exec python -m SimpleHTTPServer 8080
+fi
+#
 
 # Fallback to binary
 if [[ -f "$BINARY" ]]; then
