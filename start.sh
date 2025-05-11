@@ -12,4 +12,4 @@ osascript -e 'tell app "Terminal"
     do script "cd \"'"$(pwd)"'\" && ./xmlui-test-server -api sql/api.json -show-responses | tee server_log.txt"
 end tell'
 
-
+exit
