@@ -2,7 +2,7 @@
 
   <DataSource
     id="revenue"
-    url="/api/dashboard/revenue"
+    url="/api/dashboard/daily-revenue"
     method="GET" />
 
   <VStack width="{$props.width}">
