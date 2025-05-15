@@ -1,8 +1,12 @@
-<Component name="WeeklyRevenue" xmlns:XMLUIExtensions="component-ns">
+<Component
+  name="WeeklyRevenue"
+  xmlns:XMLUIExtensions="component-ns"
+  var.nonce="{1}"
+>
 
   <DataSource
     id="revenue"
-    url="/api/dashboard/weekly-revenue"
+    url="/api/dashboard/weekly-revenue?nonce={nonce}"
     method="GET" />
 
   <VStack width="{$props.width}">
@@ -18,8 +22,10 @@
       step="10"
       width="90%"
       onDidChange="{
-    console.log('slider values:', slider.value[0], slider.value[1]);
-  }"
+        console.log('slider values:', slider.value[0], slider.value[1]);
+        nonce++
+        console.log('nonce', nonce)
+      }"
     />
 
     <Card height="400px">
@@ -28,7 +34,6 @@
         data="{ revenue }"
         dataKeys="{['total']}" nameKey="week_end_date"
         tickFormatter="{(value, index) => {
-          console.log('tickformatter', value, index)
           // Only show every 4th tick
           if (index % 4 !== 0) return '';
           return value
