@@ -145,11 +145,12 @@
       }
     },
     {
-      "path": "/dashboard/daily-revenue",
+      "path": "/dashboard/weekly-revenue",
       "methods": {
         "GET": {
-          "description": "Get daily revenue data",
-          "sql": "SELECT paid_date AS day, sum(total) AS total FROM invoices WHERE status = 'paid' GROUP BY day ORDER BY day"
+          "description": "Get weekly revenue data",
+          "sqlFile": "sql/weekly_revenue.sql",
+          "params": []
         }
       }
     }
