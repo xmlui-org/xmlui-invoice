@@ -24,6 +24,7 @@
         <Column canSort="true" bindTo="client" />
         <Column canSort="true" bindTo="issue_date" />
         <Column canSort="true" bindTo="due_date" />
+        <Column canSort="true" bindTo="paid_date" />
         <Column canSort="true" header="total">
             ${$item.total}
         </Column>
