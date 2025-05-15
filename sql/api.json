@@ -131,7 +131,7 @@
       "methods": {
         "GET": {
           "description": "Get dashboard statistics",
-          "sql": "SELECT (SELECT COUNT(*) FROM invoices) AS total_invoices, (SELECT COUNT(*) FROM clients) AS total_clients, (SELECT SUM(total) FROM invoices WHERE status != 'paid') AS outstanding, (SELECT SUM(total) FROM invoices WHERE status = 'paid' AND substr(issue_date, 1, 4) = strftime('%Y', 'now')) AS paid_this_year, (SELECT COUNT(*) FROM invoices WHERE status = 'draft') AS draft_invoices, (SELECT COUNT(*) FROM invoices WHERE status = 'sent') AS sent_invoices, (SELECT COUNT(*) FROM invoices WHERE status = 'paid') AS paid_invoices"
+          "sql": "SELECT (SELECT COUNT(*) FROM invoices) AS total_invoices, (SELECT COUNT(*) FROM clients) AS total_clients, (SELECT SUM(total) FROM invoices WHERE status = 'sent') AS outstanding, (SELECT SUM(total) FROM invoices WHERE status = 'paid' AND substr(issue_date, 1, 4) = strftime('%Y', 'now')) AS paid_this_year, (SELECT COUNT(*) FROM invoices WHERE status = 'draft') AS draft_invoices, (SELECT COUNT(*) FROM invoices WHERE status = 'sent') AS sent_invoices, (SELECT COUNT(*) FROM invoices WHERE status = 'paid') AS paid_invoices"
         }
       }
     },
