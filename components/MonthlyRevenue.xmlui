@@ -5,9 +5,10 @@
         url="/api/dashboard/revenue"
         method="GET" />
 
-    <H1>{$props.title}</H1>
+    <VStack width="{$props.width}">
+        <H1>{$props.title}</H1>
 
-    <Card height="400px">
+        <Card height="400px">
         <XMLUIExtensions:BarChart
           layout="horizontal"
           data="{ revenue }"
@@ -17,6 +18,7 @@
             return window.formatMonth(value);
           }}"
         />
-    </Card>
+        </Card>
+    </VStack>
 
 </Component>

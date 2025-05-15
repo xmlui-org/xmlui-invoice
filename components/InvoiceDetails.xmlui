@@ -31,10 +31,10 @@
 
 
         <Table width="100%" data="{JSON.parse(details.items)}">
-            <Column bindTo="product" />
+            <Column bindTo="name" />
             <Column bindTo="quantity" />
-            <Column header="amount">
-                ${$item.amount}
+            <Column bindTo="total">
+                ${$item.total}
             </Column>
             <Column header="price">
                 ${$item.price}

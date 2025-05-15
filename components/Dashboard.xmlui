@@ -39,6 +39,7 @@
         />
     </FlowLayout>
 
-    <MonthlyRevenue />
+    <MonthlyRevenue title="Monthly Revenue" />
+
 
 </Component>

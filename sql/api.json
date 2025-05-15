@@ -53,7 +53,7 @@
       "methods": {
         "GET": {
           "description": "Get all invoices with client information",
-          "sql": "SELECT invoices.id, invoices.invoice_number, clients.name as client, substr(invoices.issue_date, 0, 11) as issue_date, substr(invoices.due_date, 0, 11) as due_date, invoices.total, invoices.status, invoices.notes, invoices.items FROM invoices JOIN clients ON invoices.client_id = clients.id ORDER BY invoices.due_date DESC"
+          "sql": "SELECT invoices.id, invoices.invoice_number, clients.name as client, substr(invoices.issue_date, 0, 11) as issue_date, substr(invoices.due_date, 0, 11) as due_date, substr(invoices.paid_date, 0, 11) as paid_date, invoices.total, invoices.status, invoices.notes, invoices.items FROM invoices JOIN clients ON invoices.client_id = clients.id ORDER BY invoices.due_date DESC"
         },
         "POST": {
           "description": "Create a new invoice",
@@ -72,8 +72,8 @@
         },
         "PUT": {
           "description": "Update an invoice status and notes",
-          "sql": "UPDATE invoices SET status = :status, notes = :notes WHERE invoice_number = :number",
-          "params": ["status", "notes", "number"]
+          "sql": "UPDATE invoices SET status = :status, notes = :notes, paid_date = CASE WHEN :status = 'paid' AND (paid_date IS NULL OR paid_date = '') THEN date('now') ELSE paid_date END WHERE invoice_number = :number",
+          "params": ["status", "notes", "status", "number"]
         },
         "DELETE": {
           "description": "Delete an invoice",
@@ -140,7 +140,16 @@
       "methods": {
         "GET": {
           "description": "Get monthly revenue data",
-          "sql": "SELECT substr(issue_date, 1, 7) AS month, sum(total) AS total FROM invoices WHERE status = 'paid' GROUP BY month ORDER BY month"
+          "sql": "SELECT substr(COALESCE(paid_date, issue_date), 1, 7) AS month, sum(total) AS total FROM invoices WHERE status = 'paid' GROUP BY month ORDER BY month"
+        }
+      }
+    },
+    {
+      "path": "/dashboard/daily-revenue",
+      "methods": {
+        "GET": {
+          "description": "Get daily revenue data",
+          "sql": "SELECT COALESCE(paid_date, issue_date) AS day, sum(total) AS total FROM invoices WHERE status = 'paid' GROUP BY day ORDER BY day"
         }
       }
     }

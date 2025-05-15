@@ -19,6 +19,7 @@ CREATE TABLE invoices (
       client_id INTEGER NOT NULL,
       issue_date DATE NOT NULL,
       due_date DATE NOT NULL,
+      paid_date DATE,
       status TEXT NOT NULL CHECK(status IN ('draft', 'sent', 'paid')),
       notes TEXT,
       items TEXT,
