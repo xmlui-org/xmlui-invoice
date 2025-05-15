@@ -8,11 +8,11 @@
     <script src="xmlui/charts-0.1.12.js"></script>
     <script>
         // Helper functions
-        window.coalesce = function(value, defaultValue = '') {
-          return value ?? defaultValue;
+        window.coalesce = function (value, defaultValue = '') {
+            return value ?? defaultValue;
         }
 
-        window.formatMonth = function(month) {
+        window.formatMonth = function (month) {
             // Input: '2022-06'
             const [year, monthNum] = month.split('-');
             const date = new Date(year, monthNum - 1);
@@ -27,7 +27,9 @@
             }
             return date.toISOString().slice(0, 10).replace(/-/g, '/');
         }
+
     </script>
+
 </head>
 
 <body>

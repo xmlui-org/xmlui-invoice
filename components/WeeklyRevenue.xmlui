@@ -1,8 +1,8 @@
-<Component name="DailyRevenue" xmlns:XMLUIExtensions="component-ns">
+<Component name="WeeklyRevenue" xmlns:XMLUIExtensions="component-ns">
 
   <DataSource
     id="revenue"
-    url="/api/dashboard/daily-revenue"
+    url="/api/dashboard/weekly-revenue"
     method="GET" />
 
   <VStack width="{$props.width}">
@@ -26,12 +26,22 @@
       <XMLUIExtensions:BarChart
         layout="horizontal"
         data="{ revenue }"
-        dataKeys="{['total']}" nameKey="month"
+        dataKeys="{['total']}" nameKey="week_end_date"
         tickFormatter="{(value) => {
-            return window.formatMonth(value);
+            return value;
           }}"
       />
     </Card>
+
+    <!--
+    <Table data="{revenue}">
+      <Column bindTo="week_start_date"/>
+      <Column bindTo="week_end_date"/>
+      <Column bindTo="total"/>
+    </Table>
+
+    -->
+
   </VStack>
 
 </Component>
