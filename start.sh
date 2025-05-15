@@ -8,4 +8,4 @@ if [[ "$(uname)" == "Darwin" ]]; then
   xattr -d com.apple.quarantine xmlui-test-server 2>/dev/null || true
 fi
 
-./xmlui-test-server -api sql/api.json -show-responses | tee server_log.txt
+./xmlui-test-server -api sql/api.json -show-responses 
