@@ -140,7 +140,7 @@
       "methods": {
         "GET": {
           "description": "Get monthly revenue data",
-          "sql": "SELECT substr(COALESCE(paid_date, issue_date), 1, 7) AS month, sum(total) AS total FROM invoices WHERE status = 'paid' GROUP BY month ORDER BY month"
+          "sql": "SELECT substr(paid_date, 1, 7) AS month, sum(total) AS total FROM invoices WHERE status = 'paid' GROUP BY month ORDER BY month"
         }
       }
     },
@@ -149,7 +149,7 @@
       "methods": {
         "GET": {
           "description": "Get daily revenue data",
-          "sql": "SELECT COALESCE(paid_date, issue_date) AS day, sum(total) AS total FROM invoices WHERE status = 'paid' GROUP BY day ORDER BY day"
+          "sql": "SELECT paid_date AS day, sum(total) AS total FROM invoices WHERE status = 'paid' GROUP BY day ORDER BY day"
         }
       }
     }
