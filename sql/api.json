@@ -136,7 +136,7 @@
       }
     },
     {
-      "path": "/dashboard/revenue",
+      "path": "/dashboard/monthly-revenue",
       "methods": {
         "GET": {
           "description": "Get monthly revenue data",
