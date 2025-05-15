@@ -27,9 +27,12 @@
         layout="horizontal"
         data="{ revenue }"
         dataKeys="{['total']}" nameKey="week_end_date"
-        tickFormatter="{(value) => {
-            return value;
-          }}"
+        tickFormatter="{(value, index) => {
+          console.log('tickformatter', value, index)
+          // Only show every 4th tick
+          if (index % 4 !== 0) return '';
+          return value
+        }}"
       />
     </Card>
 
