@@ -150,6 +150,16 @@
         "GET": {
           "description": "Get weekly revenue data",
           "sqlFile": "sql/weekly_revenue.sql",
+          "params": ["start_date", "end_date", "start_date", "end_date"]
+        }
+      }
+    },
+    {
+      "path": "/dashboard/revenue-days",
+      "methods": {
+        "GET": {
+          "description": "Get count of days with revenue",
+          "sql": "select count(distinct(paid_date)) as days from invoices where paid_date is not null",
           "params": []
         }
       }
