@@ -1,5 +1,5 @@
 <Component
-  name="WeeklyRevenue"
+  name="DailyRevenue"
   xmlns:XMLUIExtensions="component-ns"
   var.nonce="{1}"
   var.startDate="2022-06-01"
@@ -7,21 +7,15 @@
   var.totalDays="{ Math.floor((maxDate - minDate) / (86400 * 1000)) }"
 >
 
-<Text>days: {totalDays}</Text>
-
   <DataSource
     id="revenueDays"
     url="/api/dashboard/revenue-days"
     method="GET"
    />
 
-   <Fragment when="revenueDays.value">
-      <Text>days: { revenueDays.value[0].days }</Text>
-  </Fragment>
-
    <DataSource
     id="revenue"
-    url="/api/dashboard/weekly-revenue?nonce={nonce}&amp;start_date={startDate}&amp;end_date={endDate}"
+    url="/api/dashboard/daily-revenue?nonce={nonce}&amp;start_date={startDate}&amp;end_date={endDate}"
     method="GET"
    />
 
@@ -29,31 +23,31 @@
     <H1>{$props.title}</H1>
 
 
+   <Fragment when="{ revenueDays.value }">
+    <variable name="days" value="{revenueDays.value[0].days}"/>
+    <Text>days: { days }</Text>
     <Slider
       id="slider"
       label="dateRange"
       minValue="{0}"
-      maxValue="{100}"
-      initialValue="{ [10, 20] }"
+      maxValue="{ days }"
+      initialValue="{ [1, days] }"
       step="10"
       width="90%"
       onDidChange="{
         console.log('slider values:', slider.value[0], slider.value[1]);
         nonce++
-        startDate = sliderValueToDate(slider.value[0]).toISOString().slice(0, 10);
-        endDate = sliderValueToDate(slider.value[1]).toISOString().slice(0, 10);
         console.log('nonce', nonce)
       }"
     />
+  </Fragment>
 
     <Card height="400px">
       <XMLUIExtensions:BarChart
         layout="horizontal"
         data="{ revenue }"
-        dataKeys="{['total']}" nameKey="week_end_date"
-        hideGrid="true"
+        dataKeys="{['total']}" nameKey="date"
         tickFormatter="{(value, index) => {
-          // Only show every 4th tick
           if (index % 4 !== 0) return '';
           return value
         }}"
