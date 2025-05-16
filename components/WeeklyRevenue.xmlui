@@ -2,12 +2,26 @@
   name="WeeklyRevenue"
   xmlns:XMLUIExtensions="component-ns"
   var.nonce="{1}"
+  var.startDate="2022-06-01"
+  var.endDate="2025-05-01"
+  var.totalDays="{ Math.floor((maxDate - minDate) / (86400 * 1000)) }"
 >
 
   <DataSource
+    id="revenueDays"
+    url="/api/dashboard/revenue-days"
+    method="GET"
+   />
+
+   <Fragment when="{ revenueDays.value }">
+      <Text>{ revenueDays.value[0].days }</Text>
+  </Fragment>
+
+   <DataSource
     id="revenue"
-    url="/api/dashboard/weekly-revenue?nonce={nonce}"
-    method="GET" />
+    url="/api/dashboard/weekly-revenue?nonce={nonce}&amp;start_date={startDate}&amp;end_date={endDate}"
+    method="GET"
+   />
 
   <VStack width="{$props.width}">
     <H1>{$props.title}</H1>
@@ -24,6 +38,8 @@
       onDidChange="{
         console.log('slider values:', slider.value[0], slider.value[1]);
         nonce++
+        startDate = sliderValueToDate(slider.value[0]).toISOString().slice(0, 10);
+        endDate = sliderValueToDate(slider.value[1]).toISOString().slice(0, 10);
         console.log('nonce', nonce)
       }"
     />

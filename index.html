@@ -28,6 +28,17 @@
             return date.toISOString().slice(0, 10).replace(/-/g, '/');
         }
 
+        window.startDate = '2022-06-01'
+        window.endDate = '2025-05-01'
+
+        window.sliderValueToDate = function( ) {
+            const MS_PER_DAY = 86400 * 1000;
+            const ret = new Date(minDate.getTime() + value * MS_PER_DAY);
+            console.log('ret', ret)
+            return ret
+        }
+
+
     </script>
 
 </head>
