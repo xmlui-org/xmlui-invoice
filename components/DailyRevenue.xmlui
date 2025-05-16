@@ -2,8 +2,8 @@
   name="DailyRevenue"
   xmlns:XMLUIExtensions="component-ns"
   var.nonce="{1}"
-  var.startDate="2022-06-01"
-  var.endDate="2025-05-01"
+  var.startDate="{window.startDate}"
+  var.endDate="{window.endDate}"
   var.totalDays="{ Math.floor((maxDate - minDate) / (86400 * 1000)) }"
 >
 
@@ -25,7 +25,6 @@
 
    <Fragment when="{ revenueDays.value }">
     <variable name="days" value="{revenueDays.value[0].days}"/>
-    <Text>days: { days }</Text>
     <Slider
       id="slider"
       label="dateRange"
@@ -36,8 +35,11 @@
       width="90%"
       onDidChange="{
         console.log('slider values:', slider.value[0], slider.value[1]);
-        nonce++
-        console.log('nonce', nonce)
+        // Update the start and end dates based on slider values
+        startDate = window.sliderValueToDate(slider.value[0]);
+        endDate = window.sliderValueToDate(slider.value[1]);
+        console.log('Date range:', startDate, 'to', endDate);
+        nonce++;
       }"
     />
   </Fragment>
