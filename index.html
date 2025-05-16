@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="xmlui/0.9.23.js"></script>
-    <script src="xmlui/charts-0.1.12.js"></script>
+    <script src="xmlui/charts-0.1.21.js"></script>
     <script>
         // Helper functions
         window.coalesce = function (value, defaultValue = '') {
@@ -31,11 +31,7 @@
         window.startDate = '2022-06-01'
         window.endDate = '2025-05-01'
 
-        window.sliderValueToDate = function( ) {
-            const MS_PER_DAY = 86400 * 1000;
-            const ret = new Date(minDate.getTime() + value * MS_PER_DAY);
-            console.log('ret', ret)
-            return ret
+        window.sliderValueToDate = function( value ) {
         }
 
 

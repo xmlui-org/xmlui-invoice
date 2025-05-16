@@ -42,7 +42,7 @@
     <MonthlyRevenue title="Monthly Revenue" />
 
 
-    <WeeklyRevenue title="Weekly Revenue" />
+    <DailyRevenue title="Daily Revenue" />
 
 
 </Component>

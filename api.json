@@ -145,11 +145,11 @@
       }
     },
     {
-      "path": "/dashboard/weekly-revenue",
+      "path": "/dashboard/daily-revenue",
       "methods": {
         "GET": {
-          "description": "Get weekly revenue data",
-          "sqlFile": "sql/weekly_revenue.sql",
+          "description": "Get daily revenue data",
+          "sqlFile": "sql/daily_revenue.sql",
           "params": ["start_date", "end_date", "start_date", "end_date"]
         }
       }
@@ -159,7 +159,7 @@
       "methods": {
         "GET": {
           "description": "Get count of days with revenue",
-          "sql": "select count(distinct(paid_date)) as days from invoices where paid_date is not null",
+          "sql": "select cast( julianday(max(date(paid_date))) - julianday(min(date(paid_date))) as integer) + 1 as days from invoices where paid_date is not null",
           "params": []
         }
       }
