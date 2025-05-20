@@ -40,11 +40,11 @@ jobs:
 
       - name: Prepare package directory
         run: |
-          # Create a clean directory for the package
-          mkdir -p ./dist/${{ matrix.platform }}
+          # Create a clean directory for the package with xmlui-invoice subdirectory
+          mkdir -p ./dist/xmlui-invoice
           
           # Copy all repo files excluding .git, .github, workflow directories, and tmp
-          rsync -a --exclude='.git' --exclude='.github' --exclude='workflows' --exclude='tmp' --exclude='dist' ./ ./dist/${{ matrix.platform }}/
+          rsync -a --exclude='.git' --exclude='.github' --exclude='workflows' --exclude='tmp' --exclude='dist' ./ ./dist/xmlui-invoice/
 
       - name: Extract server binary
         run: |
@@ -61,33 +61,29 @@ jobs:
           # Move the binary to the package directory with more specific matching
           if [[ "${{ matrix.platform }}" == "windows-amd64" ]]; then
             # Match only .exe files, avoiding any potential .exe.config or other extensions
-            mv ./tmp/${{ matrix.platform }}/xmlui-test-server*.exe ./dist/${{ matrix.platform }}/xmlui-test-server.exe
+            mv ./tmp/${{ matrix.platform }}/xmlui-test-server*.exe ./dist/xmlui-invoice/xmlui-test-server.exe
           else
             # Match only the binary without extensions
-            find ./tmp/${{ matrix.platform }} -name "xmlui-test-server" -type f -exec mv {} ./dist/${{ matrix.platform }}/xmlui-test-server \;
+            find ./tmp/${{ matrix.platform }} -name "xmlui-test-server" -type f -exec mv {} ./dist/xmlui-invoice/xmlui-test-server \;
           fi
 
       - name: Set execute permissions for Unix binaries
         if: ${{ matrix.platform != 'windows-amd64' }}
         run: |
-          chmod +x ./dist/${{ matrix.platform }}/xmlui-test-server
-          chmod +x ./dist/${{ matrix.platform }}/start.sh
+          chmod +x ./dist/xmlui-invoice/xmlui-test-server
+          chmod +x ./dist/xmlui-invoice/start.sh
 
       - name: Create package archive
         run: |
           cd ./dist
-          if [[ "${{ matrix.platform }}" == "windows-amd64" ]]; then
-            zip -r xmlui-invoice-${{ matrix.platform }}.zip ${{ matrix.platform }}
-          else
-            tar -czf xmlui-invoice-${{ matrix.platform }}.tar.gz ${{ matrix.platform }}
-          fi
+          zip -r xmlui-invoice-${{ matrix.platform }}.zip xmlui-invoice
 
       - name: Upload package artifact
         uses: actions/upload-artifact@v4
         with:
           name: xmlui-invoice-${{ matrix.platform }}
           path: |
-            ./dist/xmlui-invoice-${{ matrix.platform }}.*
+            ./dist/xmlui-invoice-${{ matrix.platform }}.zip
 
   create-release:
     needs: create-packages
@@ -104,7 +100,7 @@ jobs:
       - name: Prepare release files
         run: |
           mkdir -p ./release-files
-          find ./packages -type f -name "*.zip" -o -name "*.tar.gz" | xargs -I{} cp {} ./release-files/
+          find ./packages -type f -name "*.zip" | xargs -I{} cp {} ./release-files/
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
