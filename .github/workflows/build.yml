@@ -1,0 +1,126 @@
+name: Build Release Packages
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release version (e.g. v1.0.0)'
+        required: true
+      server_version:
+        description: 'XMLUI test server version to include (e.g. v1.0.0)'
+        required: true
+        default: 'v1.0.0'
+
+jobs:
+  create-packages:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - platform: linux-amd64
+            server_binary: xmlui-test-server-linux-amd64.tar.gz
+          - platform: mac-amd
+            server_binary: xmlui-test-server-mac-amd.tar.gz
+          - platform: mac-arm
+            server_binary: xmlui-test-server-mac-arm.tar.gz
+          - platform: windows-amd64
+            server_binary: xmlui-test-server-windows-amd64.zip
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create temp directory
+        run: mkdir -p ./tmp/${{ matrix.platform }}
+
+      - name: Download server binary
+        run: |
+          curl -L -o ./tmp/${{ matrix.server_binary }} "https://github.com/JonUdell/xmlui-test-server/releases/download/${{ github.event.inputs.server_version }}/${{ matrix.server_binary }}"
+
+      - name: Prepare package directory
+        run: |
+          # Create a clean directory for the package
+          mkdir -p ./dist/${{ matrix.platform }}
+          
+          # Copy all repo files excluding .git, .github, workflow directories, and tmp
+          rsync -a --exclude='.git' --exclude='.github' --exclude='workflows' --exclude='tmp' --exclude='dist' ./ ./dist/${{ matrix.platform }}/
+
+      - name: Extract server binary
+        run: |
+          # Create the extraction directory
+          mkdir -p ./tmp/${{ matrix.platform }}
+          
+          # Extract with correct paths
+          if [[ "${{ matrix.server_binary }}" == *.zip ]]; then
+            unzip ./tmp/${{ matrix.server_binary }} -d ./tmp/${{ matrix.platform }}
+          else
+            tar -xzf ./tmp/${{ matrix.server_binary }} -C ./tmp/${{ matrix.platform }}
+          fi
+          
+          # Move the binary to the package directory with more specific matching
+          if [[ "${{ matrix.platform }}" == "windows-amd64" ]]; then
+            # Match only .exe files, avoiding any potential .exe.config or other extensions
+            mv ./tmp/${{ matrix.platform }}/xmlui-test-server*.exe ./dist/${{ matrix.platform }}/xmlui-test-server.exe
+          else
+            # Match only the binary without extensions
+            find ./tmp/${{ matrix.platform }} -name "xmlui-test-server" -type f -exec mv {} ./dist/${{ matrix.platform }}/xmlui-test-server \;
+          fi
+
+      - name: Set execute permissions for Unix binaries
+        if: ${{ matrix.platform != 'windows-amd64' }}
+        run: |
+          chmod +x ./dist/${{ matrix.platform }}/xmlui-test-server
+          chmod +x ./dist/${{ matrix.platform }}/start.sh
+
+      - name: Create package archive
+        run: |
+          cd ./dist
+          if [[ "${{ matrix.platform }}" == "windows-amd64" ]]; then
+            zip -r xmlui-invoice-${{ matrix.platform }}.zip ${{ matrix.platform }}
+          else
+            tar -czf xmlui-invoice-${{ matrix.platform }}.tar.gz ${{ matrix.platform }}
+          fi
+
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: xmlui-invoice-${{ matrix.platform }}
+          path: |
+            ./dist/xmlui-invoice-${{ matrix.platform }}.*
+
+  create-release:
+    needs: create-packages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./packages
+
+      - name: Display structure
+        run: find ./packages -type f | sort
+
+      - name: Prepare release files
+        run: |
+          mkdir -p ./release-files
+          find ./packages -type f -name "*.zip" -o -name "*.tar.gz" | xargs -I{} cp {} ./release-files/
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.tag }}
+          name: Release ${{ github.event.inputs.tag }}
+          files: ./release-files/*
+          body: |
+            XMLUI Invoice ${{ github.event.inputs.tag }}
+            
+            This release includes XMLUI Test Server ${{ github.event.inputs.server_version }}
+            
+            Available packages:
+            - Linux AMD64
+            - macOS Intel
+            - macOS ARM
+            - Windows AMD64
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
