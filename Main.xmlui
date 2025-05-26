@@ -3,17 +3,16 @@
   layout="vertical-full-header"
   defaultTheme="invoice"
 >
-  <Theme tone="dark">
-    <AppHeader>
-      <property name="titleTemplate">
-        <H1>
-          XMLUI Invoice
-        </H1>
-      </property>
-      <property name="profileMenuTemplate">
-        <Text>Demo User</Text>
-      </property>
-      <!--
+  <AppHeader>
+    <property name="titleTemplate">
+      <H1>
+        XMLUI Invoice
+      </H1>
+    </property>
+    <property name="profileMenuTemplate">
+      <Text>Demo User</Text>
+    </property>
+    <!--
       <HStack horizontalAlignment="center" width="100%">
         <TextBox
           maxWidth="30rem"
@@ -22,50 +21,45 @@
         />
       </HStack>
       -->
-    </AppHeader>
-    <NavPanel>
-      <NavLink label="Dashboard" to="/"/>
-      <NavLink label="Invoices" to="/invoices"/>
-      <NavLink label="Clients" to="/clients"/>
-      <NavLink label="Icons" to="/icons"/>
-      <NavLink label="Palettes" to="/palettes"/>
-    </NavPanel>
-  </Theme>
+  </AppHeader>
+  <NavPanel>
+    <NavLink label="Dashboard" to="/" />
+    <NavLink label="Invoices" to="/invoices" />
+    <NavLink label="Clients" to="/clients" />
+    <NavLink label="Icons" to="/icons" />
+    <NavLink label="Palettes" to="/palettes" />
+  </NavPanel>
 
   <Pages>
     <Page url="/">
-      <Dashboard/>
+      <Dashboard />
     </Page>
 
     <Page url="/invoices">
-      <Invoices/>
+      <Invoices />
     </Page>
 
     <Page url="/invoices/new">
-      <CreateInvoice/>
+      <CreateInvoice />
     </Page>
 
     <Page url="/clients">
-      <Clients/>
+      <Clients />
     </Page>
 
     <Page url="/clients/new">
-      <CreateClient/>
+      <CreateClient />
     </Page>
 
     <Page url="/icons">
-      <Icons/>
+      <Icons />
     </Page>
 
     <Page url="/palettes">
-      <Palettes/>
+      <Palettes />
     </Page>
   </Pages>
 
-  <Theme tone="dark">
-    <Footer>Built with XMLUI
-      <ToneChangerButton/>
-    </Footer>
-  </Theme>
+  <Footer>Built with XMLUI <ToneChangerButton /> </Footer>
 
 </App>
