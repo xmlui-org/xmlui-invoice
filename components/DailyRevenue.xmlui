@@ -1,10 +1,8 @@
 <Component
   name="DailyRevenue"
   xmlns:XMLUIExtensions="component-ns"
-  var.nonce="{1}"
   var.startDate="{window.startDate}"
   var.endDate="{window.endDate}"
-  var.totalDays="{ Math.floor((maxDate - minDate) / (86400 * 1000)) }"
 >
 
   <DataSource
@@ -15,7 +13,7 @@
 
    <DataSource
     id="revenue"
-    url="{ window.dailyRevenueUrl(startDate, endDate, nonce) }"
+    url="{ window.dailyRevenueUrl(startDate, endDate) }"
     method="GET"
    />
 
@@ -60,14 +58,6 @@
       />
     </Card>
 
-    <!--
-    <Table data="{revenue}">
-      <Column bindTo="week_start_date"/>
-      <Column bindTo="week_end_date"/>
-      <Column bindTo="total"/>
-    </Table>
-
-    -->
 
   </VStack>
 
