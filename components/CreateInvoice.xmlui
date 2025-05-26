@@ -92,9 +92,6 @@
         </Button>
         <SpaceFiller />
         <Text>
-         <!--
-        Total: { getTotalAmount($data.lineItems) }
-         -->
          Total: ${ ($data.lineItems || []).reduce((sum, item) => sum + (item.amount || 0), 0) }
         </Text>
       </HStack>
