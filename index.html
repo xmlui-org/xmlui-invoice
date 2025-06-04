@@ -70,9 +70,9 @@
             return diffDays;
         }
 
-        window.dailyRevenueUrl = function(startDate, endDate, nonce) {
+        window.dailyRevenueUrl = function(startDate, endDate) {
             // Returns the daily revenue API URL with query parameters
-            return `/api/dashboard/daily-revenue?nonce=${encodeURIComponent(nonce)}&start_date=${encodeURIComponent(startDate)}&end_date=${encodeURIComponent(endDate)}`;
+            return `/api/dashboard/daily-revenue?start_date=${encodeURIComponent(startDate)}&end_date=${encodeURIComponent(endDate)}`;
         }
 
     </script>
