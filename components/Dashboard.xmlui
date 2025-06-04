@@ -1,6 +1,5 @@
 <Component name="Dashboard">
 
-
     <DataSource id="dashboardStats" url="/api/dashboard/stats" method="GET" />
 
     <HStack>
@@ -39,8 +38,10 @@
         />
     </FlowLayout>
 
-    <MonthlyRevenue title="Monthly Revenue" />
-
+    <HStack>
+        <Statuses width="50%" title="Statuses" />
+        <MonthlyRevenue width="50%" title="Monthly Revenue" />
+    </HStack>
 
     <DailyRevenue title="Daily Revenue" />
 
