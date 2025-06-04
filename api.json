@@ -83,6 +83,16 @@
       }
     },
     {
+      "path": "/invoices/after/:date",
+      "methods": {
+        "GET": {
+          "description": "Get invoices issued after a specific date",
+          "sql": "SELECT i.issue_date, i.status, i.total, c.name FROM invoices i JOIN clients c ON i.client_id = c.id WHERE i.issue_date > date(:date) ORDER BY i.issue_date ASC",
+          "params": ["date"]
+        }
+      }
+    },
+    {
       "path": "/products",
       "methods": {
         "GET": {
