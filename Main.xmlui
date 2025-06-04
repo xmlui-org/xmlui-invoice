@@ -26,8 +26,11 @@
     <NavLink label="Dashboard" to="/" />
     <NavLink label="Invoices" to="/invoices" />
     <NavLink label="Clients" to="/clients" />
+    <NavLink label="Search" to="/search" />
+    <!--
     <NavLink label="Icons" to="/icons" />
     <NavLink label="Palettes" to="/palettes" />
+    -->
   </NavPanel>
 
   <Pages>
@@ -49,6 +52,10 @@
 
     <Page url="/clients/new">
       <CreateClient />
+    </Page>
+
+    <Page url="/search">
+      <Search />
     </Page>
 
     <Page url="/icons">

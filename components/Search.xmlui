@@ -1,0 +1,31 @@
+<Component name="Search">
+
+    <DataSource
+        id="invoicesAfter"
+        url="/api/invoices/after/{dateAfter.value}"
+    />
+
+    <HStack>
+        
+        <VStack width="50%">
+            <H1>Find invoices issued after a selected date</H1>
+
+            <DatePicker
+                id="dateAfter"
+                width="10rem"
+                initialValue="2025-01-01"
+                dateFormat="yyyy-MM-dd"
+                onDidChange="(val) => console.log('new date', val)"
+            />
+
+            <Table data="{ invoicesAfter }">
+                <Column canSort="true" bindTo="name" />
+                <Column canSort="true" bindTo="issue_date" />
+                <Column canSort="true" bindTo="status" />
+                <Column canSort="true" bindTo="total" />
+            </Table>
+        </VStack>
+
+    </HStack>
+
+</Component>
