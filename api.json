@@ -57,7 +57,7 @@
         },
         "POST": {
           "description": "Create a new invoice",
-          "sql": "INSERT INTO invoices (client_id, invoice_number, issue_date, due_date, total, items, status) VALUES ((SELECT id FROM clients WHERE name = :client), 'INV-' || (SELECT COUNT(*) + 1001 FROM invoices), :issueDate, :dueDate, :total, :items, 'draft')",
+          "sql": "INSERT INTO invoices (client_id, invoice_number, issue_date, due_date, total, items, status) VALUES ((SELECT id FROM clients WHERE name = :client), 'INV-' || (SELECT COALESCE(MAX(CAST(SUBSTR(invoice_number, 5) AS INTEGER)), 1000) + 1 FROM invoices WHERE invoice_number LIKE 'INV-%'), :issueDate, :dueDate, :total, :items, 'draft')",
           "params": ["client", "issueDate", "dueDate", "total", "items"]
         }
       }
