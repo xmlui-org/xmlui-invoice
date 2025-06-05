@@ -18,9 +18,10 @@
     <NavLink label="Invoices" to="/invoices" />
     <NavLink label="Clients" to="/clients" />
     <NavLink label="Search" to="/search" />
-    <!--
-    <NavLink label="Icons" to="/icons" />
     <NavLink label="Palettes" to="/palettes" />
+    <!--
+    <NavLink label="Badge Test" to="/badge-test" />
+    <NavLink label="Icons" to="/icons" />
     -->
   </NavPanel>
 
@@ -59,6 +60,10 @@
 
     <Page url="/search">
       <Search />
+    </Page>
+
+    <Page url="/badge-test">
+      <BadgeTest />
     </Page>
 
     <Page url="/icons">
