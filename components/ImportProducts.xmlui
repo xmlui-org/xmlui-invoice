@@ -26,7 +26,7 @@
     </Card>
 
 
-    <Fragment when="{filename}">
+    <Fragment when="{filename && !importQueue}">
 
       <HStack verticalAlignment="center" gap="$space-2">
         <Text when="{filename}">Select some or all records, then click</Text>
@@ -64,24 +64,26 @@
 
         <TextArea id="selectionPreview" height="300px" />
 
-        <APICall
-          id="importProduct"
-          url="/api/products"
-          method="POST"
-          onSuccess="{processNextProduct()}"
-          onError="(error) => console.error('Import error:', error)"
-          rawBody="{productToImport}"
-        />
-
-        <ChangeListener
-          listenTo="{productToImport}"
-          onDidChange="{() => {
-            console.log('Importing product:', productToImport);
-            importProduct.execute();
-          }}"
-        />
 
     </Fragment>
+
+    <APICall
+      id="importProduct"
+      url="/api/products"
+      method="POST"
+      onSuccess="{processNextProduct()}"
+      onError="(error) => console.error('Import error:', error)"
+      rawBody="{productToImport}"
+    />
+
+    <ChangeListener
+      listenTo="{productToImport}"
+      onDidChange="{() => {
+        console.log('Importing product:', productToImport);
+        importProduct.execute();
+      }}"
+    />
+
 
   </VStack>
 
