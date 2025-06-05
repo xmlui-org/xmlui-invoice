@@ -43,7 +43,7 @@
       "methods": {
         "GET": {
           "description": "Get all invoices for a specific client",
-          "sql": "SELECT invoice_number, substr(issue_date, 0, 11) as issue_date, substr(due_date, 0, 11) as due_date, total, status, notes, items FROM invoices WHERE client_id = :id ORDER BY due_date DESC",
+          "sql": "SELECT invoice_number, REPLACE(issue_date, '/', '-') as issue_date, REPLACE(due_date, '/', '-') as due_date, total, status, notes, items FROM invoices WHERE client_id = :id ORDER BY due_date DESC",
           "params": ["id"]
         }
       }
@@ -53,7 +53,7 @@
       "methods": {
         "GET": {
           "description": "Get all invoices with client information",
-          "sql": "SELECT invoices.id, invoices.invoice_number, clients.name as client, substr(invoices.issue_date, 0, 11) as issue_date, substr(invoices.due_date, 0, 11) as due_date, substr(invoices.paid_date, 0, 11) as paid_date, invoices.total, invoices.status, invoices.notes, invoices.items FROM invoices JOIN clients ON invoices.client_id = clients.id ORDER BY invoices.due_date DESC"
+          "sql": "SELECT invoices.id, invoices.invoice_number, clients.name as client, REPLACE(invoices.issue_date, '/', '-') as issue_date, REPLACE(invoices.due_date, '/', '-') as due_date, REPLACE(invoices.paid_date, '/', '-') as paid_date, invoices.total, invoices.status, invoices.notes, invoices.items FROM invoices JOIN clients ON invoices.client_id = clients.id ORDER BY invoices.due_date DESC"
         },
         "POST": {
           "description": "Create a new invoice",
@@ -67,7 +67,7 @@
       "methods": {
         "GET": {
           "description": "Get invoices issued after a specific date",
-          "sql": "SELECT i.issue_date, i.status, i.total, c.name FROM invoices i JOIN clients c ON i.client_id = c.id WHERE i.issue_date > date(:date) ORDER BY i.issue_date ASC",
+          "sql": "SELECT REPLACE(i.issue_date, '/', '-') as issue_date, i.status, i.total, c.name FROM invoices i JOIN clients c ON i.client_id = c.id WHERE i.issue_date > date(:date) ORDER BY i.issue_date ASC",
           "params": ["date"]
         }
       }
@@ -77,7 +77,7 @@
       "methods": {
         "GET": {
           "description": "Get a specific invoice by invoice number",
-          "sql": "SELECT invoices.id, invoices.invoice_number, clients.name as client_name, clients.email as client_email, clients.phone as client_phone, substr(invoices.issue_date, 0, 11) as issue_date, substr(invoices.due_date, 0, 11) as due_date, invoices.total, invoices.status, invoices.notes, invoices.items FROM invoices JOIN clients ON invoices.client_id = clients.id WHERE invoices.invoice_number = :number",
+          "sql": "SELECT invoices.id, invoices.invoice_number, clients.name as client_name, clients.email as client_email, clients.phone as client_phone, REPLACE(invoices.issue_date, '/', '-') as issue_date, REPLACE(invoices.due_date, '/', '-') as due_date, invoices.total, invoices.status, invoices.notes, invoices.items FROM invoices JOIN clients ON invoices.client_id = clients.id WHERE invoices.invoice_number = :number",
           "params": ["number"]
         },
         "PUT": {

@@ -28,7 +28,9 @@
         <Column canSort="true" header="total">
             ${$item.total}
         </Column>
-        <Column canSort="true" bindTo="status" />
+        <Column canSort="true" header="Status">
+            <StatusBadge status="{$item.status}" />
+        </Column>
         <Column header="Details">
             <Icon name="doc-outline" onClick="detailsDialog.open($item)" />
         </Column>

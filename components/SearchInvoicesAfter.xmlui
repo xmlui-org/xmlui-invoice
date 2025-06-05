@@ -20,9 +20,15 @@
                 <VStack>
                     <Table data="{ invoicesAfter }">
                         <Column canSort="true" bindTo="name" header="Client" />
-                        <Column canSort="true" bindTo="issue_date" header="Issue Date" />
-                        <Column canSort="true" bindTo="status" header="Status" />
-                        <Column canSort="true" bindTo="total" header="Total" />
+                        <Column canSort="true" bindTo="issue_date" header="Issue Date">
+                            { window.formatDate($item.issue_date) }
+                        </Column>
+                        <Column canSort="true" header="Status">
+                            <StatusBadge status="{$item.status}" />
+                        </Column>
+                        <Column canSort="true" bindTo="total" header="Total" >
+                            ${$item.total}
+                        </Column>
                     </Table>
                 </VStack>
             </Card>

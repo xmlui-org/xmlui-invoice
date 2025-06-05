@@ -20,6 +20,10 @@
             // Output: 'Jun 22'
         }
 
+        window.formatDate = function (date) {
+            return date.substring(0, 10)
+        }
+
         window.formatToday = function (plusDays = 0) {
             const date = new Date();
             if (plusDays !== 0) {

@@ -1,6 +1,5 @@
 <Component name="InvoiceDetails">
 
-
     <variable name="details" value="{$props.details}" />
 
     <Form>
@@ -10,7 +9,9 @@
             <Column bindTo="client" />
             <Column bindTo="issue_date" />
             <Column bindTo="due_date" />
-            <Column bindTo="status" />
+            <Column header="Status">
+                <StatusBadge status="{$item.status}" />
+            </Column>
         </Table>
 
 
