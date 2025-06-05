@@ -1,0 +1,35 @@
+<Component name="SearchEverything">
+
+        <H1>Search products, clients, and invoices</H1>
+
+            <VStack gap="1rem">
+                <TextBox
+                    placeholder="Enter search term..."
+                    id="searchTerm"
+                    width="100%"
+                    maxWidth="400px"
+                    onDidChange="(val) => console.log('Search term:', val)"
+                />
+            </VStack>
+
+        <Fragment when="{searchTerm.value}">
+            <DataSource
+                id="search"
+                url="/api/search/{searchTerm.value}"
+                onLoaded="(data) => console.log('Search results:', data)"
+            />
+
+            <Card>
+                <VStack>
+                    <Text>Found {search.value ? search.value.length : 0} results for "{searchTerm.value}":</Text>
+                    <Table data="{ search }">
+                        <Column canSort="true" bindTo="table_name" header="Type" width="100px" />
+                        <Column canSort="true" bindTo="title" header="Title" width="*" />
+                        <Column canSort="true" bindTo="snippet" header="Match Details" width="3*" />
+                    </Table>
+                </VStack>
+            </Card>
+        </Fragment>
+
+
+</Component>
