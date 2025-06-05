@@ -5,9 +5,8 @@
             <VStack>
                 <TextBox
                     placeholder="Enter search term..."
+                    width="25rem"
                     id="searchTerm"
-                    width="100%"
-                    maxWidth="400px"
                     onDidChange="(val) => console.log('Search term:', val)"
                 />
             </VStack>
