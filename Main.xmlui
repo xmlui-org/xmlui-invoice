@@ -19,6 +19,7 @@
     <NavLink label="Invoices" to="/invoices" />
     <NavLink label="Clients" to="/clients" />
     <NavLink label="Search" to="/search" />
+    <NavLink label="Import" to="/importProducts" />
     <NavLink label="Palettes" to="/palettes" />
     <NavLink label="Test" to="/test" />
     <!--
@@ -61,6 +62,10 @@
 
     <Page url="/search">
       <Search />
+    </Page>
+
+    <Page url="/importProducts">
+      <ImportProducts />
     </Page>
 
     <Page url="/test">

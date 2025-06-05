@@ -1,0 +1,49 @@
+<Component
+  name="ImportProducts"
+  var.filename=""
+>
+
+  <H1>Import Products</H1>
+
+  <Text>Upload a CSV file containing product data to review and import into your product catalog.</Text>
+
+  <VStack>
+
+    <Card>
+      <H2>Upload CSV File</H2>
+      <Text>Expected format: name,description,price</Text>
+
+      <FileInput
+        id="fileInput"
+        acceptsFileType="{['.csv']}"
+        onDidChange="{ (val) => filename = val[0]?.name }"
+      />
+
+      <Text when="{filename}">Selected file: {filename}</Text>
+    </Card>
+
+    <Fragment when="{filename}">
+
+      <DataSource
+        id="csv"
+        dataType="csv"
+        url="{filename}"
+        transformResult="{(data) => data.map((row, index) => ({...row, id: `${index}`}))}"
+      />
+
+      <Card>
+        <H2>Product Data Preview</H2>
+        <Text>Review the uploaded product data below:</Text>
+
+        <Table data="{ csv }">
+          <Column bindTo="name" />
+          <Column bindTo="description" />
+          <Column bindTo="price" />
+        </Table>
+      </Card>
+
+    </Fragment>
+
+  </VStack>
+
+</Component>
