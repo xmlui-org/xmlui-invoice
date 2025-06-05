@@ -173,6 +173,16 @@
           "params": []
         }
       }
+    },
+    {
+      "path": "/search/:searchTerm",
+      "methods": {
+        "GET": {
+          "description": "Universal search across all tables",
+          "sqlFile": "sql/search.sql",
+          "params": ["searchTerm"]
+        }
+      }
     }
   ]
 }

@@ -14,26 +14,53 @@
                 onDidChange="(val) => console.log('new date', val)"
             />
 
+            <Fragment when="{dateAfter.value}">
+
+                <DataSource
+                    id="invoicesAfter"
+                    url="/api/invoices/after/{dateAfter.value}"
+                    onLoaded="(data) => console.log('API Response:', data)"
+                />
+
+                <Table data="{ invoicesAfter }">
+                    <Column canSort="true" bindTo="name" />
+                    <Column canSort="true" bindTo="issue_date" />
+                    <Column canSort="true" bindTo="status" />
+                    <Column canSort="true" bindTo="total" />
+                </Table>
+
+            </Fragment>
+
         </VStack>
+
+        <VStack width="50%">
+
+            <H1>Search clients, products, invoices</H1>
+
+            <TextBox placeholder="search term" id="searchTerm" />
+
+            <Fragment when="{searchTerm.value}">
+
+                <DataSource
+                    id="search"
+                    url="/api/search/{searchTerm.value}"
+                    onLoaded="(data) => console.log('API Response:', data)"
+                />
+
+            <Table data="{ search }">
+                <Column canSort="true" bindTo="table_name" header="Type" />
+                <Column canSort="true" bindTo="title" header="Title" />
+                <Column canSort="true" bindTo="snippet" header="Match" />
+                <Column canSort="true" bindTo="date_field" header="Date" />
+            </Table>
+
+            </Fragment>
+
+        </VStack>
+
 
     </HStack>
 
-    <Fragment when="{dateAfter.value}">
-        
-        <DataSource
-            id="invoicesAfter"
-            url="/api/invoices/after/{dateAfter.value}"
-            onLoaded="(data) => console.log('API Response:', data)"
-        />
-
-        <Table data="{ invoicesAfter }">
-            <Column canSort="true" bindTo="name" />
-            <Column canSort="true" bindTo="issue_date" />
-            <Column canSort="true" bindTo="status" />
-            <Column canSort="true" bindTo="total" />
-        </Table>
-
-    </Fragment>
 
 
 </Component>
