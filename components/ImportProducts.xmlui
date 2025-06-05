@@ -3,6 +3,7 @@
   var.filename=""
   var.selectedProducts=""
   var.productToImport=""
+  var.importQueue=""
 >
 
   <H1>Import Products</H1>
@@ -31,7 +32,7 @@
         <Text when="{filename}">Select some or all records, then click</Text>
         <Button
           label="Import"
-          onClick="{importProducts(selectedProducts)}"
+          onClick="{startImport(selectedProducts)}"
           enabled="{selectedProducts.length}"
         />
       </HStack>
