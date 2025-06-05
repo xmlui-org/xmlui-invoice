@@ -81,12 +81,7 @@
           <Button width="*" variant="ghost" themeColor="attention" icon="close" onClick="lineItems.removeItem($itemIndex)" />
         </FlowLayout>
       </FormItem>
-      <!-- Total calculation -->
       <HStack>
-        <!--
-        <Button onClick="lineItems.addItem({ product: products.value[0].name, quantity: 1, price:
-        products[0]?.price })">
-        -->
         <Button onClick="lineItems.addItem()">
           Add Item
         </Button>
@@ -113,8 +108,6 @@
         }"
         onSuccess="Actions.navigate('/invoices')"
       />
-      <!--      body="{ window.saveInvoice($data) }"-->
-      <!--        BUG: $data context variable is not available here... -->
     </event>
 
   </Form>
