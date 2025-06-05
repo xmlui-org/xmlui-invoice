@@ -2,7 +2,7 @@
 
         <H1>Search products, clients, and invoices</H1>
 
-            <VStack gap="1rem">
+            <VStack>
                 <TextBox
                     placeholder="Enter search term..."
                     id="searchTerm"
