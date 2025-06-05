@@ -2,6 +2,7 @@
   name="ImportProducts"
   var.filename=""
   var.selectedProducts=""
+  var.productToImport=""
 >
 
   <H1>Import Products</H1>
@@ -27,7 +28,12 @@
     <Fragment when="{filename}">
 
       <HStack verticalAlignment="center" gap="$space-2">
-        <Text when="{filename}">Select some or all records, then click</Text> <Button label="Import"/>
+        <Text when="{filename}">Select some or all records, then click</Text>
+        <Button
+          label="Import"
+          onClick="{importProducts(selectedProducts)}"
+          enabled="{selectedProducts.length}"
+        />
       </HStack>
 
       <DataSource
@@ -56,6 +62,23 @@
       </Card>
 
         <TextArea id="selectionPreview" height="300px" />
+
+        <APICall
+          id="importProduct"
+          url="/api/products"
+          method="POST"
+          onSuccess="{window.processNextProduct()}"
+          onError="(error) => console.error('Import error:', error)"
+          rawBody="{productToImport}"
+        />
+
+        <ChangeListener
+          listenTo="{productToImport}"
+          onDidChange="{() => {
+            console.log('Importing product:', productToImport);
+            importProduct.execute();
+          }}"
+        />
 
     </Fragment>
 
