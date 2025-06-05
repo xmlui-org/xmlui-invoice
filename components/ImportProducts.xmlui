@@ -1,28 +1,34 @@
 <Component
   name="ImportProducts"
   var.filename=""
+  var.selectedProducts=""
 >
 
   <H1>Import Products</H1>
 
-  <Text>Upload a CSV file containing product data to review and import into your product catalog.</Text>
+  <Text>Upload a CSV file containing product data (name, description, price) to review and import into your product catalog.</Text>
 
   <VStack>
 
-    <Card>
-      <H2>Upload CSV File</H2>
-      <Text>Expected format: name,description,price</Text>
+    <Card width="30%">
 
       <FileInput
         id="fileInput"
         acceptsFileType="{['.csv']}"
-        onDidChange="{ (val) => filename = val[0]?.name }"
+        onDidChange="{ (val) => {
+          filename = val[0]?.name;
+          productsFromCsv.clearSelection();
+        }}"
       />
 
-      <Text when="{filename}">Selected file: {filename}</Text>
     </Card>
 
+
     <Fragment when="{filename}">
+
+      <HStack verticalAlignment="center" gap="$space-2">
+        <Text when="{filename}">Select some or all records, then click</Text> <Button label="Import"/>
+      </HStack>
 
       <DataSource
         id="csv"
@@ -32,15 +38,24 @@
       />
 
       <Card>
-        <H2>Product Data Preview</H2>
-        <Text>Review the uploaded product data below:</Text>
 
-        <Table data="{ csv }">
+        <Table
+          id="productsFromCsv"
+          data="{ csv }"
+          rowsSelectable="true"
+          onSelectionDidChange="(selection) => {
+            selectedProducts = selection;
+            selectionPreview.setValue(JSON.stringify(selectedProducts, null, 2))
+          }"
+        >
           <Column bindTo="name" />
           <Column bindTo="description" />
           <Column bindTo="price" />
         </Table>
+
       </Card>
+
+        <TextArea id="selectionPreview" height="300px" />
 
     </Fragment>
 
