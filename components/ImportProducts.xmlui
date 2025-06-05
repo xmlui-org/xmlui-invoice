@@ -67,7 +67,7 @@
           id="importProduct"
           url="/api/products"
           method="POST"
-          onSuccess="{window.processNextProduct()}"
+          onSuccess="{processNextProduct()}"
           onError="(error) => console.error('Import error:', error)"
           rawBody="{productToImport}"
         />
