@@ -15,8 +15,7 @@ SELECT
         WHEN phone LIKE '%' || (SELECT term FROM search_params) || '%' THEN 'Phone: ' || phone
         WHEN address LIKE '%' || (SELECT term FROM search_params) || '%' THEN 'Address: ' || address
         ELSE name
-    END as snippet,
-    created_at as date_field
+    END as snippet
 FROM clients
 CROSS JOIN search_params
 WHERE name LIKE '%' || (SELECT term FROM search_params) || '%'
@@ -34,8 +33,7 @@ SELECT
         WHEN name LIKE '%' || (SELECT term FROM search_params) || '%' THEN 'Product: ' || name
         WHEN description LIKE '%' || (SELECT term FROM search_params) || '%' THEN 'Description: ' || description
         ELSE name
-    END as snippet,
-    created_at as date_field
+    END as snippet
 FROM products
 CROSS JOIN search_params
 WHERE name LIKE '%' || (SELECT term FROM search_params) || '%'
@@ -52,13 +50,11 @@ SELECT
         WHEN notes LIKE '%' || (SELECT term FROM search_params) || '%' THEN 'Notes: ' || substr(notes, 1, 100) || '...'
         WHEN items LIKE '%' || (SELECT term FROM search_params) || '%' THEN 'Items: ' || substr(items, 1, 100) || '...'
         ELSE 'Invoice: ' || invoice_number
-    END as snippet,
-    created_at as date_field
+    END as snippet
 FROM invoices
 CROSS JOIN search_params
 WHERE invoice_number LIKE '%' || (SELECT term FROM search_params) || '%'
    OR notes LIKE '%' || (SELECT term FROM search_params) || '%'
    OR items LIKE '%' || (SELECT term FROM search_params) || '%'
 
-ORDER BY date_field DESC
 

@@ -1,0 +1,34 @@
+<Component name="SearchInvoicesAfter">
+
+
+        <H1>Find invoices after selected date</H1>
+
+
+        <DatePicker
+            id="dateAfter"
+            width="20rem"
+            initialValue="2025-01-01"
+            dateFormat="yyyy-MM-dd"
+            onDidChange="(val) => console.log('Date selected:', val)"
+        />
+
+        <Fragment when="{dateAfter.value}">
+            <DataSource
+                id="invoicesAfter"
+                url="/api/invoices/after/{dateAfter.value}"
+                onLoaded="(data) => console.log('Invoices after date:', data)"
+            />
+
+            <Card>
+                <VStack>
+                    <Table data="{ invoicesAfter }">
+                        <Column canSort="true" bindTo="name" header="Client" />
+                        <Column canSort="true" bindTo="issue_date" header="Issue Date" />
+                        <Column canSort="true" bindTo="status" header="Status" />
+                        <Column canSort="true" bindTo="total" header="Total" />
+                    </Table>
+                </VStack>
+            </Card>
+        </Fragment>
+
+</Component>

@@ -26,7 +26,10 @@
     <NavLink label="Dashboard" to="/" />
     <NavLink label="Invoices" to="/invoices" />
     <NavLink label="Clients" to="/clients" />
-    <NavLink label="Search" to="/search" />
+    <NavGroup initiallyExpanded="{true}" label="Search">
+      <NavLink label="Find Invoices After Date" to="/search/invoices-after" />
+      <NavLink label="Search Everything" to="/search/everything" />
+    </NavGroup>
     <!--
     <NavLink label="Icons" to="/icons" />
     <NavLink label="Palettes" to="/palettes" />
@@ -52,6 +55,14 @@
 
     <Page url="/clients/new">
       <CreateClient />
+    </Page>
+
+    <Page url="/search/invoices-after">
+      <SearchInvoicesAfter />
+    </Page>
+
+    <Page url="/search/everything">
+      <SearchEverything />
     </Page>
 
     <Page url="/search">
