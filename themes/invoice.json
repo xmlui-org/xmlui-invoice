@@ -6,6 +6,8 @@
 
     "color-primary": "hsl(205, 76%, 58%)",
     "color-secondary": "hsl(210, 30%, 60%)",
-    "color-surface": "hsl(0, 0%, 96%)"
+    "color-surface": "hsl(0, 0%, 96%)",
+
+    "gap-adornment-Input": "2px"
   }
 }
