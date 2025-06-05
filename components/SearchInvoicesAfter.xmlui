@@ -1,9 +1,6 @@
 <Component name="SearchInvoicesAfter">
 
-
-        <H1>Find invoices after selected date</H1>
-
-
+    <VStack marginTop="1rem">
         <DatePicker
             id="dateAfter"
             width="20rem"
@@ -30,5 +27,6 @@
                 </VStack>
             </Card>
         </Fragment>
+    </VStack>
 
 </Component>

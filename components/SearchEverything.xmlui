@@ -1,15 +1,12 @@
 <Component name="SearchEverything">
 
-        <H1>Search products, clients, and invoices</H1>
-
-            <VStack>
-                <TextBox
-                    placeholder="Enter search term..."
-                    width="25rem"
-                    id="searchTerm"
-                    onDidChange="(val) => console.log('Search term:', val)"
-                />
-            </VStack>
+    <VStack marginTop="1rem">
+        <TextBox
+            placeholder="Enter search term..."
+            width="25rem"
+            id="searchTerm"
+            onDidChange="(val) => console.log('Search term:', val)"
+        />
 
         <Fragment when="{searchTerm.value}">
             <DataSource
@@ -20,7 +17,8 @@
 
             <Card>
                 <VStack>
-                    <Text>Found {search.value ? search.value.length : 0} results for "{searchTerm.value}":</Text>
+                    <Text>Found {search.value ? search.value.length : 0} results for
+                        "{searchTerm.value}":</Text>
                     <Table data="{ search }">
                         <Column canSort="true" bindTo="table_name" header="Type" width="100px" />
                         <Column canSort="true" bindTo="title" header="Title" width="*" />
@@ -29,6 +27,6 @@
                 </VStack>
             </Card>
         </Fragment>
-
+    </VStack>
 
 </Component>

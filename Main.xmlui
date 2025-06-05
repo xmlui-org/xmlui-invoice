@@ -12,24 +12,12 @@
     <property name="profileMenuTemplate">
       <Text>Demo User</Text>
     </property>
-    <!--
-      <HStack horizontalAlignment="center" width="100%">
-        <TextBox
-          maxWidth="30rem"
-          placeholder="search invoices, clients, etc."
-          endIcon="search"
-        />
-      </HStack>
-      -->
   </AppHeader>
   <NavPanel>
     <NavLink label="Dashboard" to="/" />
     <NavLink label="Invoices" to="/invoices" />
     <NavLink label="Clients" to="/clients" />
-    <NavGroup initiallyExpanded="{true}" label="Search">
-      <NavLink label="Find Invoices After Date" to="/search/invoices-after" />
-      <NavLink label="Search Everything" to="/search/everything" />
-    </NavGroup>
+    <NavLink label="Search" to="/search" />
     <!--
     <NavLink label="Icons" to="/icons" />
     <NavLink label="Palettes" to="/palettes" />
@@ -55,6 +43,10 @@
 
     <Page url="/clients/new">
       <CreateClient />
+    </Page>
+
+    <Page url="/search">
+      <Search />
     </Page>
 
     <Page url="/search/invoices-after">
