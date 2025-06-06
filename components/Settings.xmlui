@@ -1,5 +1,31 @@
 <Component name="Settings">
 
+    <DataSource
+        id="users"
+        url="/api/users"
+    />
+
+    <DataSource
+        id="user"
+        url="/api/users/demouser"
+    />
+
+
   <H1>Settings</H1>
+
+  <H2>Users</H2>
+
+  <Table data="{users}">
+    <Column bindTo="username" />
+    <Column bindTo="display_name" />
+    <Column bindTo="email" />
+    <Column header="avatar" >
+      <Image width="100px" src="{$item.avatar_url}" />
+    </Column>
+  </Table>
+
+  <Text>
+    { JSON.stringify(user.value) }
+  </Text>
 
 </Component>
