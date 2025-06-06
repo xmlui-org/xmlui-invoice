@@ -2,7 +2,7 @@
   name="XMLUI Invoice"
   layout="vertical-full-header"
   defaultTheme="invoice"
-  loggedInUser="{{ username: 'demouser', name: 'Demo User', avatar_url: '/resources/demouser.png' }}"
+  loggedInUser="{{ username: 'demouser', display_name: 'Demo User', avatar_url: '/resources/demouser.png' }}"
 >
   <AppHeader>
     <property name="titleTemplate">
@@ -12,8 +12,8 @@
     </property>
     <property name="profileMenuTemplate">
       <HStack verticalAlignment="center" onClick="console.log('click'); Actions.navigate('/settings')">
-        <Avatar url="{loggedInUser.avatar_url}" name="{loggedInUser.name}" />
-        <Text>{loggedInUser.name}</Text>
+        <Avatar url="{loggedInUser.avatar_url}" name="{loggedInUser.display_name}" />
+        <Text>{loggedInUser.display_name}</Text>
       </HStack>
     </property>
   </AppHeader>
