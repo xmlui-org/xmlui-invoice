@@ -13,8 +13,8 @@
   </HStack>
 
   <Table data="{products}">
-    <Column canSort="true" bindTo="name" />
-    <Column canSort="true" bindTo="description" />
+    <Column canSort="true" bindTo="name"  width="2*" />
+    <Column canSort="true" bindTo="description" width="3*"/>
     <Column canSort="true" bindTo="price">
       ${$item.price}
     </Column>
