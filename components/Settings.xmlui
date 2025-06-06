@@ -1,23 +1,27 @@
 <Component name="Settings">
   <DataSource id="users" url="/api/users"/>
-  <DataSource id="user" url="/api/users/demouser"/>
   <H1>
     Settings
   </H1>
-  <H2>
-    Users
-  </H2>
   <Card>
     <HStack>
+      <H2>
+        Users
+      </H2>
       <SpaceFiller/>
       <Button label="Add User" onClick="Actions.navigate('/users/new')"/>
     </HStack>
     <Table data="{users}">
-      <Column bindTo="username"/>
+      <Column bindTo="username" width="*"/>
       <Column bindTo="display_name"/>
-      <Column bindTo="email"/>
+      <Column bindTo="email" width="2*" />
       <Column header="avatar">
         <Avatar url="{$item.avatar_url}"/>
+      </Column>
+      <Column header="logged_in" width="*">
+        <Text>
+          { $item.avatar_url === loggedInUser.avatar_url ? '✅' : ''}
+        </Text>
       </Column>
     </Table>
   </Card>
