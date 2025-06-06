@@ -8,6 +8,8 @@
     "color-secondary": "hsl(210, 30%, 60%)",
     "color-surface": "hsl(0, 0%, 96%)",
 
+    "borderRadius-Avatar": "50%",
+
     "gap-adornment-Input": "2px"
   }
 }
