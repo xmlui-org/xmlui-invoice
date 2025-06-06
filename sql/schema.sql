@@ -6,6 +6,13 @@ CREATE TABLE clients (
       address TEXT,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );
+CREATE TABLE users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      email TEXT NOT NULL UNIQUE,
+      avatar_url TEXT,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );
 CREATE TABLE products (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
