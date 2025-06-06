@@ -183,6 +183,31 @@
           "params": ["searchTerm"]
         }
       }
+    },
+    {
+      "path": "/users",
+      "methods": {
+        "GET": {
+          "description": "Get all users",
+          "sql": "SELECT * from users ORDER BY username"
+        },
+        "POST": {
+          "description": "Create a new user",
+          "sql": "INSERT INTO users (username, display_name, email, avatar_url) VALUES (:username, :display_name, :email, :avatar_url)",
+          "params": ["username", "display_name", "email", "avatar_url"]
+        }
+      }
+    },
+    {
+      "path": "/users/:username",
+      "methods": {
+        "GET": {
+          "description": "Get user by username",
+          "sql": "SELECT * from users where username = :username",
+          "params": ["username"]
+        }
+      }
     }
+
   ]
 }

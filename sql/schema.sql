@@ -6,13 +6,6 @@ CREATE TABLE clients (
       address TEXT,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );
-CREATE TABLE users (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT NOT NULL,
-      email TEXT NOT NULL UNIQUE,
-      avatar_url TEXT,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  );
 CREATE TABLE products (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
@@ -33,4 +26,11 @@ CREATE TABLE invoices (
       total DECIMAL(10, 2) NOT NULL,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (client_id) REFERENCES clients(id)
+  );
+CREATE TABLE users (
+      username TEXT PRIMARY KEY,
+      display_name TEXT NOT NULL,
+      email TEXT NOT NULL,
+      avatar_url TEXT,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );
