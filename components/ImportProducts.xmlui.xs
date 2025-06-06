@@ -38,5 +38,8 @@ function processNextProduct() {
     console.log('processNextProduct', importQueue.length);
     if (importQueue && importQueue.length > 0) {
         delay(200, () => importNextProduct());
+    } else {
+        // Import completed, navigate to products page
+        delay(500, () => navigate('/products'));
     }
 }
