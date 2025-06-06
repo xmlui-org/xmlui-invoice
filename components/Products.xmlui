@@ -13,10 +13,13 @@
   </HStack>
 
   <Table data="{products}">
-    <Column bindTo="name" />
-    <Column bindTo="description" />
-    <Column bindTo="price">
+    <Column canSort="true" bindTo="name" />
+    <Column canSort="true" bindTo="description" />
+    <Column canSort="true" bindTo="price">
       ${$item.price}
+    </Column>
+    <Column canSort="true" bindTo="created_at">
+      { window.formatDate($item.created_at) }
     </Column>
   </Table>
 
