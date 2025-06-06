@@ -56,7 +56,7 @@
           id="productsFromCsv"
           data="{ csv }"
           rowsSelectable="true"
-          isRowSelectable="(row) => !isDuplicate(row.name)"
+          rowDisabledPredicate="{(row) => existingProducts && existingProducts.value && existingProducts.value.some(p => p.name === row.name)}"
           onSelectionDidChange="(selection) => {
             selectedProducts = selection;
           }"
