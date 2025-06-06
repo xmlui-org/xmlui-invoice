@@ -18,6 +18,7 @@
     <NavLink label="Dashboard" to="/" />
     <NavLink label="Invoices" to="/invoices" />
     <NavLink label="Clients" to="/clients" />
+    <NavLink label="Products" to="/products" />
     <NavLink label="Search" to="/search" />
     <NavLink label="Import" to="/importProducts" />
     <NavLink label="Palettes" to="/palettes" />
@@ -46,6 +47,10 @@
 
     <Page url="/clients/new">
       <CreateClient />
+    </Page>
+
+    <Page url="/products">
+      <Products />
     </Page>
 
     <Page url="/search">

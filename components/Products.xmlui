@@ -1,0 +1,23 @@
+<Component name="Products">
+
+  <DataSource
+    id="products"
+    url="/api/products"
+    method="GET"
+  />
+
+  <HStack>
+    <H1>Products</H1>
+    <SpaceFiller />
+    <Button label="Import Products" onClick="navigate('/importProducts')" />
+  </HStack>
+
+  <Table data="{products}">
+    <Column bindTo="name" />
+    <Column bindTo="description" />
+    <Column bindTo="price">
+      ${$item.price}
+    </Column>
+  </Table>
+
+</Component>
