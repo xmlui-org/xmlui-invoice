@@ -11,18 +11,31 @@
       <SpaceFiller/>
       <Button label="Add User" onClick="Actions.navigate('/users/new')"/>
     </HStack>
-    <Table data="{users}">
-      <Column bindTo="username" width="*"/>
-      <Column bindTo="display_name"/>
-      <Column bindTo="email" width="2*" />
-      <Column header="avatar">
-        <Avatar url="{$item.avatar_url}"/>
-      </Column>
-      <Column header="logged_in" width="*">
-        <Text>
-          { $item.avatar_url === loggedInUser.avatar_url ? '✅' : ''}
-        </Text>
-      </Column>
-    </Table>
+    <RadioGroup
+      id="userSelector"
+      initialValue="{loggedInUser.username}"
+      onDidChange="{
+        // Find the selected user and update loggedInUser
+        const selectedUser = users.value.find(u => u.username === userSelector.value);
+        console.log('selectedUser', JSON.stringify(loggedInUser))
+        if (selectedUser) {
+          loggedInUser.username = selectedUser.username
+          loggedInUser.display_name = selectedUser.display_name
+          loggedInUser.avatar_url = selectedUser.avatar_url
+        };
+      }"
+    >
+      <Table data="{users}">
+        <Column bindTo="username" width="*"/>
+        <Column bindTo="display_name"/>
+        <Column bindTo="email" width="2*" />
+        <Column header="avatar">
+          <Avatar url="{$item.avatar_url}"/>
+        </Column>
+        <Column header="logged_in" width="*">
+          <Option label=" " value="{$item.username}" />
+        </Column>
+      </Table>
+    </RadioGroup>
   </Card>
 </Component>
