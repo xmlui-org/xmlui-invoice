@@ -1,4 +1,5 @@
 <Component name="Settings">
+  <AppState id="currentUser" bucket="userState" />
   <DataSource id="users" url="/api/users"/>
   <H1>
     Settings
@@ -15,13 +16,15 @@
       id="userSelector"
       initialValue="{loggedInUser.username}"
       onDidChange="{
-        // Find the selected user and update loggedInUser
+        // Find the selected user and update currentUser AppState
         const selectedUser = users.value.find(u => u.username === userSelector.value);
-        console.log('selectedUser', JSON.stringify(loggedInUser))
+        console.log('selectedUser', JSON.stringify(selectedUser))
         if (selectedUser) {
-          loggedInUser.username = selectedUser.username
-          loggedInUser.display_name = selectedUser.display_name
-          loggedInUser.avatar_url = selectedUser.avatar_url
+          currentUser.update({
+            username: selectedUser.username,
+            display_name: selectedUser.display_name,
+            avatar_url: selectedUser.avatar_url
+          });
         };
       }"
     >
