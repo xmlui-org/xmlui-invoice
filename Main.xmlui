@@ -81,6 +81,11 @@
       <Settings />
     </Page>
 
+    <Page url="/users/new">
+      <CreateUser />
+    </Page>
+
+
     <Page url="/test">
       <Test />
     </Page>
