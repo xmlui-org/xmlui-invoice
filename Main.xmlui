@@ -2,8 +2,13 @@
   name="XMLUI Invoice"
   layout="vertical-full-header"
   defaultTheme="invoice"
-  loggedInUser="{{ username: 'demouser', display_name: 'Demo User', avatar_url: '/resources/demouser.png' }}"
+  loggedInUser="{currentUser.value}"
 >
+  <AppState
+    id="currentUser"
+    bucket="userState"
+    initialValue="{{ username: 'demouser', display_name: 'Demo User', avatar_url: '/resources/demouser.png' }}"
+  />
   <AppHeader>
     <property name="titleTemplate">
       <H1>
