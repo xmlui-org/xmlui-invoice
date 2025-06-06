@@ -9,7 +9,6 @@
         XMLUI Invoice
       </H1>
     </property>
-    <TextBox placeholder="search"/>
     <property name="profileMenuTemplate">
       <Text>Demo User</Text>
     </property>
@@ -21,9 +20,9 @@
     <NavLink label="Products" to="/products" />
     <NavLink label="Search" to="/search" />
     <NavLink label="Import" to="/importProducts" />
+    <!--
     <NavLink label="Palettes" to="/palettes" />
     <NavLink label="Test" to="/test" />
-    <!--
     <NavLink label="Icons" to="/icons" />
     -->
   </NavPanel>

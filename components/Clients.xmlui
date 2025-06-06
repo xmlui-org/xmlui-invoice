@@ -24,8 +24,8 @@
   </HStack>
 
   <Table data="{clients}">
-    <Column canSort="true" bindTo="name" />
-    <Column bindTo="email" />
+    <Column canSort="true" bindTo="name" width="2*" />
+    <Column bindTo="email" width="3*" />
     <Column bindTo="phone" />
     <Column canSort="true" bindTo="outstanding">
       <Text>{$item.outstanding ? '$' + $item.outstanding : ''}</Text>
