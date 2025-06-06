@@ -20,6 +20,7 @@
     <NavLink label="Products" to="/products" />
     <NavLink label="Search" to="/search" />
     <NavLink label="Import" to="/importProducts" />
+    <NavLink label="Settings" to="/settings" />
     <!--
     <NavLink label="Palettes" to="/palettes" />
     <NavLink label="Test" to="/test" />
@@ -70,6 +71,10 @@
 
     <Page url="/importProducts">
       <ImportProducts />
+    </Page>
+
+    <Page url="/settings">
+      <Settings />
     </Page>
 
     <Page url="/test">
