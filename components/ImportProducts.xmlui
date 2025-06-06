@@ -44,26 +44,33 @@
         transformResult="{(data) => data.map((row, index) => ({...row, id: `${index}`}))}"
       />
 
+      <DataSource
+        id="existingProducts"
+        url="/api/products"
+        method="GET"
+      />
+
       <Card>
 
         <Table
           id="productsFromCsv"
           data="{ csv }"
           rowsSelectable="true"
+          isRowSelectable="(row) => !isDuplicate(row.name)"
           onSelectionDidChange="(selection) => {
             selectedProducts = selection;
-            selectionPreview.setValue(JSON.stringify(selectedProducts, null, 2))
           }"
         >
-          <Column bindTo="name" />
+          <Column header="Name">
+            <Text color="{isDuplicate($item.name) ? '$color-danger-500' : '$textColor-primary'}">
+              {$item.name} {isDuplicate($item.name) ? '(duplicate)' : ''}
+            </Text>
+          </Column>
           <Column bindTo="description" />
           <Column bindTo="price" />
         </Table>
 
       </Card>
-
-        <TextArea id="selectionPreview" height="300px" />
-
 
     </Fragment>
 
