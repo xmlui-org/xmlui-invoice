@@ -15,9 +15,9 @@
     <RadioGroup
       id="userSelector"
       initialValue="{loggedInUser.username}"
-      onDidChange="{
+      onDidChange="(val) => {
         // Find the selected user and update currentUser AppState
-        const selectedUser = users.value.find(u => u.username === userSelector.value);
+        const selectedUser = users.value.find(u => u.username === val);
         console.log('selectedUser', JSON.stringify(selectedUser))
         if (selectedUser) {
           currentUser.update({
