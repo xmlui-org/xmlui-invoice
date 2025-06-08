@@ -8,7 +8,7 @@
         <Button label="Create Invoice" onClick="navigate('/invoices/new')" />
     </HStack>
 
-    <FlowLayout>
+    <HStack>
         <InfoCard
             width="20%"
             title="Outstanding"
@@ -36,7 +36,7 @@
             title="Paid"
             value="{dashboardStats.value[0].paid_invoices}"
         />
-    </FlowLayout>
+    </HStack>
 
     <HStack>
         <Statuses width="50%" title="Statuses" />
