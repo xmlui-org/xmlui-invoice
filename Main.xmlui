@@ -10,11 +10,7 @@
     initialValue="{{ username: 'demouser', display_name: 'Demo User', avatar_url: '/resources/demouser.png' }}"
   />
   <AppHeader>
-    <property name="titleTemplate">
-      <H1>
-        XMLUI Invoice
-      </H1>
-    </property>
+    <H1>XMLUI Invoice</H1>
     <property name="profileMenuTemplate">
       <HStack verticalAlignment="center" onClick="console.log('click'); Actions.navigate('/settings')">
         <Avatar url="{loggedInUser.avatar_url}" name="{loggedInUser.display_name}" />
