@@ -22,7 +22,7 @@
 
         <VStack gap="0">
             <Text>Status:</Text>
-            <FormItem type="select" bindTo="status" initialValue="{details.status}">
+            <FormItem type="select" bindTo="status" initialValue="{details.status}" enabled="{details.status !== 'sent'}">
                 <Option label="sent"  value="sent" />
                 <Option label="paid"  value="paid" />
                 <Option label="draft" value="draft" />
