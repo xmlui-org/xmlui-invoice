@@ -2,8 +2,7 @@
     name="Statuses"
     xmlns:XMLUIExtensions="component-ns"
 >
-
-    <DataSource id="dashboardStats" url="/api/dashboard/stats" method="GET" />
+  <DataSource id="dashboardStats" url="/api/dashboard/stats" method="GET" />
 
     <VStack width="{$props.width}">
         <H1>{$props.title}</H1>
@@ -12,22 +11,22 @@
             <XMLUIExtensions:DonutChart
                 layout="horizontal"
                 data="{
-         [
-           {
-             name: 'sent',
-             value: dashboardStats.value[0].sent_invoices
-           },
-           {
-             name: 'draft',
-             value: dashboardStats.value[0].draft_invoices
-           },
-           {
-             name: 'paid',
-             value: dashboardStats.value[0].paid_invoices
-           },
-         ]
+                  [
+                    {
+                      name: 'sent',
+                      value: dashboardStats.value[0].sent_invoices
+                    },
+                    {
+                      name: 'draft',
+                      value: dashboardStats.value[0].draft_invoices
+                    },
+                    {
+                      name: 'paid',
+                      value: dashboardStats.value[0].paid_invoices
+                    },
+                  ]
         }"
-                dataKeys="{['value']}" nameKey="name"
+                dataKey="value" nameKey="name"
             />
         </Card>
 
