@@ -163,7 +163,6 @@
         }
       }
     },
-
     {
       "path": "/dashboard/daily-revenue",
       "methods": {
@@ -181,6 +180,15 @@
           "description": "Get count of days with revenue",
           "sql": "select cast( julianday(max(date(paid_date))) - julianday(min(date(paid_date))) as integer) + 1 as days from invoices where paid_date is not null",
           "params": []
+        }
+      }
+    },
+    {
+      "path": "/dashboard/date-range",
+      "methods": {
+        "GET": {
+          "description": "Get the earliest invoice date and today's date for slider range",
+          "sql": "SELECT MIN(REPLACE(issue_date, '/', '-')) as first_invoice_date, date('now') as today FROM invoices WHERE issue_date IS NOT NULL"
         }
       }
     },
@@ -218,6 +226,5 @@
         }
       }
     }
-
   ]
 }

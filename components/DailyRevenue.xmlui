@@ -1,55 +1,64 @@
 <Component
   name="DailyRevenue"
   xmlns:XMLUIExtensions="component-ns"
-  var.startDate="2022-06-01"
-  var.endDate="2025-05-15"
-  var.originalStartDate="2022-06-01"
 >
 
    <DataSource
-    id="dailyRevenue"
-    url="{ window.dailyRevenueUrl(startDate, endDate) }"
+    id="dateRange"
+    url="/api/dashboard/date-range"
     method="GET"
    />
 
   <VStack width="{$props.width}">
     <H1>{$props.title}</H1>
 
-    <variable name="totalDays" value="{ window.daysBetween(originalStartDate, '2025-05-15')}" />
-    <Slider
-      id="slider"
-      label="dateRange"
-      minValue="{0}"
-      maxValue="{ totalDays }"
-      initialValue="[0, 1079]"
-      step="10"
-      onDidChange="{
-        console.log('slider values:', slider.value[0], slider.value[1]);
-        // Update the start and end dates based on slider values
-        startDate = window.sliderValueToDate(slider.value[0], originalStartDate);
-        endDate = window.sliderValueToDate(slider.value[1], originalStartDate);
-        console.log('Date range:', startDate, 'to', endDate);
-      }"
-      valueFormat="{ (value) => {
-          const date = window.sliderValueToDate(value, originalStartDate);
-          return date;
-          }
-      }"
-    />
+    <Fragment when="{ dateRange.value }">
+      <variable name="originalStartDate" value="{ dateRange.value[0].first_invoice_date }" />
+      <variable name="maxEndDate" value="{ dateRange.value[0].today }" />
+      <variable name="startDate" value="{ originalStartDate }" />
+      <variable name="endDate" value="{ maxEndDate }" />
+      <variable name="totalDays" value="{ window.daysBetween(originalStartDate, maxEndDate)}" />
 
-    <Card height="400px">
-      <Fragment when="{ dailyRevenue.value }">
-        <XMLUIExtensions:BarChart
-          layout="horizontal"
-          data="{ dailyRevenue }"
-          dataKeys="{['total']}" nameKey="date"
-          tickFormatter="{(value, index) => {
-            if (index % 4 !== 0) return '';
-            return value
-          }}"
-        />
-      </Fragment>
-    </Card>
+      <DataSource
+        id="dailyRevenue"
+        url="{ window.dailyRevenueUrl(startDate, endDate) }"
+        method="GET"
+      />
+
+      <Slider
+        id="slider"
+        label="dateRange"
+        minValue="{0}"
+        maxValue="{ totalDays }"
+        step="10"
+        onDidChange="{
+          console.log('slider values:', slider.value[0], slider.value[1]);
+          // Update the start and end dates based on slider values
+          startDate = window.sliderValueToDate(slider.value[0], originalStartDate);
+          endDate = window.sliderValueToDate(slider.value[1], originalStartDate);
+          console.log('Date range:', startDate, 'to', endDate);
+        }"
+        valueFormat="{ (value) => {
+            const date = window.sliderValueToDate(value, originalStartDate);
+            return date;
+            }
+        }"
+      />
+
+      <Card height="400px">
+        <Fragment when="{ dailyRevenue.value }">
+          <XMLUIExtensions:BarChart
+            layout="horizontal"
+            data="{ dailyRevenue }"
+            dataKeys="{['total']}" nameKey="date"
+            tickFormatter="{(value, index) => {
+              if (index % 4 !== 0) return '';
+              return value
+            }}"
+          />
+        </Fragment>
+      </Card>
+    </Fragment>
 
   </VStack>
 
