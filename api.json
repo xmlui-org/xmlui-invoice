@@ -63,16 +63,6 @@
       }
     },
     {
-      "path": "/invoices/after/:date",
-      "methods": {
-        "GET": {
-          "description": "Get invoices issued after a specific date",
-          "sql": "SELECT REPLACE(i.issue_date, '/', '-') as issue_date, i.status, i.total, c.name FROM invoices i JOIN clients c ON i.client_id = c.id WHERE i.issue_date > date(:date) ORDER BY i.issue_date ASC",
-          "params": ["date"]
-        }
-      }
-    },
-    {
       "path": "/invoices/:number",
       "methods": {
         "GET": {
@@ -89,6 +79,16 @@
           "description": "Delete an invoice",
           "sql": "DELETE FROM invoices WHERE invoice_number = :number",
           "params": ["number"]
+        }
+      }
+    },
+    {
+      "path": "/invoices/after/:date",
+      "methods": {
+        "GET": {
+          "description": "Get invoices issued after a specific date",
+          "sql": "SELECT REPLACE(i.issue_date, '/', '-') as issue_date, i.status, i.total, c.name FROM invoices i JOIN clients c ON i.client_id = c.id WHERE i.issue_date > date(:date) ORDER BY i.issue_date ASC",
+          "params": ["date"]
         }
       }
     },
