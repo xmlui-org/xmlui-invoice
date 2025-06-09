@@ -36,7 +36,6 @@
         startDate = window.sliderValueToDate(slider.value[0]);
         endDate = window.sliderValueToDate(slider.value[1]);
         console.log('Date range:', startDate, 'to', endDate);
-        nonce++;
       }"
       valueFormat="{ (value) => {
           const date = window.sliderValueToDate(value);
