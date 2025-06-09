@@ -155,6 +155,16 @@
       }
     },
     {
+      "path": "/dashboard/monthly-status",
+      "methods": {
+        "GET": {
+          "description": "Get totals paid and sent by monthl",
+          "sqlFile": "/sql/monthly-status.sql"
+        }
+      }
+    },
+
+    {
       "path": "/dashboard/daily-revenue",
       "methods": {
         "GET": {

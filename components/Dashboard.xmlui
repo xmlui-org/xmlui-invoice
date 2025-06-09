@@ -40,7 +40,7 @@
 
     <HStack>
         <Statuses width="50%" title="Statuses" />
-        <MonthlyRevenue width="50%" title="Monthly Revenue" />
+        <MonthlyStatus width="50%" title="Monthly Status" />
     </HStack>
 
     <DailyRevenue title="Daily Revenue" />

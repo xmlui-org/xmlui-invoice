@@ -1,23 +1,25 @@
-<Component name="MonthlyRevenue" xmlns:XMLUIExtensions="component-ns">
-
+<Component name="MonthlyStatus" xmlns:XMLUIExtensions="component-ns">
     <DataSource
-        id="revenue"
-        url="/api/dashboard/monthly-revenue"
+        id="statusRevenue"
+        url="/api/dashboard/monthly-status"
         method="GET" />
 
     <VStack width="{$props.width}">
         <H1>{$props.title}</H1>
 
         <Card height="400px">
-        <XMLUIExtensions:BarChart
-          layout="horizontal"
-          data="{ revenue }"
-          dataKeys="{['total']}" nameKey="month"
-          tickFormatter="{(value) => {
-            return window.formatMonth(value);
-          }}"
-        />
+            <XMLUIExtensions:BarChart
+                layout="horizontal"
+                data="{ statusRevenue }"
+                dataKeys="{['paid_revenue', 'sent_revenue']}"
+                nameKey="month"
+                stacked="true"
+                showLegend="true"
+                tickFormatter="{(value) => {
+                    return window.formatMonth(value);
+                }}"
+            />
         </Card>
     </VStack>
-
 </Component>
+
