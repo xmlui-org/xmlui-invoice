@@ -45,17 +45,22 @@
             return total;
         }
 
-        window.startDate = '2022-06-01'
-        window.endDate = '2025-05-01'
-
-        window.sliderValueToDate = function( value ) {
-            console.log('sliderValueToDate', value)
+        window.daysBetween = function(start, end) {
+            const startDate = new Date(start);
+            const endDate = new Date(end);
+            const timeDifference = endDate.getTime() - startDate.getTime();
+            const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+            return daysDifference;
+        }
+        
+        window.sliderValueToDate = function( value, startDateRef ) {
+            console.log('sliderValueToDate', value, 'startDateRef:', startDateRef)
             // Convert a slider value (representing days from start date) to an actual date string
             // value: number of days offset from startDate
             // returns: date string in YYYY-MM-DD format
 
-            // Parse the global start date
-            const start = new Date(window.startDate);
+            // Use the passed start date or fall back to component's initial start date
+            const start = new Date(startDateRef || '2022-06-01');
 
             // Create a new date by adding the slider value (days) to the start date
             const resultDate = new Date(start);
@@ -67,7 +72,7 @@
             const day = String(resultDate.getDate()).padStart(2, '0');
 
             const result =`${year}-${month}-${day}`;
-            console.log('sliderValueToDate', result)
+            console.log('sliderValueToDate result:', result)
             return result
         }
 
@@ -76,9 +81,9 @@
             // dateString: date in YYYY-MM-DD format
             // returns: number of days from the start date
 
-            // Parse the input date and the global start date
+            // Parse the input date and use the component's initial start date
             const date = new Date(dateString);
-            const start = new Date(window.startDate);
+            const start = new Date('2022-06-01');
 
             // Calculate the difference in days
             const diffTime = date.getTime() - start.getTime();
