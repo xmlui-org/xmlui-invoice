@@ -52,7 +52,7 @@
         type="items"
         id="lineItems"
         required="true"
-        onValidate="(value) => Array.isArray(value) && value.length > 0"
+        onValidate="(value) => Array.isArray(value) && value.length > 0 && value.every(item => item.product)"
         requiredInvalidMessage="At least one line item is required."
       >
         <FlowLayout width="100%"
