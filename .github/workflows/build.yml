@@ -97,7 +97,7 @@ jobs:
         run: ls -lh ./release-files
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v1
         with:
           token: ${{ secrets.PAT_TOKEN }}
           tag_name: ${{ github.event.inputs.tag }}
