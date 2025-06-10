@@ -40,30 +40,21 @@ jobs:
 
       - name: Prepare package directory
         run: |
-          # Create a clean directory for the package with xmlui-invoice subdirectory
           mkdir -p ./dist/xmlui-invoice
-          
-          # Copy all repo files excluding .git, .github, workflow directories, and tmp
           rsync -a --exclude='.git' --exclude='.github' --exclude='workflows' --exclude='tmp' --exclude='dist' ./ ./dist/xmlui-invoice/
 
       - name: Extract server binary
         run: |
-          # Create the extraction directory
           mkdir -p ./tmp/${{ matrix.platform }}
-          
-          # Extract with correct paths
           if [[ "${{ matrix.server_binary }}" == *.zip ]]; then
             unzip ./tmp/${{ matrix.server_binary }} -d ./tmp/${{ matrix.platform }}
           else
             tar -xzf ./tmp/${{ matrix.server_binary }} -C ./tmp/${{ matrix.platform }}
           fi
-          
-          # Move the binary to the package directory with more specific matching
+
           if [[ "${{ matrix.platform }}" == "windows-amd64" ]]; then
-            # Match only .exe files, avoiding any potential .exe.config or other extensions
             mv ./tmp/${{ matrix.platform }}/xmlui-test-server*.exe ./dist/xmlui-invoice/xmlui-test-server.exe
           else
-            # Match only the binary without extensions
             find ./tmp/${{ matrix.platform }} -name "xmlui-test-server" -type f -exec mv {} ./dist/xmlui-invoice/xmlui-test-server \;
           fi
 
@@ -82,8 +73,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: xmlui-invoice-${{ matrix.platform }}
-          path: |
-            ./dist/xmlui-invoice-${{ matrix.platform }}.zip
+          path: ./dist/xmlui-invoice-${{ matrix.platform }}.zip
 
   create-release:
     needs: create-packages
@@ -93,6 +83,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: ./packages
+          merge-multiple: false
 
       - name: Display structure
         run: find ./packages -type f | sort
@@ -100,7 +91,10 @@ jobs:
       - name: Prepare release files
         run: |
           mkdir -p ./release-files
-          find ./packages -type f -name "*.zip" | xargs -I{} cp {} ./release-files/
+          find ./packages -type f -name "*.zip" -exec cp {} ./release-files/ \;
+
+      - name: Debug release files
+        run: ls -lh ./release-files
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -111,9 +105,9 @@ jobs:
           files: ./release-files/*
           body: |
             XMLUI Invoice ${{ github.event.inputs.tag }}
-            
+
             This release includes XMLUI Test Server ${{ github.event.inputs.server_version }}
-            
+
             Available packages:
             - Linux AMD64
             - macOS Intel
