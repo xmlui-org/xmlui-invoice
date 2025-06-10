@@ -12,12 +12,20 @@
   <VStack width="{$props.width}">
     <H1>{$props.title}</H1>
 
-    <Fragment when="{ dateRange.value }">
+
       <variable name="originalStartDate" value="{ dateRange.value[0].first_invoice_date }" />
       <variable name="maxEndDate" value="{ dateRange.value[0].today }" />
       <variable name="startDate" value="{ originalStartDate }" />
       <variable name="endDate" value="{ maxEndDate }" />
       <variable name="totalDays" value="{ window.daysBetween(originalStartDate, maxEndDate)}" />
+
+      <!--
+      <Text>Original Start Date: {originalStartDate}</Text>
+      <Text>Max End Date: {endDate}</Text>
+      <Text>Current Start Date: {startDate}</Text>
+      <Text>Current End Date: {endDate}</Text>
+      <Text>Total Days: {totalDays}</Text>
+      -->
 
       <DataSource
         id="dailyRevenue"
@@ -30,6 +38,7 @@
         label="dateRange"
         minValue="{0}"
         maxValue="{ totalDays }"
+        initialValue="{ [0, totalDays] }"
         step="10"
         onDidChange="{
           console.log('slider values:', slider.value[0], slider.value[1]);
@@ -58,7 +67,6 @@
           />
         </Fragment>
       </Card>
-    </Fragment>
 
   </VStack>
 
