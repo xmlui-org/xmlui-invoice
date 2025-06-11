@@ -77,8 +77,8 @@
           <FormItem width="20%" bindTo="quantity"               type="number"   initialValue="1" minValue="1" />
           <FormItem width="20%" bindTo="price"  startText="$"                   initialValue="{ productDetails.value[0].price }" />
           <FormItem width="13%" bindTo="amount" startText="$"   enabled="false" initialValue="{ $item.price ? $item.quantity * $item.price : '' } " />
+          <Button width="2rem" onClick="lineItems.removeItem($itemIndex)">X</Button>
 
-          <Button width="*" variant="ghost" themeColor="attention" icon="close" onClick="lineItems.removeItem($itemIndex)" />
         </FlowLayout>
       </FormItem>
       <HStack>
