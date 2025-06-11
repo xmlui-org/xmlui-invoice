@@ -32,10 +32,10 @@
         <Column bindTo="username" width="*"/>
         <Column bindTo="display_name"/>
         <Column bindTo="email" width="2*" />
-        <Column header="avatar">
+        <Column canSort="{false}" header="avatar">
           <Avatar url="{$item.avatar_url}"/>
         </Column>
-        <Column header="logged_in" width="*">
+        <Column canSort="{false}" header="logged_in" width="*">
           <Option label=" " value="{$item.username}" />
         </Column>
       </Table>
