@@ -20,9 +20,9 @@
                     <Text>Found {search.value ? search.value.length : 0} results for
                         "{searchTerm.value}":</Text>
                     <Table data="{ search }">
-                        <Column canSort="true" bindTo="table_name" header="Type" width="100px" />
-                        <Column canSort="true" bindTo="title" header="Title" width="*" />
-                        <Column canSort="true" bindTo="snippet" header="Match Details" width="3*" />
+                        <Column  bindTo="table_name" header="Type" width="100px" />
+                        <Column  bindTo="title" header="Title" width="*" />
+                        <Column  bindTo="snippet" header="Match Details" width="3*" />
                     </Table>
                 </VStack>
             </Card>

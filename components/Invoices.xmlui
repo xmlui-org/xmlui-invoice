@@ -20,18 +20,18 @@
     </HStack>
 
     <Table data="{invoices}">
-        <Column canSort="true" bindTo="invoice_number" />
-        <Column canSort="true" bindTo="client" />
-        <Column canSort="true" bindTo="issue_date" />
-        <Column canSort="true" bindTo="due_date" />
-        <Column canSort="true" bindTo="paid_date" />
-        <Column canSort="true" header="total">
+        <Column  bindTo="invoice_number" />
+        <Column  bindTo="client" />
+        <Column  bindTo="issue_date" />
+        <Column  bindTo="due_date" />
+        <Column  bindTo="paid_date" />
+        <Column  header="total">
             ${$item.total}
         </Column>
-        <Column canSort="true" header="Status">
+        <Column  header="Status">
             <StatusBadge status="{$item.status}" />
         </Column>
-        <Column header="Details">
+        <Column canSort="{false}" header="Details">
             <Icon name="doc-outline" onClick="detailsDialog.open($item)" />
         </Column>
     </Table>
