@@ -102,7 +102,7 @@
           client: $param.client,
           issueDate: $param.issueDate,
           dueDate: $param.dueDate,
-          total: ${ window.lineItemTotal($param.lineItems) }
+          total: ${ window.lineItemTotal($param.lineItems) },
           items: JSON.stringify($param.lineItems || [])
           }
         }"
