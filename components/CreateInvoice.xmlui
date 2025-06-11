@@ -50,7 +50,7 @@
       <FormItem
         bindTo="lineItems"
         type="items"
-        id="lineItems"
+        id="lineItemsForm"
         required="true"
         onValidate="(value) => Array.isArray(value) && value.length > 0 && value.every(item => item.product)"
         requiredInvalidMessage="At least one line item is required."
@@ -77,12 +77,12 @@
           <FormItem width="20%" bindTo="quantity"               type="number"   initialValue="1" minValue="1" />
           <FormItem width="20%" bindTo="price"  startText="$"                   initialValue="{ productDetails.value[0].price }" />
           <FormItem width="13%" bindTo="amount" startText="$"   enabled="false" initialValue="{ $item.price ? $item.quantity * $item.price : '' } " />
-          <Button width="2rem" onClick="lineItems.removeItem($itemIndex)">X</Button>
+          <Button width="2rem" onClick="lineItemsForm.removeItem($itemIndex)">X</Button>
 
         </FlowLayout>
       </FormItem>
       <HStack>
-        <Button onClick="lineItems.addItem()">
+        <Button onClick="lineItemsForm.addItem()">
           Add Item
         </Button>
         <SpaceFiller />
