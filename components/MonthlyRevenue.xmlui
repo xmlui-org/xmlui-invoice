@@ -1,4 +1,4 @@
-<Component name="MonthlyStatus" xmlns:XMLUIExtensions="component-ns">
+<Component name="MonthlyStatus">
     <DataSource
         id="statusRevenue"
         url="/api/dashboard/monthly-status"
@@ -8,7 +8,7 @@
         <H1>{$props.title}</H1>
 
         <Card height="400px">
-            <XMLUIExtensions:BarChart
+            <BarChart
                 layout="horizontal"
                 data="{ statusRevenue }"
                 dataKeys="{['paid_revenue', 'sent_revenue']}"
