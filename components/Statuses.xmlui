@@ -8,7 +8,7 @@
         <H1>{$props.title}</H1>
 
         <Card height="400px">
-            <XMLUIExtensions:DonutChart
+            <DonutChart
                 layout="horizontal"
                 data="{
                   [
