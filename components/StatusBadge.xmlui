@@ -1,4 +1,4 @@
-<Component 
+<Component
     name="StatusBadge"
     var.statusColors="{{
         draft: { background: '#f59e0b', label: 'white' },
@@ -6,9 +6,9 @@
         paid: { background: '#10b981', label: 'white' }
     }}"
 >
-    <Badge 
-        value="{$props.status}" 
-        colorMap="{statusColors}" 
-        variant="pill" 
+    <Badge
+        value="{$props.status}"
+        colorMap="{statusColors}"
+        variant="pill"
     />
 </Component>

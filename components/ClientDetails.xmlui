@@ -4,10 +4,6 @@
 
     <H2>Client Details</H2>
 
-    <!--
-    <Text>{JSON.stringify(client)}</Text>
-    -->
-    
     <VStack gap="$space-4">
 
         <Form>
@@ -32,6 +28,7 @@
                        }
                     }"
                     onSuccess="Actions.navigate('/clients')"
+                    onCancel="Actions.navigate('/clients')"
                 />
             </event>
         </Form>
