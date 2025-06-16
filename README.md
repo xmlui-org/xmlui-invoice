@@ -108,7 +108,7 @@ Use this application to explore:
 - Theme customization
 - User experience patterns
 
-## Documentation
+## XMLUI Documentation
 
 - [Introduction](https://docs.xmlui.com/)
 - [Tutorial](https://docs.xmlui.com/#/tutorial-01)
