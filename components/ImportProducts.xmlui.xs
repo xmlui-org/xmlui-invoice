@@ -3,7 +3,7 @@ function isDuplicate(name) {
 }
 
 function startImport(products) {
-    console.log('startImport', products.length);
+    console.log('startImport', products);
     // Process first item directly with the known products array
     if (products.length > 0) {
         const product = products[0];

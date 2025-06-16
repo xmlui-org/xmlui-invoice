@@ -32,7 +32,7 @@
         <Text when="{filename}">Select some or all records, then click</Text>
         <Button
           label="Import"
-          onClick="{startImport(selectedProducts)}"
+          onClick="{ console.log('selectedProducts', selectedProducts); startImport(selectedProducts)}"
           enabled="{selectedProducts.length}"
         />
       </HStack>
@@ -56,9 +56,11 @@
           id="productsFromCsv"
           data="{ csv }"
           rowsSelectable="true"
-          rowDisabledPredicate="{(row) => existingProducts && existingProducts.value && existingProducts.value.some(p => p.name === row.name)}"
+          rowDisabledPredicate="{(row) => isDuplicate(row.name)}"
           onSelectionDidChange="(selection) => {
+            console.log('selectionChange', selection)
             selectedProducts = selection;
+            console.log('selectedProducts', selectedProducts)
           }"
         >
           <Column header="Name">
