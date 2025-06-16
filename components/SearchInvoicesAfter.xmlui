@@ -1,32 +1,19 @@
 <Component name="SearchInvoicesAfter">
-
     <VStack marginTop="1rem">
-        <DatePicker
-            id="dateAfter"
-            width="20rem"
-            initialValue="2025-01-01"
-            dateFormat="yyyy-MM-dd"
-            onDidChange="(val) => console.log('Date selected:', val)"
-        />
-
-        <Fragment when="{dateAfter.value}">
-            <DataSource
-                id="invoicesAfter"
-                url="/api/invoices/after/{dateAfter.value}"
-                onLoaded="(data) => console.log('Invoices after date:', data)"
-            />
-
+        <DatePicker id="dateAfter" width="20rem" initialValue="2025-01-01" dateFormat="yyyy-MM-dd" onDidChange="(val) => console.log('Date selected:', val)"/>
+        <DataSource id="invoicesAfter" url="/api/invoices/after/{dateAfter.value}" when="{dateAfter.value}"/>
+        <Fragment when="{invoicesAfter}">
             <Card>
                 <VStack>
                     <Table data="{ invoicesAfter }">
-                        <Column  bindTo="name" header="Client" />
-                        <Column  bindTo="issue_date" header="Issue Date">
+                        <Column bindTo="name" header="Client"/>
+                        <Column bindTo="issue_date" header="Issue Date">
                             { window.formatDate($item.issue_date) }
                         </Column>
-                        <Column  header="Status">
-                            <StatusBadge status="{$item.status}" />
+                        <Column header="Status">
+                            <StatusBadge status="{$item.status}"/>
                         </Column>
-                        <Column  bindTo="total" header="Total" >
+                        <Column bindTo="total" header="Total">
                             ${$item.total}
                         </Column>
                     </Table>
@@ -34,5 +21,4 @@
             </Card>
         </Fragment>
     </VStack>
-
 </Component>

@@ -5,14 +5,12 @@
             placeholder="Enter search term..."
             width="25rem"
             id="searchTerm"
-            onDidChange="(val) => console.log('Search term:', val)"
         />
 
         <Fragment when="{searchTerm.value}">
             <DataSource
                 id="search"
                 url="/api/search/{searchTerm.value}"
-                onLoaded="(data) => console.log('Search results:', data)"
             />
 
             <Card>

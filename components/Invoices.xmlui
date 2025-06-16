@@ -25,10 +25,10 @@
         <Column  bindTo="issue_date" />
         <Column  bindTo="due_date" />
         <Column  bindTo="paid_date" />
-        <Column  header="total">
+        <Column  bindTo="total">
             ${$item.total}
         </Column>
-        <Column  header="Status">
+        <Column  bindTo="status">
             <StatusBadge status="{$item.status}" />
         </Column>
         <Column canSort="{false}" header="Details">

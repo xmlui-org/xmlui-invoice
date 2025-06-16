@@ -16,14 +16,6 @@
       <variable name="endDate" value="{ maxEndDate }" />
       <variable name="totalDays" value="{ window.daysBetween(originalStartDate, maxEndDate)}" />
 
-      <!--
-      <Text>Original Start Date: {originalStartDate}</Text>
-      <Text>Max End Date: {endDate}</Text>
-      <Text>Current Start Date: {startDate}</Text>
-      <Text>Current End Date: {endDate}</Text>
-      <Text>Total Days: {totalDays}</Text>
-      -->
-
       <DataSource
         id="dailyRevenue"
         url="{ window.dailyRevenueUrl(startDate, endDate) }"

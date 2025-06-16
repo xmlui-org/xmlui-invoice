@@ -1,9 +1,6 @@
 <Component name="InvoiceDetails">
-
     <variable name="details" value="{$props.details}" />
-
     <Form>
-
         <Table width="100%" data="{[details]}">
             <Column canSort="{false}" bindTo="invoice_number" />
             <Column canSort="{false}" bindTo="client" />
@@ -13,13 +10,10 @@
                 <StatusBadge status="{$item.status}" />
             </Column>
         </Table>
-
-
         <VStack gap="0">
             <Text>Notes:</Text>
             <FormItem bindTo="notes" initialValue="{window.coalesce(details.notes)}" />
         </VStack>
-
         <VStack gap="0">
             <Text>Status:</Text>
             <FormItem type="select" bindTo="status" initialValue="{details.status}" enabled="{details.status !== 'paid'}">
@@ -29,8 +23,6 @@
                 <Option value="{$item.name}" label="{$item.name}" />
             </FormItem>
         </VStack>
-
-
         <Table width="100%" data="{JSON.parse(details.items)}">
             <Column bindTo="name" />
             <Column bindTo="quantity" />
@@ -41,7 +33,6 @@
                 ${$item.price}
             </Column>
         </Table>
-
         <event name="submit">
             <APICall
                 url="/api/invoices/{details.invoice_number}"
@@ -58,9 +49,5 @@
                   onSuccess="Actions.navigate('/invoices')"
             />
         </event>
-
-
     </Form>
-
-
 </Component>
