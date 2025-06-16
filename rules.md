@@ -1,32 +1,3 @@
-We are working on ~/xmlui-invoice. Relevant resources you can access:
-
-{
-  "mcpServers": {
-    "filesystem": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-filesystem",
-        "/Users/jonudell/xmlui",
-        "/Users/jonudell/xmlui-mcp",
-        "/Users/jonudell/xmlui-test-server",
-        "/Users/jonudell/xmlui-invoice",
-        "/Users/jonudell/xmlui-hubspot",
-        "/Users/jonudell/xmlui-mastodon"
-      ]
-    },
-    "xmlui": {
-      "command": "/Users/jonudell/xmlui-mcp/xmlui-mcp",
-      "args": [
-        "/Users/jonudell/xmlui-mcp",
-        "/Users/jonudell",
-        "xmlui-invoice,xmlui-mastodon"
-      ]
-    },
-
-
-Rules:
-
 1 use the filesystem to read and write repos.
 
 2 xmlui-invoice is our project. xmlui-mastodon and others, and others are reference projects, use them to find xmlui patterns. ~/xmlui is the xmlui project, use it to scan documentation and understand component implementations. component docs are in ~/xmlui/docs/pages/components, implementations in ~/xmlui/xmlui/components. packages like charts and spreadsheets are in ~/xmlui/packages.
