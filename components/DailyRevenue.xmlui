@@ -35,7 +35,7 @@
 
       <Slider
         id="slider"
-        label="dateRange"
+        label="Date range: "
         minValue="{0}"
         maxValue="{ totalDays }"
         initialValue="{ [0, totalDays] }"

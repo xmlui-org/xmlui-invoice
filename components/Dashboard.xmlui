@@ -10,9 +10,9 @@
 
     <HStack>
         <InfoCard
-            width="20%"
+            width="*"
             title="Outstanding"
-            value="{ window.coalesce(dashboardStats.value[0].outstanding, 0) }"
+            value="{ dashboardStats.value[0].outstanding ?? 0 }"
             currency='true'
         />
         <InfoCard
@@ -39,8 +39,8 @@
     </HStack>
 
     <HStack>
-        <Statuses width="50%" title="Statuses" />
-        <MonthlyStatus width="50%" title="Monthly Status" />
+        <Statuses width="*" title="Statuses" />
+        <MonthlyStatus width="*" title="Monthly Status" />
     </HStack>
 
     <DailyRevenue title="Daily Revenue" />

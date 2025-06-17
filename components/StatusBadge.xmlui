@@ -1,9 +1,9 @@
 <Component 
     name="StatusBadge"
     var.statusColors="{{
-        draft: { background: '#f59e0b', label: 'white' },
-        sent: { background: '#3b82f6', label: 'white' },
-        paid: { background: '#10b981', label: 'white' }
+        draft: { background: '$color-warn-500', label: '$color-surface' },
+        sent: { background: '$color-primary-500', label: '$color-surface' },
+        paid: { background: '$color-success-500', label: '$color-surface' }
     }}"
 >
     <Badge 

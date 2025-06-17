@@ -55,7 +55,7 @@
                     notes: $param.notes
                     }
                   }"
-                  onSuccess="Actions.navigate('/invoices')"
+                onSuccess="Actions.navigate('/invoices')"
             />
         </event>
 

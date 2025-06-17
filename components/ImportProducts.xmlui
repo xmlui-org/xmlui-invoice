@@ -1,5 +1,6 @@
 <Component
   name="ImportProducts"
+  codeBehind="./ImportProducts.xmlui.xs"
   var.filename=""
   var.selectedProducts=""
   var.productToImport=""

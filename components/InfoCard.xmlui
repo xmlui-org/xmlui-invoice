@@ -1,10 +1,10 @@
 <Component name="InfoCard">
 
-    <Card width="{$props.width}" borderRadius="8px" boxShadow="$boxShadow-spread">
+    <Card width="{$props.width}" borderRadius="$space-2" boxShadow="$boxShadow-spread">
 
         <Text>{$props.title}</Text>
 
-        <Text fontWeight="$fontWeight-extra-bold" fontSize="larger">
+        <Text fontWeight="$fontWeight-extra-bold" fontSize="$fontSize-large">
             { $props.currency === 'true' ? '$' + $props.value : $props.value }
         </Text>
     </Card>
