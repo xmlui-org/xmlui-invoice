@@ -19,10 +19,10 @@ jobs:
         include:
           - platform: linux-amd64
             server_binary: xmlui-test-server-linux-amd64.tar.gz
-          - platform: mac-amd
-            server_binary: xmlui-test-server-mac-amd.tar.gz
-          - platform: mac-arm
-            server_binary: xmlui-test-server-mac-arm.tar.gz
+          - platform: macos-intel
+            server_binary: xmlui-test-server-macos-intel.tar.gz
+          - platform: macos-arm64
+            server_binary: xmlui-test-server-macos-arm64.tar.gz
           - platform: windows-amd64
             server_binary: xmlui-test-server-windows-amd64.zip
 
@@ -36,7 +36,8 @@ jobs:
 
       - name: Download server binary
         run: |
-          curl -L -o ./tmp/${{ matrix.server_binary }} "https://github.com/JonUdell/xmlui-test-server/releases/download/${{ github.event.inputs.server_version }}/${{ matrix.server_binary }}"
+          curl -L -o ./tmp/${{ matrix.server_binary }} \
+            "https://github.com/JonUdell/xmlui-test-server/releases/download/${{ github.event.inputs.server_version }}/${{ matrix.server_binary }}"
 
       - name: Prepare package directory
         run: |
@@ -67,13 +68,17 @@ jobs:
       - name: Create package archive
         run: |
           cd ./dist
-          zip -r xmlui-invoice-${{ matrix.platform }}.zip xmlui-invoice
+          if [[ "${{ matrix.platform }}" == "windows-amd64" ]]; then
+            zip -r xmlui-invoice-${{ matrix.platform }}.zip xmlui-invoice
+          else
+            tar -czf xmlui-invoice-${{ matrix.platform }}.tar.gz xmlui-invoice
+          fi
 
       - name: Upload package artifact
         uses: actions/upload-artifact@v4
         with:
           name: xmlui-invoice-${{ matrix.platform }}
-          path: ./dist/xmlui-invoice-${{ matrix.platform }}.zip
+          path: ./dist/xmlui-invoice-${{ matrix.platform }}.*
 
   create-release:
     needs: create-packages
@@ -91,7 +96,7 @@ jobs:
       - name: Prepare release files
         run: |
           mkdir -p ./release-files
-          find ./packages -type f -name "*.zip" -exec cp {} ./release-files/ \;
+          find ./packages -type f \( -name "*.zip" -o -name "*.tar.gz" \) -exec cp {} ./release-files/ \;
 
       - name: Debug release files
         run: ls -lh ./release-files
@@ -109,7 +114,7 @@ jobs:
             This release includes XMLUI Test Server ${{ github.event.inputs.server_version }}
 
             Available packages:
-            - Linux AMD64
-            - macOS Intel
-            - macOS ARM
-            - Windows AMD64
+            - Linux AMD64 (.tar.gz)
+            - macOS Intel (.tar.gz)
+            - macOS ARM64 (.tar.gz)
+            - Windows AMD64 (.zip)
