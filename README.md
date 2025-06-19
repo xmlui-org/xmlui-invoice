@@ -113,7 +113,7 @@ Use this application to explore:
 - [Introduction](https://docs.xmlui.com/)
 - [Tutorial](https://docs.xmlui.com/#/tutorial-01)
 - [Components](https://docs.xmlui.com/#/components/_overview)
-- [Guides](https://docs.xmlui.com/#/tutorial-01https://docs.xmlui.com/#/app-structure)
+- [Guides](https://docs.xmlui.com/#/app-structure)
 
 ## License
 
