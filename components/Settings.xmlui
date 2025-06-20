@@ -2,7 +2,12 @@
   <AppState id="currentUser" bucket="userState" />
   <AppState id="settings" bucket="settingsState" />
   <DataSource id="users" url="/api/users"/>
-  <Text>Settings value: {JSON.stringify(settings.value)}</Text>
+    <ChangeListener
+    listenTo="{settings.value}"
+    onDidChange="{() => {
+      console.log('Settings component sees AppState change:', settings.value);
+    }}"
+  />
   <H1>
     Settings
   </H1>
@@ -56,10 +61,12 @@
     <ChangeListener
       listenTo="{borderRadiusInput.value}"
       onDidChange="{() => {
-        settings.update({
-          ...settings.value,
-          avatar_border_radius: borderRadiusInput.value
-        });
+        // Only update if we have a valid value and settings is loaded
+        if (borderRadiusInput.value && settings.value) {
+          settings.update({
+            avatar_border_radius: borderRadiusInput.value
+          });
+        }
       }}"
     />
   </Card>

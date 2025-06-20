@@ -15,27 +15,14 @@
   />
   <DataSource id="settingsLoader" url="/api/settings">
     <event name="loaded">
-      console.log('DataSource loaded, raw value:', settingsLoader.value);
-      console.log('First item:', settingsLoader.value[0]);
-      console.log('Full structure:', JSON.stringify(settingsLoader.value));
-      
-      console.log('Settings AppState before update:', settings);
-      console.log('Settings AppState value before update:', settings.value);
-      console.log('Settings AppState bucket:', settings); // to see if it has the right properties
-      
-      // Test with a hardcoded object first
       settings.update({ avatar_border_radius: "10px" });
-      
-      console.log('Settings AppState immediately after update:', settings.value);
-      
-      delay(500); // Using XMLUI's delay function
-      console.log('Settings AppState after 500ms delay:', settings.value);
+      delay(500);
     </event>
   </DataSource>
   <AppHeader>
     <H1>XMLUI Invoice</H1>
     <property name="profileMenuTemplate">
-      <HStack verticalAlignment="center" onClick="console.log('click'); Actions.navigate('/settings')">
+      <HStack verticalAlignment="center" onClick="Actions.navigate('/settings')">
         <InvoiceAvatar url="{loggedInUser.avatar_url}" name="{loggedInUser.display_name}" borderRadius="{settings.value.avatar_border_radius}" />
         <Text>{loggedInUser.display_name}</Text>
       </HStack>
