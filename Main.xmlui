@@ -12,12 +12,24 @@
   <AppState
     id="settings"
     bucket="settingsState"
-    initialValue="{{ avatar_border_radius: '50%' }}"
   />
   <DataSource id="settingsLoader" url="/api/settings">
     <event name="loaded">
-      console.log('settings loaded:', settingsLoader.value);
-      settings.update(settingsLoader.value[0]);
+      console.log('DataSource loaded, raw value:', settingsLoader.value);
+      console.log('First item:', settingsLoader.value[0]);
+      console.log('Full structure:', JSON.stringify(settingsLoader.value));
+      
+      console.log('Settings AppState before update:', settings);
+      console.log('Settings AppState value before update:', settings.value);
+      console.log('Settings AppState bucket:', settings); // to see if it has the right properties
+      
+      // Test with a hardcoded object first
+      settings.update({ avatar_border_radius: "10px" });
+      
+      console.log('Settings AppState immediately after update:', settings.value);
+      
+      delay(500); // Using XMLUI's delay function
+      console.log('Settings AppState after 500ms delay:', settings.value);
     </event>
   </DataSource>
   <AppHeader>

@@ -55,7 +55,7 @@
         }
 
         window.sliderValueToDate = function( value, startDateRef ) {
-            console.log('sliderValueToDate', value, 'startDateRef:', startDateRef)
+            //console.log('sliderValueToDate', value, 'startDateRef:', startDateRef)
             // Convert a slider value (representing days from start date) to an actual date string
             // value: number of days offset from startDate
             // returns: date string in YYYY-MM-DD format
@@ -73,7 +73,7 @@
             const day = String(resultDate.getDate()).padStart(2, '0');
 
             const result =`${year}-${month}-${day}`;
-            console.log('sliderValueToDate result:', result)
+            //console.log('sliderValueToDate result:', result)
             return result
         }
 

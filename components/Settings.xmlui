@@ -2,6 +2,7 @@
   <AppState id="currentUser" bucket="userState" />
   <AppState id="settings" bucket="settingsState" />
   <DataSource id="users" url="/api/users"/>
+  <Text>Settings value: {JSON.stringify(settings.value)}</Text>
   <H1>
     Settings
   </H1>
