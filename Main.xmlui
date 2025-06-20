@@ -7,13 +7,24 @@
   <AppState
     id="currentUser"
     bucket="userState"
-    initialValue="{{ username: 'demouser', display_name: 'Demo User', avatar_url: '/resources/demouser.png', borderRadius: '50%' }}"
+    initialValue="{{ username: 'demouser', display_name: 'Demo User', avatar_url: '/resources/demouser.png' }}"
   />
+  <AppState
+    id="settings"
+    bucket="settingsState"
+    initialValue="{{ avatar_border_radius: '50%' }}"
+  />
+  <DataSource id="settingsLoader" url="/api/settings">
+    <event name="loaded">
+      console.log('settings loaded:', settingsLoader.value);
+      settings.update(settingsLoader.value[0]);
+    </event>
+  </DataSource>
   <AppHeader>
     <H1>XMLUI Invoice</H1>
     <property name="profileMenuTemplate">
       <HStack verticalAlignment="center" onClick="console.log('click'); Actions.navigate('/settings')">
-        <InvoiceAvatar url="{loggedInUser.avatar_url}" name="{loggedInUser.display_name}" borderRadius="{currentUser.value.borderRadius}" />
+        <InvoiceAvatar url="{loggedInUser.avatar_url}" name="{loggedInUser.display_name}" borderRadius="{settings.value.avatar_border_radius}" />
         <Text>{loggedInUser.display_name}</Text>
       </HStack>
     </property>

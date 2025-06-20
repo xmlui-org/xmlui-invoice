@@ -1,5 +1,6 @@
 <Component name="Settings">
   <AppState id="currentUser" bucket="userState" />
+  <AppState id="settings" bucket="settingsState" />
   <DataSource id="users" url="/api/users"/>
   <H1>
     Settings
@@ -33,7 +34,7 @@
         <Column bindTo="display_name"/>
         <Column bindTo="email" width="2*" />
         <Column canSort="{false}" header="avatar">
-          <InvoiceAvatar url="{$item.avatar_url}" name="{loggedInUser.display_name}" borderRadius="{currentUser.value.borderRadius}"/>
+          <InvoiceAvatar url="{$item.avatar_url}" name="{loggedInUser.display_name}" borderRadius="{settings.value.avatar_border_radius}"/>
         </Column>
         <Column canSort="{false}" header="logged_in" width="*">
           <Option value="{$item.username}" />
@@ -49,14 +50,14 @@
       width="10rem"
       id="borderRadiusInput"
       placeholder="e.g. 50% or 10px"
-      value="{currentUser.value.borderRadius}"
+      value="{settings.value.avatar_border_radius}"
     />
     <ChangeListener
       listenTo="{borderRadiusInput.value}"
       onDidChange="{() => {
-        currentUser.update({
-          ...currentUser.value,
-          borderRadius: borderRadiusInput.value
+        settings.update({
+          ...settings.value,
+          avatar_border_radius: borderRadiusInput.value
         });
       }}"
     />
