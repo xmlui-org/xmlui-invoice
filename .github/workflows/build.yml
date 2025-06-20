@@ -105,16 +105,28 @@ jobs:
       - name: Create all-in-one bundle folder
         run: mkdir -p ./all-in-one-bundle/xmlui-invoice
 
-      - name: Copy app folder from one artifact
+      - name: Extract xmlui-invoice from one archive
         run: |
-          cp -r ./packages/xmlui-invoice-linux-amd64/xmlui-invoice/* ./all-in-one-bundle/xmlui-invoice/
+          mkdir ./tmp-unpack
+          tar -xzf ./packages/xmlui-invoice-linux-amd64/xmlui-invoice-linux-amd64.tar.gz -C ./tmp-unpack
+          cp -r ./tmp-unpack/xmlui-invoice/* ./all-in-one-bundle/xmlui-invoice/
 
       - name: Copy all platform server binaries
         run: |
-          cp ./packages/xmlui-invoice-linux-amd64/xmlui-invoice/xmlui-test-server ./all-in-one-bundle/xmlui-test-server-linux-amd64
-          cp ./packages/xmlui-invoice-macos-intel/xmlui-invoice/xmlui-test-server ./all-in-one-bundle/xmlui-test-server-macos-intel
-          cp ./packages/xmlui-invoice-macos-arm64/xmlui-invoice/xmlui-test-server ./all-in-one-bundle/xmlui-test-server-macos-arm64
-          cp ./packages/xmlui-invoice-windows-amd64/xmlui-invoice/xmlui-test-server.exe ./all-in-one-bundle/xmlui-test-server-windows-amd64.exe
+          cp ./packages/xmlui-invoice-linux-amd64/xmlui-invoice-linux-amd64.tar.gz ./tmp-unpack-linux.tar.gz
+          tar -xzf ./tmp-unpack-linux.tar.gz -C ./tmp-unpack-linux
+          cp ./tmp-unpack-linux/xmlui-invoice/xmlui-test-server ./all-in-one-bundle/xmlui-test-server-linux-amd64
+
+          cp ./packages/xmlui-invoice-macos-intel/xmlui-invoice-macos-intel.tar.gz ./tmp-unpack-macos-intel.tar.gz
+          tar -xzf ./tmp-unpack-macos-intel.tar.gz -C ./tmp-unpack-macos-intel
+          cp ./tmp-unpack-macos-intel/xmlui-invoice/xmlui-test-server ./all-in-one-bundle/xmlui-test-server-macos-intel
+
+          cp ./packages/xmlui-invoice-macos-arm64/xmlui-invoice-macos-arm64.tar.gz ./tmp-unpack-macos-arm64.tar.gz
+          tar -xzf ./tmp-unpack-macos-arm64.tar.gz -C ./tmp-unpack-macos-arm64
+          cp ./tmp-unpack-macos-arm64/xmlui-invoice/xmlui-test-server ./all-in-one-bundle/xmlui-test-server-macos-arm64
+
+          unzip ./packages/xmlui-invoice-windows-amd64/xmlui-invoice-windows-amd64.zip -d ./tmp-unpack-windows
+          cp ./tmp-unpack-windows/xmlui-invoice/xmlui-test-server.exe ./all-in-one-bundle/xmlui-test-server-windows-amd64.exe
 
       - name: Copy all start scripts
         run: |
@@ -157,3 +169,4 @@ jobs:
             - macOS ARM64 (.tar.gz)
             - Windows AMD64 (.zip)
             - **All-in-One Bundle (.zip)**
+
