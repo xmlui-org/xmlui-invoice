@@ -42,7 +42,7 @@ jobs:
       - name: Prepare package directory
         run: |
           mkdir -p ./dist/xmlui-invoice
-          rsync -a --exclude='.git' --exclude='.github' --exclude='workflows' --exclude='tmp' --exclude='dist' ./ ./dist/xmlui-invoice/
+          rsync -a --exclude='.git' --exclude='.github' --exclude='tmp' --exclude='dist' ./ ./dist/xmlui-invoice/
 
       - name: Extract server binary
         run: |
