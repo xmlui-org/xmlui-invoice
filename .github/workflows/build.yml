@@ -85,6 +85,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # ✅ Checkout source repo so your start scripts are available
       - name: Checkout source repo
         uses: actions/checkout@v4
 
@@ -113,6 +114,13 @@ jobs:
           mkdir -p ./tmp-unpack
           tar -xzf ./packages/xmlui-invoice-linux-amd64/xmlui-invoice-linux-amd64.tar.gz -C ./tmp-unpack
           cp -r ./tmp-unpack/xmlui-invoice/* ./all-in-one-bundle/xmlui-invoice/
+
+      - name: Remove redundant single-platform files from all-in-one
+        run: |
+          rm -f ./all-in-one-bundle/xmlui-invoice/xmlui-test-server
+          rm -f ./all-in-one-bundle/xmlui-invoice/xmlui-test-server.exe
+          rm -f ./all-in-one-bundle/xmlui-invoice/start.sh
+          rm -f ./all-in-one-bundle/xmlui-invoice/start.bat
 
       - name: Copy all platform server binaries
         run: |
