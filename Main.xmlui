@@ -7,13 +7,13 @@
   <AppState
     id="currentUser"
     bucket="userState"
-    initialValue="{{ username: 'demouser', display_name: 'Demo User', avatar_url: '/resources/demouser.png' }}"
+    initialValue="{{ username: 'demouser', display_name: 'Demo User', avatar_url: '/resources/demouser.png', borderRadius: '50%' }}"
   />
   <AppHeader>
     <H1>XMLUI Invoice</H1>
     <property name="profileMenuTemplate">
       <HStack verticalAlignment="center" onClick="console.log('click'); Actions.navigate('/settings')">
-        <InvoiceAvatar url="{loggedInUser.avatar_url}" name="{loggedInUser.display_name}" borderRadius="50%" />
+        <InvoiceAvatar url="{loggedInUser.avatar_url}" name="{loggedInUser.display_name}" borderRadius="{currentUser.value.borderRadius}" />
         <Text>{loggedInUser.display_name}</Text>
       </HStack>
     </property>
