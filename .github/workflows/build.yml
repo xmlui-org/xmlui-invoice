@@ -119,34 +119,25 @@ jobs:
         run: |
           rm -f ./all-in-one-bundle/xmlui-test-server
           rm -f ./all-in-one-bundle/xmlui-test-server.exe
-          rm -f ./all-in-one-bundle/start.sh
-          rm -f ./all-in-one-bundle/start.bat
 
-      - name: Copy all platform server binaries
+      - name: Copy all platform server binaries to test-server directory
         run: |
           mkdir -p ./tmp-unpack-linux ./tmp-unpack-macos-intel ./tmp-unpack-macos-arm64 ./tmp-unpack-windows
 
           tar -xzf ./packages/xmlui-invoice-linux-amd64/xmlui-invoice-linux-amd64.tar.gz -C ./tmp-unpack-linux
-          cp ./tmp-unpack-linux/xmlui-invoice/xmlui-test-server ./all-in-one-bundle/xmlui-test-server-linux-amd64
+          cp ./tmp-unpack-linux/xmlui-invoice/xmlui-test-server ./all-in-one-bundle/test-server/xmlui-test-server-linux-amd64
 
           tar -xzf ./packages/xmlui-invoice-macos-intel/xmlui-invoice-macos-intel.tar.gz -C ./tmp-unpack-macos-intel
-          cp ./tmp-unpack-macos-intel/xmlui-invoice/xmlui-test-server ./all-in-one-bundle/xmlui-test-server-macos-intel
+          cp ./tmp-unpack-macos-intel/xmlui-invoice/xmlui-test-server ./all-in-one-bundle/test-server/xmlui-test-server-macos-intel
 
           tar -xzf ./packages/xmlui-invoice-macos-arm64/xmlui-invoice-macos-arm64.tar.gz -C ./tmp-unpack-macos-arm64
-          cp ./tmp-unpack-macos-arm64/xmlui-invoice/xmlui-test-server ./all-in-one-bundle/xmlui-test-server-macos-arm64
+          cp ./tmp-unpack-macos-arm64/xmlui-invoice/xmlui-test-server ./all-in-one-bundle/test-server/xmlui-test-server-macos-arm64
 
           unzip ./packages/xmlui-invoice-windows-amd64/xmlui-invoice-windows-amd64.zip -d ./tmp-unpack-windows
-          cp ./tmp-unpack-windows/xmlui-invoice/xmlui-test-server.exe ./all-in-one-bundle/xmlui-test-server-windows-amd64.exe
-
-      - name: Copy all start scripts
-        run: |
-          cp ./start-linux.sh ./all-in-one-bundle/
-          cp ./start-macos-intel.sh ./all-in-one-bundle/
-          cp ./start-macos-arm64.sh ./all-in-one-bundle/
-          cp ./start-windows.bat ./all-in-one-bundle/
+          cp ./tmp-unpack-windows/xmlui-invoice/xmlui-test-server.exe ./all-in-one-bundle/test-server/xmlui-test-server-windows-amd64.exe
 
       - name: Make start scripts executable
-        run: chmod +x ./all-in-one-bundle/start-*.sh
+        run: chmod +x ./all-in-one-bundle/test-server/start-*.sh
 
       - name: Create all-in-one ZIP
         run: |
