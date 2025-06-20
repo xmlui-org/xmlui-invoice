@@ -33,7 +33,7 @@
         <Column bindTo="display_name"/>
         <Column bindTo="email" width="2*" />
         <Column canSort="{false}" header="avatar">
-          <Avatar url="{$item.avatar_url}"/>
+          <InvoiceAvatar url="{$item.avatar_url}" name="{loggedInUser.display_name}" borderRadius="50%"/>
         </Column>
         <Column canSort="{false}" header="logged_in" width="*">
           <Option label=" " value="{$item.username}" />

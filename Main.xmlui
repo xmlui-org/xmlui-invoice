@@ -13,7 +13,7 @@
     <H1>XMLUI Invoice</H1>
     <property name="profileMenuTemplate">
       <HStack verticalAlignment="center" onClick="console.log('click'); Actions.navigate('/settings')">
-        <Avatar url="{loggedInUser.avatar_url}" name="{loggedInUser.display_name}" />
+        <InvoiceAvatar url="{loggedInUser.avatar_url}" name="{loggedInUser.display_name}" borderRadius="50%" />
         <Text>{loggedInUser.display_name}</Text>
       </HStack>
     </property>
