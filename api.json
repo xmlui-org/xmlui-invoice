@@ -225,6 +225,20 @@
           "params": ["username"]
         }
       }
+    },
+    {
+      "path": "/settings",
+      "methods": {
+        "GET": {
+          "description": "Get settings",
+          "sql": "SELECT * FROM settings LIMIT 1"
+        },
+        "PUT": {
+          "description": "Update settings",
+          "sql": "UPDATE settings SET avatar_border_radius = :avatar_border_radius",
+          "params": ["avatar_border_radius"]
+        }
+      }
     }
   ]
 }

@@ -36,7 +36,7 @@
           <InvoiceAvatar url="{$item.avatar_url}" name="{loggedInUser.display_name}" borderRadius="{currentUser.value.borderRadius}"/>
         </Column>
         <Column canSort="{false}" header="logged_in" width="*">
-          <Option label=" " value="{$item.username}" />
+          <Option value="{$item.username}" />
         </Column>
       </Table>
     </RadioGroup>
@@ -48,7 +48,7 @@
     <TextBox
       width="10rem"
       id="borderRadiusInput"
-      placeholder=e.g. 50% or 10px"
+      placeholder="e.g. 50% or 10px"
       value="{currentUser.value.borderRadius}"
     />
     <ChangeListener
