@@ -85,7 +85,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # ✅ Checkout source repo so your start scripts are available
+      # ✅ Make sure you have your source start scripts
       - name: Checkout source repo
         uses: actions/checkout@v4
 
@@ -107,20 +107,20 @@ jobs:
 
       # --- ALL-IN-ONE BUNDLE STARTS HERE ---
       - name: Create all-in-one bundle folder
-        run: mkdir -p ./all-in-one-bundle/xmlui-invoice
+        run: mkdir -p ./all-in-one-bundle
 
-      - name: Extract xmlui-invoice folder from one archive
+      - name: Extract app files from one archive
         run: |
           mkdir -p ./tmp-unpack
           tar -xzf ./packages/xmlui-invoice-linux-amd64/xmlui-invoice-linux-amd64.tar.gz -C ./tmp-unpack
-          cp -r ./tmp-unpack/xmlui-invoice/* ./all-in-one-bundle/xmlui-invoice/
+          cp -r ./tmp-unpack/xmlui-invoice/* ./all-in-one-bundle/
 
       - name: Remove redundant single-platform files from all-in-one
         run: |
-          rm -f ./all-in-one-bundle/xmlui-invoice/xmlui-test-server
-          rm -f ./all-in-one-bundle/xmlui-invoice/xmlui-test-server.exe
-          rm -f ./all-in-one-bundle/xmlui-invoice/start.sh
-          rm -f ./all-in-one-bundle/xmlui-invoice/start.bat
+          rm -f ./all-in-one-bundle/xmlui-test-server
+          rm -f ./all-in-one-bundle/xmlui-test-server.exe
+          rm -f ./all-in-one-bundle/start.sh
+          rm -f ./all-in-one-bundle/start.bat
 
       - name: Copy all platform server binaries
         run: |
