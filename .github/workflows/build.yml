@@ -64,6 +64,12 @@ jobs:
           cd ./all-in-one-bundle
           zip -r ../xmlui-invoice.zip .
 
+      - name: Clean up temporary directories
+        run: |
+          rm -rf ./all-in-one-bundle
+          rm -rf ./tmp-downloads
+          rm -rf ./tmp-extract-*
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
