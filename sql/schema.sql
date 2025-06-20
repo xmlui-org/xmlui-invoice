@@ -34,3 +34,6 @@ CREATE TABLE users (
       avatar_url TEXT,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );
+CREATE TABLE settings (
+      avatar_border_radius TEXT DEFAULT '50%'
+  );
