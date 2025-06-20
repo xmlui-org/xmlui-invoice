@@ -1,4 +1,4 @@
-name: Build Release Packages
+name: Build All-In-One Release Package
 
 on:
   workflow_dispatch:
@@ -12,129 +12,49 @@ on:
         default: 'v1.0.0'
 
 jobs:
-  create-packages:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        include:
-          - platform: linux-amd64
-            server_binary: xmlui-test-server-linux-amd64.tar.gz
-          - platform: macos-intel
-            server_binary: xmlui-test-server-macos-intel.tar.gz
-          - platform: macos-arm64
-            server_binary: xmlui-test-server-macos-arm64.tar.gz
-          - platform: windows-amd64
-            server_binary: xmlui-test-server-windows-amd64.zip
-
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Create temp directory
-        run: mkdir -p ./tmp/${{ matrix.platform }}
-
-      - name: Download server binary
-        run: |
-          curl -L -o ./tmp/${{ matrix.server_binary }} \
-            "https://github.com/JonUdell/xmlui-test-server/releases/download/${{ github.event.inputs.server_version }}/${{ matrix.server_binary }}"
-
-      - name: Prepare package directory
-        run: |
-          mkdir -p ./dist/xmlui-invoice
-          rsync -a --exclude='.git' --exclude='.github' --exclude='tmp' --exclude='dist' ./ ./dist/xmlui-invoice/
-
-      - name: Extract server binary
-        run: |
-          mkdir -p ./tmp/${{ matrix.platform }}
-          if [[ "${{ matrix.server_binary }}" == *.zip ]]; then
-            unzip ./tmp/${{ matrix.server_binary }} -d ./tmp/${{ matrix.platform }}
-          else
-            tar -xzf ./tmp/${{ matrix.server_binary }} -C ./tmp/${{ matrix.platform }}
-          fi
-
-          if [[ "${{ matrix.platform }}" == "windows-amd64" ]]; then
-            mv ./tmp/${{ matrix.platform }}/xmlui-test-server*.exe ./dist/xmlui-invoice/xmlui-test-server.exe
-          else
-            find ./tmp/${{ matrix.platform }} -name "xmlui-test-server" -type f -exec mv {} ./dist/xmlui-invoice/xmlui-test-server \;
-          fi
-
-      - name: Set execute permissions for Unix binaries
-        if: ${{ matrix.platform != 'windows-amd64' }}
-        run: |
-          chmod +x ./dist/xmlui-invoice/xmlui-test-server
-          chmod +x ./dist/xmlui-invoice/start.sh
-
-      - name: Create package archive
-        run: |
-          cd ./dist
-          if [[ "${{ matrix.platform }}" == "windows-amd64" ]]; then
-            zip -r xmlui-invoice-${{ matrix.platform }}.zip xmlui-invoice
-          else
-            tar -czf xmlui-invoice-${{ matrix.platform }}.tar.gz xmlui-invoice
-          fi
-
-      - name: Upload package artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: xmlui-invoice-${{ matrix.platform }}
-          path: ./dist/xmlui-invoice-${{ matrix.platform }}.*
-
-  create-release:
-    needs: create-packages
+  create-all-in-one:
     runs-on: ubuntu-latest
 
     steps:
-      # ✅ Make sure you have your source start scripts
       - name: Checkout source repo
         uses: actions/checkout@v4
 
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: ./packages
-          merge-multiple: false
-
-      - name: Show downloaded structure
-        run: find ./packages -type f | sort
-
-      - name: Prepare release files folder
-        run: mkdir -p ./release-files
-
-      - name: Collect all per-platform archives
-        run: |
-          find ./packages -type f \( -name "*.zip" -o -name "*.tar.gz" \) -exec cp {} ./release-files/ \;
-
-      # --- ALL-IN-ONE BUNDLE STARTS HERE ---
       - name: Create all-in-one bundle folder
-        run: mkdir -p ./all-in-one-bundle
-
-      - name: Extract app files from one archive
         run: |
-          mkdir -p ./tmp-unpack
-          tar -xzf ./packages/xmlui-invoice-linux-amd64/xmlui-invoice-linux-amd64.tar.gz -C ./tmp-unpack
-          cp -r ./tmp-unpack/xmlui-invoice/* ./all-in-one-bundle/
+          mkdir -p ./all-in-one-bundle
+          rsync -a --exclude='.git' --exclude='.github' --exclude='tmp' --exclude='dist' ./ ./all-in-one-bundle/
 
-      - name: Remove redundant single-platform files from all-in-one
+      - name: Download all platform server binaries
         run: |
-          rm -f ./all-in-one-bundle/xmlui-test-server
-          rm -f ./all-in-one-bundle/xmlui-test-server.exe
+          mkdir -p ./tmp-downloads
+          
+          curl -L -o ./tmp-downloads/xmlui-test-server-linux-amd64.tar.gz \
+            "https://github.com/JonUdell/xmlui-test-server/releases/download/${{ github.event.inputs.server_version }}/xmlui-test-server-linux-amd64.tar.gz"
+          
+          curl -L -o ./tmp-downloads/xmlui-test-server-macos-intel.tar.gz \
+            "https://github.com/JonUdell/xmlui-test-server/releases/download/${{ github.event.inputs.server_version }}/xmlui-test-server-macos-intel.tar.gz"
+          
+          curl -L -o ./tmp-downloads/xmlui-test-server-macos-arm64.tar.gz \
+            "https://github.com/JonUdell/xmlui-test-server/releases/download/${{ github.event.inputs.server_version }}/xmlui-test-server-macos-arm64.tar.gz"
+          
+          curl -L -o ./tmp-downloads/xmlui-test-server-windows-amd64.zip \
+            "https://github.com/JonUdell/xmlui-test-server/releases/download/${{ github.event.inputs.server_version }}/xmlui-test-server-windows-amd64.zip"
 
-      - name: Copy all platform server binaries to test-server directory
+      - name: Extract and place server binaries
         run: |
-          mkdir -p ./tmp-unpack-linux ./tmp-unpack-macos-intel ./tmp-unpack-macos-arm64 ./tmp-unpack-windows
-
-          tar -xzf ./packages/xmlui-invoice-linux-amd64/xmlui-invoice-linux-amd64.tar.gz -C ./tmp-unpack-linux
-          cp ./tmp-unpack-linux/xmlui-invoice/xmlui-test-server ./all-in-one-bundle/test-server/xmlui-test-server-linux-amd64
-
-          tar -xzf ./packages/xmlui-invoice-macos-intel/xmlui-invoice-macos-intel.tar.gz -C ./tmp-unpack-macos-intel
-          cp ./tmp-unpack-macos-intel/xmlui-invoice/xmlui-test-server ./all-in-one-bundle/test-server/xmlui-test-server-macos-intel
-
-          tar -xzf ./packages/xmlui-invoice-macos-arm64/xmlui-invoice-macos-arm64.tar.gz -C ./tmp-unpack-macos-arm64
-          cp ./tmp-unpack-macos-arm64/xmlui-invoice/xmlui-test-server ./all-in-one-bundle/test-server/xmlui-test-server-macos-arm64
-
-          unzip ./packages/xmlui-invoice-windows-amd64/xmlui-invoice-windows-amd64.zip -d ./tmp-unpack-windows
-          cp ./tmp-unpack-windows/xmlui-invoice/xmlui-test-server.exe ./all-in-one-bundle/test-server/xmlui-test-server-windows-amd64.exe
+          mkdir -p ./tmp-extract-linux ./tmp-extract-macos-intel ./tmp-extract-macos-arm64 ./tmp-extract-windows
+          
+          tar -xzf ./tmp-downloads/xmlui-test-server-linux-amd64.tar.gz -C ./tmp-extract-linux
+          cp ./tmp-extract-linux/xmlui-test-server ./all-in-one-bundle/test-server/xmlui-test-server-linux-amd64
+          
+          tar -xzf ./tmp-downloads/xmlui-test-server-macos-intel.tar.gz -C ./tmp-extract-macos-intel
+          cp ./tmp-extract-macos-intel/xmlui-test-server ./all-in-one-bundle/test-server/xmlui-test-server-macos-intel
+          
+          tar -xzf ./tmp-downloads/xmlui-test-server-macos-arm64.tar.gz -C ./tmp-extract-macos-arm64
+          cp ./tmp-extract-macos-arm64/xmlui-test-server ./all-in-one-bundle/test-server/xmlui-test-server-macos-arm64
+          
+          unzip ./tmp-downloads/xmlui-test-server-windows-amd64.zip -d ./tmp-extract-windows
+          cp ./tmp-extract-windows/xmlui-test-server.exe ./all-in-one-bundle/test-server/xmlui-test-server-windows-amd64.exe
 
       - name: Make start scripts executable
         run: chmod +x ./all-in-one-bundle/test-server/start-*.sh
@@ -144,29 +64,18 @@ jobs:
           cd ./all-in-one-bundle
           zip -r ../xmlui-invoice.zip .
 
-      - name: Add all-in-one ZIP to release files
-        run: mv ./xmlui-invoice.zip ./release-files/
-
-      # --- END ALL-IN-ONE BUNDLE ---
-
-      - name: Final release files check
-        run: ls -lh ./release-files
-
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
           token: ${{ secrets.PAT_TOKEN }}
           tag_name: ${{ github.event.inputs.tag }}
           name: Release ${{ github.event.inputs.tag }}
-          files: ./release-files/*
+          files: xmlui-invoice.zip
           body: |
             XMLUI Invoice ${{ github.event.inputs.tag }}
 
             Includes XMLUI Test Server ${{ github.event.inputs.server_version }}
 
-            ✅ Available packages:
-            - Linux AMD64 (.tar.gz)
-            - macOS Intel (.tar.gz)
-            - macOS ARM64 (.tar.gz)
-            - Windows AMD64 (.zip)
-            - **All-in-One Bundle (xmlui-invoice.zip)**
+            ✅ All-In-One Bundle (xmlui-invoice.zip)
+            - Supports all platforms: Linux, macOS (Intel & ARM), Windows
+            - Run ./start.sh (Unix) or start.bat (Windows) to launch
