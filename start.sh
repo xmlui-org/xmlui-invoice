@@ -1,30 +1,24 @@
 #!/bin/bash
+set -e
 
-echo "XMLUI Invoice Server"
-echo "===================="
-echo ""
-echo "Please select your platform:"
-echo "1) macOS ARM64 (Apple Silicon)"
-echo "2) macOS Intel"
-echo "3) Linux AMD64"
-echo ""
-read -p "Enter your choice (1-3): " choice
+ARCH=$(uname -m)
 
-case $choice in
-    1)
-        echo "Starting macOS ARM64 server..."
-        ./test-server/start-macos-arm64.sh
+case "$(uname -s)" in
+    Linux)
+        exec "./test-server/xmlui-test-server-linux-amd64" -api api.json
         ;;
-    2)
-        echo "Starting macOS Intel server..."
-        ./test-server/start-macos-intel.sh
-        ;;
-    3)
-        echo "Starting Linux AMD64 server..."
-        ./test-server/start-linux.sh
+    Darwin)
+        if [ "$ARCH" = "arm64" ]; then
+            # Remove quarantine on macOS
+            xattr -d com.apple.quarantine test-server/xmlui-test-server-macos-arm64 2>/dev/null || true
+            exec "./test-server/xmlui-test-server-macos-arm64" -api api.json
+        else
+            xattr -d com.apple.quarantine test-server/xmlui-test-server-macos-intel 2>/dev/null || true
+            exec "./test-server/xmlui-test-server-macos-intel" -api api.json
+        fi
         ;;
     *)
-        echo "Invalid choice. Please run again and select 1-3."
+        echo "Unsupported platform. Windows users: run start.bat"
         exit 1
         ;;
 esac
