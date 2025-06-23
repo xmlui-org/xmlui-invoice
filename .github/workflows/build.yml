@@ -26,12 +26,11 @@ jobs:
           # Copy launcher files to root
           cp start.sh start.bat ./all-in-one-bundle/
           
-          # Copy app files to xmlui-invoice subdirectory
-          cp -r Main.xmlui components config.json index.html resources themes xmlui ./all-in-one-bundle/xmlui-invoice/
+          # Copy app files from xmlui-invoice subdirectory to xmlui-invoice subdirectory
+          cp -r xmlui-invoice/* ./all-in-one-bundle/xmlui-invoice/
           
           # Copy sensitive files to private directory
-          cp api.json data.db ./all-in-one-bundle/private/
-          cp -r sql ./all-in-one-bundle/private/
+          cp -r private/* ./all-in-one-bundle/private/
           
           # Copy test-server directory
           cp -r test-server ./all-in-one-bundle/
