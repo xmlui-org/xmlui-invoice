@@ -21,8 +21,20 @@ jobs:
 
       - name: Create all-in-one bundle folder
         run: |
-          mkdir -p ./all-in-one-bundle
-          rsync -a --exclude='.git' --exclude='.github' --exclude='tmp' --exclude='dist' --exclude='README.md' --exclude='all-in-one-bundle' ./ ./all-in-one-bundle/
+          mkdir -p ./all-in-one-bundle/private ./all-in-one-bundle/xmlui-invoice
+          
+          # Copy launcher files to root
+          cp start.sh start.bat ./all-in-one-bundle/
+          
+          # Copy app files to xmlui-invoice subdirectory
+          cp -r Main.xmlui components config.json index.html resources themes xmlui ./all-in-one-bundle/xmlui-invoice/
+          
+          # Copy sensitive files to private directory
+          cp api.json data.db ./all-in-one-bundle/private/
+          cp -r sql ./all-in-one-bundle/private/
+          
+          # Copy test-server directory
+          cp -r test-server ./all-in-one-bundle/
 
       - name: Download all platform server binaries
         run: |
