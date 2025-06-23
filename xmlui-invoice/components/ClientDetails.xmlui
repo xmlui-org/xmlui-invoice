@@ -1,37 +1,14 @@
 <Component name="ClientDetails">
 
-    <variable name="client" value="{$props.client}" />
-
     <H2>Client Details</H2>
 
-    <VStack gap="$space-4">
+    <Form data="{$props.client}"
+          submitUrl="/api/clients/{$props.client.id}"
+          submitMethod="PUT">
+        <FormItem label="name" bindTo="name" />
+        <FormItem label="email" bindTo="email" />
+        <FormItem label="phone" bindTo="phone" />
+        <FormItem label="address" bindTo="address" />
+    </Form>
 
-        <Form>
-            <FormItem label="name" bindTo="name" initialValue="{client.name}" />
-            <FormItem label="email" bindTo="email" initialValue="{client.email}" />
-            <FormItem label="phone" bindTo="phone" initialValue="{client.phone}" />
-            <FormItem label="address" bindTo="address" initialValue="{client.address}" />
-
-            <event name="submit">
-                <APICall
-                    url="/api/clients/{client.id}"
-                    method="PUT"
-                    inProgressNotificationMessage="Updating client..."
-                    completedNotificationMessage="Client updated successfully"
-                    body="{
-                      {
-                       id: client.id,
-                       name: $param.name,
-                       email: $param.email,
-                       phone: $param.phone,
-                       address: $param.address
-                       }
-                    }"
-                    onSuccess="Actions.navigate('/clients')"
-                    onCancel="Actions.navigate('/clients')"
-                />
-            </event>
-        </Form>
-
-    </VStack>
 </Component>

@@ -2,13 +2,8 @@
   name="XMLUI Invoice"
   layout="vertical-full-header"
   defaultTheme="invoice"
-  loggedInUser="{currentUser.value}"
+  loggedInUser="{{ username: 'demouser', display_name: 'Demo User', avatar_url: '/resources/demouser.png' }}"
 >
-  <AppState
-    id="currentUser"
-    bucket="userState"
-    initialValue="{{ username: 'demouser', display_name: 'Demo User', avatar_url: '/resources/demouser.png' }}"
-  />
   <AppState
     id="settings"
     bucket="settingsState"
@@ -20,7 +15,9 @@
     </event>
   </DataSource>
   <AppHeader>
-    <H1>XMLUI Invoice</H1>
+    <property name="titleTemplate">
+      <H1>XMLUI Invoice</H1>
+    </property>
     <property name="profileMenuTemplate">
       <HStack verticalAlignment="center" onClick="Actions.navigate('/settings')">
         <InvoiceAvatar url="{loggedInUser.avatar_url}" name="{loggedInUser.display_name}" borderRadius="{settings.value.avatar_border_radius}" />
