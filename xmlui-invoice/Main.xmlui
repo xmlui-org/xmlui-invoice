@@ -10,7 +10,7 @@
   />
   <DataSource id="settingsLoader" url="/api/settings">
     <event name="loaded">
-      settings.update({ avatar_border_radius: "10px" });
+      settings.update({ avatar_border_radius: settingsLoader.value[0].avatar_border_radius });
       delay(500);
     </event>
   </DataSource>
@@ -91,15 +91,6 @@
 
     <Page url="/users/new">
       <CreateUser />
-    </Page>
-
-
-    <Page url="/test">
-      <Test />
-    </Page>
-
-    <Page url="/badge-test">
-      <BadgeTest />
     </Page>
 
     <Page url="/icons">
