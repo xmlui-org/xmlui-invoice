@@ -5,16 +5,19 @@ ARCH=$(uname -m)
 
 case "$(uname -s)" in
     Linux)
-        exec "./test-server/xmlui-test-server-linux-amd64" -api api.json
+        cd xmlui-invoice
+        exec "../test-server/xmlui-test-server-linux-amd64" -db ../private/data.db -api ../private/api.json
         ;;
     Darwin)
         if [ "$ARCH" = "arm64" ]; then
             # Remove quarantine on macOS
             xattr -d com.apple.quarantine test-server/xmlui-test-server-macos-arm64 2>/dev/null || true
-            exec "./test-server/xmlui-test-server-macos-arm64" -api api.json
+            cd xmlui-invoice
+            exec "../test-server/xmlui-test-server-macos-arm64" -db ../private/data.db -api ../private/api.json
         else
             xattr -d com.apple.quarantine test-server/xmlui-test-server-macos-intel 2>/dev/null || true
-            exec "./test-server/xmlui-test-server-macos-intel" -api api.json
+            cd xmlui-invoice
+            exec "../test-server/xmlui-test-server-macos-intel" -db ../private/data.db -api ../private/api.json
         fi
         ;;
     *)
