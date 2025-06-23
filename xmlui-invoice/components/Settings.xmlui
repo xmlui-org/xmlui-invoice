@@ -1,7 +1,6 @@
 <Component name="Settings">
-  <AppState id="currentUser" bucket="userState" />
+  <DataSource url="/api/users" id="users"/>
   <AppState id="settings" bucket="settingsState" />
-  <DataSource id="users" url="/api/users"/>
     <ChangeListener
     listenTo="{settings.value}"
     onDidChange="{() => {
@@ -13,9 +12,7 @@
   </H1>
   <Card>
     <HStack>
-      <H2>
-        Users
-      </H2>
+      <H2>Users</H2>
       <SpaceFiller/>
       <Button label="Add User" onClick="Actions.navigate('/users/new')"/>
     </HStack>
@@ -23,16 +20,10 @@
       id="userSelector"
       initialValue="{loggedInUser.username}"
       onDidChange="(val) => {
-        // Find the selected user and update currentUser AppState
+        // Find the selected user and update the loggedInUser
         const selectedUser = users.value.find(u => u.username === val);
         console.log('selectedUser', JSON.stringify(selectedUser))
-        if (selectedUser) {
-          currentUser.update({
-            username: selectedUser.username,
-            display_name: selectedUser.display_name,
-            avatar_url: selectedUser.avatar_url
-          });
-        };
+        setLoggedInUser(selectedUser);
       }"
     >
       <Table data="{users}">
@@ -49,22 +40,18 @@
     </RadioGroup>
   </Card>
 
-  <Card>
-    <H2>Avatar Settings</H2>
-    Border radius
+  <Card title="Avatar Settings">
     <TextBox
+      label="Border radius"
       width="10rem"
       id="borderRadiusInput"
       placeholder="e.g. 50% or 10px"
       value="{settings.value.avatar_border_radius}"
-    />
-    <ChangeListener
-      listenTo="{borderRadiusInput.value}"
-      onDidChange="{() => {
+      onDidChange="{(value) => {
         // Only update if we have a valid value and settings is loaded
-        if (borderRadiusInput.value && settings.value) {
+        if (value && settings.value) {
           settings.update({
-            avatar_border_radius: borderRadiusInput.value
+            avatar_border_radius: value
           });
         }
       }}"

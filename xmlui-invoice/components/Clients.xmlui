@@ -1,29 +1,11 @@
 <Component name="Clients">
-
-  <DataSource
-    id="clients"
-    url="/api/clients"
-    method="GET"
-  />
-
-  <!--
-  <Text>{JSON.stringify(clients.value[0])}</Text>
-  -->
-
-  <ModalDialog
-    id="detailsDialog"
-    width="800px"
-  >
-    <ClientDetails client="{$params[0]}" onCancel="clientDetailsDialog.close()" />
-  </ModalDialog>
-
   <HStack>
     <H1>Clients</H1>
     <SpaceFiller />
-    <Button label="Add Client" themeColor="primary" onClick="navigate('/clients/new')" />
+    <Button label="Add Client" onClick="navigate('/clients/new')" />
   </HStack>
 
-  <Table data="{clients}">
+  <Table data="/api/clients">
     <Column  bindTo="name" width="2*" />
     <Column bindTo="email" width="3*" />
     <Column bindTo="phone" />
@@ -34,5 +16,12 @@
       <Icon name="doc-outline" onClick="detailsDialog.open($item)" />
     </Column>
   </Table>
+
+  <ModalDialog
+    id="detailsDialog"
+    maxWidth="800px"
+  >
+    <ClientDetails client="{$param}" />
+  </ModalDialog>
 
 </Component>
