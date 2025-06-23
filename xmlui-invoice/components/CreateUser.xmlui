@@ -1,63 +1,37 @@
 <Component name="CreateUser">
+  <H1>Add New User</H1>
 
-    <VStack gap="$space-4">
-        <H1>Add New User</H1>
+  <!--        TODO inProgressNotificationMessage="Creating user..."
+                      completedNotificationMessage="User created successfully" onSuccess="Actions.navigate('/settings')"-->
+  <Card>
+    <Form id="newUserForm" submitUrl="/api/users" submitMethod="POST" onCancel="Actions.navigate('/settings')">
+      <FormItem
+        bindTo="username"
+        label="Username"
+        placeholder="Enter username"
+        required="true"
+      />
 
-        <Form id="newUserForm">
-            <Card padding="$space-4">
-                <VStack gap="$space-4">
-                    <FormItem
-                        type="text"
-                        bindTo="username"
-                        label="Username"
-                        placeholder="Enter username"
-                        required="true"
-                    />
+      <FormItem
+        bindTo="display_name"
+        label="Display name"
+        placeholder="Enter display name"
+        required="true"
+      />
 
-                    <FormItem
-                        type="text"
-                        bindTo="display_name"
-                        label="Display name"
-                        placeholder="Enter display name"
-                        required="true"
-                    />
+      <FormItem
+        pattern="email"
+        bindTo="email"
+        label="Email"
+        placeholder="example@email.com"
+        required="true"
+      />
 
-                    <FormItem
-                        type="text"
-                        pattern="email"
-                        bindTo="email"
-                        label="Email"
-                        placeholder="example@email.com"
-                        required="true"
-                    />
-
-                    <FormItem
-                        type="text"
-                        bindTo="avatar_url"
-                        label="Avatar URL"
-                        required="true"
-                    />
-
-                </VStack>
-            </Card>
-            <event name="submit">
-                <APICall
-                    url="/api/users"
-                    method="POST"
-                    inProgressNotificationMessage="Creating user..."
-                    completedNotificationMessage="User created successfully"
-                    body="{
-                      {
-                      username: $param.username,
-                      display_name: $param.display_name,
-                      email: $param.email,
-                      avatar_url: $param.avatar_url
-                      }
-                    }"
-                    onSuccess="Actions.navigate('/settings')"
-                />
-            </event>
-        </Form>
-    </VStack>
-
+      <FormItem
+        bindTo="avatar_url"
+        label="Avatar URL"
+        required="true"
+      />
+    </Form>
+  </Card>
 </Component>

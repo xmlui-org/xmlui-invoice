@@ -1,41 +1,29 @@
 <Component name="CreateInvoice">
 
-  <DataSource id="clients" url="/api/clients" method="GET" />
-
-  <DataSource id="products" url="/api/products" method="GET" />
-
   <Form
     id="invoiceForm"
-    onCancel="invoiceForm.reset()">
-    <Card>
-      <H1>Create New Invoice</H1>
+    onCancel="Actions.navigate('/invoices')"
+  >
+    <Card title="Create New Invoice">
+      <FlowLayout>
+        <FormItem
+          width="50%"
+          type="select"
+          placeholder="select client"
+          bindTo="client"
+          label="Client"
+          required="true"
+        >
+          <Items data="/api/clients">
+            <Option value="{$item.name}" label="{$item.name}"/>
+          </Items>
+        </FormItem>
 
-        <FlowLayout>
+        <FormItem type="datePicker" dateFormat="yyyy-MM-dd" initialValue="{ formatToday() }"
+                  bindTo="issueDate" label="Issue date" width="25%"/>
 
-        <Card border="none" width="50%" padding="0">
-          <FormItem
-            type="select"
-            placeholder="select client"
-            bindTo="client"
-            label="Client"
-            required="true"
-          >
-            <Items data="{clients}">
-              <Option value="{$item.name}" label="{$item.name}" />
-            </Items>
-          </FormItem>
-        </Card>
-
-        <Card border="none" width="25%" padding="0">
-          <FormItem type="datePicker" dateFormat="yyyy-MM-dd" initialValue="{ formatToday() }"
-            bindTo="issueDate" label="Issue date" />
-        </Card>
-
-        <Card border="none" width="25%" padding="0">
-          <FormItem type="datePicker" dateFormat="yyyy-MM-dd" initialValue="{ formatToday(30) }"
-            bindTo="dueDate" label="Due date" />
-        </Card>
-
+        <FormItem type="datePicker" dateFormat="yyyy-MM-dd" initialValue="{ formatToday(30) }"
+                  bindTo="dueDate" label="Due date" width="25%"/>
       </FlowLayout>
 
       <H2>Line Items</H2>
@@ -52,11 +40,9 @@
         type="items"
         id="lineItemsForm"
         required="true"
-        onValidate="(value) => Array.isArray(value) && value.length > 0 && value.every(item => item.product)"
         requiredInvalidMessage="At least one line item is required."
       >
-        <FlowLayout width="100%"
-          verticalAlignment="center">
+        <FlowLayout width="100%">
           <DataSource
             id="productDetails"
             url="/api/products/byname/{$item.product}"
@@ -68,26 +54,27 @@
             type="select"
             placeholder="select product"
             width="20%"
+            required="true"
           >
-            <Items data="{products}">
-              <Option value="{$item.name}" label="{$item.name}" />
+            <Items data="/api/products">
+              <Option value="{$item.name}" label="{$item.name}"/>
             </Items>
           </FormItem>
           <Text width="20%">{ productDetails.value[0].description }</Text>
-          <FormItem width="20%" bindTo="quantity"               type="number"   initialValue="1" minValue="1" />
-          <FormItem width="20%" bindTo="price"  startText="$"                   initialValue="{ productDetails.value[0].price }" />
-          <FormItem width="13%" bindTo="amount" startText="$"   enabled="false" initialValue="{ $item.price ? $item.quantity * $item.price : '' } " />
+          <FormItem width="20%" bindTo="quantity" type="number" initialValue="1" minValue="1"/>
+          <FormItem width="20%" bindTo="price" startText="$" initialValue="{ productDetails.value[0].price }"/>
+          <FormItem width="13%" bindTo="amount" startText="$" enabled="false"
+                    initialValue="{ $item.price ? $item.quantity * $item.price : '' } "/>
           <Button width="2rem" onClick="lineItemsForm.removeItem($itemIndex)">X</Button>
-
         </FlowLayout>
       </FormItem>
       <HStack>
         <Button onClick="lineItemsForm.addItem()">
           Add Item
         </Button>
-        <SpaceFiller />
+        <SpaceFiller/>
         <Text>
-         Total: ${ window.lineItemTotal($data.lineItems) }
+          Total: ${ window.lineItemTotal($data.lineItems) }
         </Text>
       </HStack>
     </Card>
@@ -109,8 +96,5 @@
         onSuccess="Actions.navigate('/invoices')"
       />
     </event>
-
   </Form>
-
-
 </Component>
