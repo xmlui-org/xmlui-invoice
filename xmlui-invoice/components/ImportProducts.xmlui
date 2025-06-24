@@ -1,100 +1,83 @@
-<Component
-  name="ImportProducts"
-  codeBehind="./ImportProducts.xmlui.xs"
-  var.filename=""
-  var.selectedProducts=""
-  var.productToImport=""
-  var.importQueue=""
->
+<Component name="ImportProducts">
+  <script>
+    var parsedCsv = null;
+
+    function isDuplicate(name) {
+      return existingProducts.value.some(p => p.name === name);
+    }
+  </script>
+
+  <DataSource
+    id="existingProducts"
+    url="/api/products"
+    method="GET"
+  />
 
   <H1>Import Products</H1>
 
-  <Text>Upload a CSV file containing product data (name, description, price) to review and import into your product catalog.</Text>
+  <Text>Upload a CSV file containing product data (name, description, price) to review and import into your product
+    catalog.
+  </Text>
 
-  <VStack>
+  <Card width="30%">
 
-    <Card width="30%">
-
-      <FileInput
-        id="fileInput"
-        acceptsFileType="{['.csv']}"
-        onDidChange="{ (val) => {
-          filename = val[0]?.name;
-          productsFromCsv.clearSelection();
+    <FileInput
+      id="fileInput"
+      acceptsFileType="{['.csv']}"
+      onDidChange="{ (val) => {
+          parsedCsv = window.parseCsv(val[0]).map((item, idx) => { return {...item, id: idx};});
         }}"
-      />
+    />
 
+  </Card>
+
+
+  <Fragment when="{parsedCsv}">
+
+    <HStack verticalAlignment="center" gap="$space-2">
+      <Text>Select some or all records, then click</Text>
+      <Button
+        label="Import"
+        onClick="{ console.log('selectedProducts', productsFromCsv.getSelectedItems()); importQueue.enqueueItems(productsFromCsv.getSelectedItems())}"
+        enabled="{productsFromCsv.getSelectedItems().length}"
+      />
+    </HStack>
+
+    <Card>
+      <Table
+        id="productsFromCsv"
+        data="{ parsedCsv }"
+        rowsSelectable="true"
+        rowDisabledPredicate="{(row) => isDuplicate(row.name)}"
+      >
+        <Column header="Name">
+          <Text color="{isDuplicate($item.name) ? '$color-danger-500' : '$textColor-primary'}">
+            {$item.name} {isDuplicate($item.name) ? '(duplicate)' : ''}
+          </Text>
+        </Column>
+        <Column bindTo="description"/>
+        <Column bindTo="price"/>
+      </Table>
     </Card>
 
+  </Fragment>
 
-    <Fragment when="{filename && !importQueue}">
 
-      <HStack verticalAlignment="center" gap="$space-2">
-        <Text when="{filename}">Select some or all records, then click</Text>
-        <Button
-          label="Import"
-          onClick="{ console.log('selectedProducts', selectedProducts); startImport(selectedProducts)}"
-          enabled="{selectedProducts.length}"
-        />
-      </HStack>
-
-      <DataSource
-        id="csv"
-        dataType="csv"
-        url="{filename}"
-        transformResult="{(data) => data.map((row, index) => ({...row, id: `${index}`}))}"
-      />
-
-      <DataSource
-        id="existingProducts"
+  <Queue id="importQueue" clearAfterFinish="true">
+    <property name="progressFeedback">
+      <Text value="Importing {pluralize(importQueue.getQueuedItems().length, 'product', 'products')}"/>
+    </property>
+    <property name="resultFeedback">
+      <Text value="Imported {pluralize($completedItems.length, 'product', 'products')}"/>
+    </property>
+    <event name="process">
+      <APICall
         url="/api/products"
-        method="GET"
+        method="post"
+        body="{$param.item}"
       />
-
-      <Card>
-
-        <Table
-          id="productsFromCsv"
-          data="{ csv }"
-          rowsSelectable="true"
-          rowDisabledPredicate="{(row) => isDuplicate(row.name)}"
-          onSelectionDidChange="(selection) => {
-            console.log('selectionChange', selection)
-            selectedProducts = selection;
-            console.log('selectedProducts', selectedProducts)
-          }"
-        >
-          <Column header="Name">
-            <Text color="{isDuplicate($item.name) ? '$color-danger-500' : '$textColor-primary'}">
-              {$item.name} {isDuplicate($item.name) ? '(duplicate)' : ''}
-            </Text>
-          </Column>
-          <Column bindTo="description" />
-          <Column bindTo="price" />
-        </Table>
-
-      </Card>
-
-    </Fragment>
-
-    <APICall
-      id="importProduct"
-      url="/api/products"
-      method="POST"
-      onSuccess="{processNextProduct()}"
-      onError="(error) => console.error('Import error:', error)"
-      rawBody="{productToImport}"
-    />
-
-    <ChangeListener
-      listenTo="{productToImport}"
-      onDidChange="{() => {
-        console.log('Importing product:', productToImport);
-        importProduct.execute();
-      }}"
-    />
-
-
-  </VStack>
+    </event>
+    <event name="complete" value="productsFromCsv.clearSelection()"/>
+  </Queue>
 
 </Component>
