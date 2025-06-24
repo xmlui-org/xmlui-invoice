@@ -8,7 +8,6 @@
             <StatusBadge status="{$item.status}" />
         </Column>
     </Table>
-<!--    TODO we should be able to set inProgressNotificationMessage, completedNotificationMessage, onSubmitSuccess for forms-->
     <Form submitUrl="/api/invoices/{$props.details.invoice_number}" submitMethod="PUT">
         <FormItem label="Notes" bindTo="notes" initialValue="{window.coalesce($props.details.notes)}" />
         <FormItem label="Status" bindTo="status" initialValue="{$props.details.status}" type="select" enabled="{$props.details.status !== 'paid'}">
