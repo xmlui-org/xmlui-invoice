@@ -15,7 +15,6 @@
       maxDate="{ dateRange.value[0].today }"
     />
 
-<!--TODO tickFormatter, why do we need this? the ticks shouldn't overlap by default-->
     <Card height="400px">
       <BarChart
         layout="horizontal"
