@@ -41,7 +41,7 @@
       <DataSource
         id="csv"
         dataType="csv"
-        url="{filename}"
+        url="/resources/{filename}"
         transformResult="{(data) => data.map((row, index) => ({...row, id: `${index}`}))}"
       />
 
