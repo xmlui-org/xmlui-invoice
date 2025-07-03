@@ -10,7 +10,7 @@
     <Column bindTo="email" width="3*" />
     <Column bindTo="phone" />
     <Column  bindTo="outstanding">
-      <Text>{$item.outstanding ? '$' + $item.outstanding : ''}</Text>
+      <Text> {$item.outstanding ? '$' + $item.outstanding : ''}</Text>
     </Column>
     <Column canSort="{false}" header="Details">
       <Icon name="doc-outline" onClick="detailsDialog.open($item)" />
