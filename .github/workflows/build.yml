@@ -22,16 +22,16 @@ jobs:
       - name: Create all-in-one bundle folder
         run: |
           mkdir -p ./all-in-one-bundle/private ./all-in-one-bundle/xmlui-invoice
-          
+
           # Copy launcher files to root
           cp start.sh start.bat ./all-in-one-bundle/
-          
+
           # Copy app files from xmlui-invoice subdirectory to xmlui-invoice subdirectory
           cp -r xmlui-invoice/* ./all-in-one-bundle/xmlui-invoice/
-          
+
           # Copy sensitive files to private directory
           cp -r private/* ./all-in-one-bundle/private/
-          
+
           # Copy test-server directory
           cp -r test-server ./all-in-one-bundle/
 
@@ -95,4 +95,5 @@ jobs:
 
             ✅ All-In-One Bundle (xmlui-invoice.zip)
             - Supports Linux, macOS (Intel & ARM), Windows
+            - Extract the files to a folder
             - Run ./start.sh (Mac/Linux/WSL) or start.bat (Windows) to launch
