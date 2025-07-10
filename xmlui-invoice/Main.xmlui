@@ -100,7 +100,23 @@
     <Page url="/palettes">
       <Palettes />
     </Page>
+
+    <Page url="/test">
+      <Palettes />
+    </Page>
+
+
   </Pages>
+
+<FormItem
+  type="select"
+  initialValue="{selectedValue}"
+  onDidChange="(val) => selectedValue = val"
+>
+  <Items data="{'myData}">
+    <Option value="{$item.id}" label="{$item.name}" />
+  </Items>
+</FormItem>
 
   <Footer>Built with XMLUI <ToneChangerButton /> </Footer>
 
