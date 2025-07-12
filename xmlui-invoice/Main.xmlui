@@ -90,9 +90,6 @@
     <Page url="/palettes">
       <Palettes />
     </Page>
-    <Page url="/test">
-      <Test />
-    </Page>
   </Pages>
   <Footer>
     Built with XMLUI
