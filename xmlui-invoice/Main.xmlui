@@ -2,12 +2,10 @@
   name="XMLUI Invoice"
   layout="vertical-full-header"
   defaultTheme="invoice"
-  loggedInUser="{{ username: 'demouser', display_name: 'Demo User', avatar_url: '/resources/demouser.png' }}"
->
+  loggedInUser="{{ username: 'demouser', display_name: 'Demo User', avatar_url: '/resources/demouser.png' }}">
   <AppState
     id="settings"
-    bucket="settingsState"
-  />
+    bucket="settingsState" />
   <DataSource id="settingsLoader" url="/api/settings">
     <event name="loaded">
       settings.update({ avatar_border_radius: settingsLoader.value[0].avatar_border_radius });
@@ -16,12 +14,19 @@
   </DataSource>
   <AppHeader>
     <property name="titleTemplate">
-      <H1>XMLUI Invoice</H1>
+      <H1>
+        XMLUI Invoice
+      </H1>
     </property>
     <property name="profileMenuTemplate">
       <HStack verticalAlignment="center" onClick="Actions.navigate('/settings')">
-        <InvoiceAvatar url="{loggedInUser.avatar_url}" name="{loggedInUser.display_name}" borderRadius="{settings.value.avatar_border_radius}" />
-        <Text>{loggedInUser.display_name}</Text>
+        <InvoiceAvatar
+          url="{loggedInUser.avatar_url}"
+          name="{loggedInUser.display_name}"
+          borderRadius="{settings.value.avatar_border_radius}" />
+        <Text>
+          {loggedInUser.display_name}
+        </Text>
       </HStack>
     </property>
   </AppHeader>
@@ -33,91 +38,64 @@
     <NavLink label="Search" to="/search" />
     <NavLink label="Import" to="/importProducts" />
     <NavLink label="Settings" to="/settings" />
+    <NavLink label="Test" to="/test" />
     <!--
     <NavLink label="Palettes" to="/palettes" />
-    <NavLink label="Test" to="/test" />
     <NavLink label="Icons" to="/icons" />
     -->
   </NavPanel>
-
   <Pages>
     <Page url="/">
       <Dashboard />
     </Page>
-
     <Page url="/invoices">
       <Invoices />
     </Page>
-
     <Page url="/invoices/new">
       <CreateInvoice />
     </Page>
-
     <Page url="/clients">
       <Clients />
     </Page>
-
     <Page url="/clients/new">
       <CreateClient />
     </Page>
-
     <Page url="/products">
       <Products />
     </Page>
-
     <Page url="/search">
       <Search />
     </Page>
-
     <Page url="/search/invoices-after">
       <SearchInvoicesAfter />
     </Page>
-
     <Page url="/search/everything">
       <SearchEverything />
     </Page>
-
     <Page url="/search">
       <Search />
     </Page>
-
     <Page url="/importProducts">
       <ImportProducts />
     </Page>
-
     <Page url="/settings">
       <Settings />
     </Page>
-
     <Page url="/users/new">
       <CreateUser />
     </Page>
-
     <Page url="/icons">
       <Icons />
     </Page>
-
     <Page url="/palettes">
       <Palettes />
     </Page>
-
     <Page url="/test">
-      <Palettes />
+      <Test />
     </Page>
-
-
   </Pages>
-
-<FormItem
-  type="select"
-  initialValue="{selectedValue}"
-  onDidChange="(val) => selectedValue = val"
->
-  <Items data="{'myData}">
-    <Option value="{$item.id}" label="{$item.name}" />
-  </Items>
-</FormItem>
-
-  <Footer>Built with XMLUI <ToneChangerButton /> </Footer>
-
+  <Footer>
+    Built with XMLUI
+    <ToneChangerButton />
+  </Footer>
 </App>
