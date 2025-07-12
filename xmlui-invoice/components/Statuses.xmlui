@@ -1,14 +1,13 @@
 <Component name="Statuses">
-
   <DataSource id="dashboardStats" url="/api/dashboard/stats" method="GET" />
-
-    <VStack width="{$props.width}">
-        <H1>{$props.title}</H1>
-
-        <Card height="400px">
-            <DonutChart
-                layout="horizontal"
-                data="{
+  <VStack width="{$props.width}">
+    <H1>
+      {$props.title}
+    </H1>
+    <Card height="400px">
+      <DonutChart
+        layout="horizontal"
+        data="{
                   [
                     {
                       name: 'sent',
@@ -24,10 +23,8 @@
                     },
                   ]
         }"
-                dataKey="value" nameKey="name"
-            />
-        </Card>
-
-    </VStack>
-
+        dataKey="value"
+        nameKey="name" />
+    </Card>
+  </VStack>
 </Component>

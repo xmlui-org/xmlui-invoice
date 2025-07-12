@@ -1,6 +1,6 @@
 <Component
     name="Icons"
-    var.names = "{[
+    var.names="{[
         'assign', 'arrowup', 'arrowleft', 'arrowright', 'pause', 'play', 'date', 'hamburger',
         'send', 'users', 'refresh', 'chevrondown', 'chevronup', 'chevronright', 'chevronleft',
         'dotmenu', 'dotmenuhorizontal', 'noresult', 'crm', 'chat', 'pencil', 'cube', 'apps',
@@ -16,15 +16,15 @@
         'start', 'stop', 'restart', 'duplicate', 'connect', 'cog', 'sun', 'moon', 'share',
         'new-window', 'paint', 'palette', 'trending-up', 'trending-down', 'trending-level',
         'sortasc', 'sortdesc', 'nosort', 'arrowdown', 'square', 'squarehalf', 'squarefill'
-    ].sort()}"
->
-<FlowLayout gap="$space-2" padding="$space-2">
-    <Items data="{names}">
-        <VStack width="8rem" marginBottom="2rem">
-            <Icon name="{$item}" />
-            <Text fontSize="$text-xs">{$item}</Text>
-        </VStack>
-    </Items>
-</FlowLayout>
-
+    ].sort()}">
+    <FlowLayout gap="$space-2" padding="$space-2">
+        <Items data="{names}">
+            <VStack width="8rem" marginBottom="2rem">
+                <Icon name="{$item}" />
+                <Text fontSize="$text-xs">
+                    {$item}
+                </Text>
+            </VStack>
+        </Items>
+    </FlowLayout>
 </Component>

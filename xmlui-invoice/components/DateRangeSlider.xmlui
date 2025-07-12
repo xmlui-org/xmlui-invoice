@@ -1,10 +1,11 @@
 <Component name="DateRangeSlider">
-  <variable name="originalStartDate" value="{ $props.minDate }"/>
-  <variable name="maxEndDate" value="{ $props.maxDate }"/>
-  <variable name="startDate" value="{ originalStartDate }"/>
-  <variable name="endDate" value="{ maxEndDate }"/>
-  <variable name="totalDays" value="{ window.daysBetween(originalStartDate, maxEndDate)}"/>
-
+  <variable name="originalStartDate" value="{ $props.minDate }" />
+  <variable name="maxEndDate" value="{ $props.maxDate }" />
+  <variable name="startDate" value="{ originalStartDate }" />
+  <variable name="endDate" value="{ maxEndDate }" />
+  <variable
+    name="totalDays"
+    value="{ window.daysBetween(originalStartDate, maxEndDate)}" />
   <ChangeListener
     listenTo="{slider.value}"
     onDidChange="{() => {
@@ -17,9 +18,7 @@
         }
       });
       console.log('Date range:', startDate, 'to', endDate);
-    }}"
-  />
-
+    }}" />
   <Slider
     id="slider"
     label="dateRange"
@@ -31,6 +30,5 @@
             const date = window.sliderValueToDate(value, originalStartDate);
             return date;
             }
-        }"
-  />
+        }" />
 </Component>

@@ -1,30 +1,28 @@
 <Component name="Invoices">
-
   <HStack>
-    <H1>Invoices</H1>
-    <SpaceFiller/>
-    <Button label="Create Invoice" onClick="navigate('/invoices/new')"/>
+    <H1>
+      Invoices
+    </H1>
+    <SpaceFiller />
+    <Button label="Create Invoice" onClick="navigate('/invoices/new')" />
   </HStack>
-
   <Table data="/api/invoices">
-    <Column bindTo="invoice_number"/>
-    <Column bindTo="client"/>
-    <Column bindTo="issue_date"/>
-    <Column bindTo="due_date"/>
-    <Column bindTo="paid_date"/>
+    <Column bindTo="invoice_number" />
+    <Column bindTo="client" />
+    <Column bindTo="issue_date" />
+    <Column bindTo="due_date" />
+    <Column bindTo="paid_date" />
     <Column bindTo="total">
       ${$item.total}
     </Column>
     <Column bindTo="status">
-      <StatusBadge status="{$item.status}"/>
+      <StatusBadge status="{$item.status}" />
     </Column>
     <Column canSort="{false}" header="Details">
-      <Icon name="doc-outline" onClick="detailsDialog.open($item)"/>
+      <Icon name="doc-outline" onClick="detailsDialog.open($item)" />
     </Column>
   </Table>
-
   <ModalDialog id="detailsDialog" maxWidth="50%">
-    <InvoiceDetails details="{$param}"/>
+    <InvoiceDetails details="{$param}" />
   </ModalDialog>
-
 </Component>

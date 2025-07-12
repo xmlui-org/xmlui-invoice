@@ -8,11 +8,21 @@
             <StatusBadge status="{$item.status}" />
         </Column>
     </Table>
-    <Form submitUrl="/api/invoices/{$props.details.invoice_number}" submitMethod="PUT">
-        <FormItem label="Notes" bindTo="notes" initialValue="{window.coalesce($props.details.notes)}" />
-        <FormItem label="Status" bindTo="status" initialValue="{$props.details.status}" type="select" enabled="{$props.details.status !== 'paid'}">
-            <Option label="sent"  value="sent" />
-            <Option label="paid"  value="paid" />
+    <Form
+        submitUrl="/api/invoices/{$props.details.invoice_number}"
+        submitMethod="PUT">
+        <FormItem
+            label="Notes"
+            bindTo="notes"
+            initialValue="{window.coalesce($props.details.notes)}" />
+        <FormItem
+            label="Status"
+            bindTo="status"
+            initialValue="{$props.details.status}"
+            type="select"
+            enabled="{$props.details.status !== 'paid'}">
+            <Option label="sent" value="sent" />
+            <Option label="paid" value="paid" />
             <Option label="draft" value="draft" />
         </FormItem>
         <Table data="{JSON.parse($props.details.items)}">

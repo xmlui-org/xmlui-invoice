@@ -1,27 +1,27 @@
 <Component name="Clients">
   <HStack>
-    <H1>Clients</H1>
+    <H1>
+      Clients
+    </H1>
     <SpaceFiller />
     <Button label="Add Client" onClick="navigate('/clients/new')" />
   </HStack>
-
   <Table data="/api/clients">
-    <Column  bindTo="name" width="2*" />
+    <Column bindTo="name" width="2*" />
     <Column bindTo="email" width="3*" />
     <Column bindTo="phone" />
-    <Column  bindTo="outstanding">
-      <Text> {$item.outstanding ? '$' + $item.outstanding : ''}</Text>
+    <Column bindTo="outstanding">
+      <Text>
+        {$item.outstanding ? '$' + $item.outstanding : ''}
+      </Text>
     </Column>
     <Column canSort="{false}" header="Details">
       <Icon name="doc-outline" onClick="detailsDialog.open($item)" />
     </Column>
   </Table>
-
   <ModalDialog
     id="detailsDialog"
-    maxWidth="800px"
-  >
+    maxWidth="800px">
     <ClientDetails client="{$param}" />
   </ModalDialog>
-
 </Component>
