@@ -3,10 +3,10 @@
         id="statusRevenue"
         url="/api/dashboard/monthly-status"
         method="GET" />
-
     <VStack width="{$props.width}">
-        <H1>{$props.title}</H1>
-
+        <H1>
+            {$props.title}
+        </H1>
         <Card height="400px">
             <BarChart
                 layout="horizontal"
@@ -17,9 +17,7 @@
                 showLegend="true"
                 tickFormatter="{(value) => {
                     return window.formatMonth(value);
-                }}"
-            />
+                }}" />
         </Card>
     </VStack>
 </Component>
-

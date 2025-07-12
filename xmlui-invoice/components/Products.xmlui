@@ -1,20 +1,19 @@
 <Component name="Products">
-
   <HStack>
-    <H1>Products</H1>
+    <H1>
+      Products
+    </H1>
     <SpaceFiller />
     <Button label="Import Products" onClick="navigate('/importProducts')" />
   </HStack>
-
   <Table data="/api/products">
-    <Column  bindTo="name"  width="2*" />
-    <Column  bindTo="description" width="3*"/>
-    <Column  bindTo="price">
+    <Column bindTo="name" width="2*" />
+    <Column bindTo="description" width="3*" />
+    <Column bindTo="price">
       ${$item.price}
     </Column>
-    <Column  bindTo="created_at">
+    <Column bindTo="created_at">
       { window.formatDate($item.created_at) }
     </Column>
   </Table>
-
 </Component>

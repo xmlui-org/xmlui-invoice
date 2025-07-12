@@ -1,37 +1,35 @@
 <Component name="CreateUser">
-  <H1>Add New User</H1>
-
+  <H1>
+    Add New User
+  </H1>
   <!--        TODO inProgressNotificationMessage="Creating user..."
                       completedNotificationMessage="User created successfully" onSuccess="Actions.navigate('/settings')"-->
   <Card>
-    <Form id="newUserForm" submitUrl="/api/users" submitMethod="POST" onCancel="Actions.navigate('/settings')">
+    <Form
+      id="newUserForm"
+      submitUrl="/api/users"
+      submitMethod="POST"
+      onCancel="Actions.navigate('/settings')">
       <FormItem
         bindTo="username"
         label="Username"
         placeholder="Enter username"
-        required="true"
-      />
-
+        required="true" />
       <FormItem
         bindTo="display_name"
         label="Display name"
         placeholder="Enter display name"
-        required="true"
-      />
-
+        required="true" />
       <FormItem
         pattern="email"
         bindTo="email"
         label="Email"
         placeholder="example@email.com"
-        required="true"
-      />
-
+        required="true" />
       <FormItem
         bindTo="avatar_url"
         label="Avatar URL"
-        required="true"
-      />
+        required="true" />
     </Form>
   </Card>
 </Component>

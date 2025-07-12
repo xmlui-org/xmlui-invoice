@@ -1,14 +1,14 @@
 <Component name="Settings">
   <DataSource url="/api/users" id="users" />
   <AppState id="settings" bucket="settingsState" />
-
-
   <H1>
     Settings
   </H1>
   <Card>
     <HStack>
-      <H2>Users</H2>
+      <H2>
+        Users
+      </H2>
       <SpaceFiller />
       <Button label="Add User" onClick="Actions.navigate('/users/new')" />
     </HStack>
@@ -20,14 +20,15 @@
         const selectedUser = users.value.find(u => u.username === val);
         console.log('selectedUser', JSON.stringify(selectedUser))
         setLoggedInUser(selectedUser);
-      }"
-    >
+      }">
       <Table data="{users}">
         <Column bindTo="username" width="*" />
         <Column bindTo="display_name" />
         <Column bindTo="email" width="2*" />
         <Column canSort="{false}" header="avatar">
-          <InvoiceAvatar url="{$item.avatar_url}" name="{loggedInUser.display_name}"
+          <InvoiceAvatar
+            url="{$item.avatar_url}"
+            name="{loggedInUser.display_name}"
             borderRadius="{settings.value.avatar_border_radius}" />
         </Column>
         <Column canSort="{false}" header="logged_in" width="*">
@@ -36,11 +37,11 @@
       </Table>
     </RadioGroup>
   </Card>
-
   <Card title="Avatar Settings">
-
     <HStack verticalAlignment="center">
-      <Text>border radius</Text>
+      <Text>
+        border radius
+      </Text>
       <TextBox
         width="10rem"
         id="borderRadiusInput"
@@ -53,22 +54,17 @@
             avatar_border_radius: value
           });
         }
-      }}"
-      />
-
+      }}" />
       <Button onClick="{() => updateSettings.execute()}">
         Save
       </Button>
     </HStack>
-
     <APICall
       id="updateSettings"
       method="put"
       url="/api/settings"
       body="{settings.value}"
       completedNotificationMessage="Settings saved successfully"
-      errorNotificationMessage="Failed to save settings"
-    />
-
+      errorNotificationMessage="Failed to save settings" />
   </Card>
 </Component>
