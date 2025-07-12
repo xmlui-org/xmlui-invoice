@@ -55,8 +55,8 @@
 
             let total = 0;
             for (const item of lineItems) {
-                if (item && typeof item.amount === 'number') {
-                    total += item.amount;
+                if (item && typeof item.quantity === 'number' && typeof item.price === 'number') {
+                    total += item.quantity * item.price;
                 }
             }
             return total;
