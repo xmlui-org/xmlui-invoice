@@ -38,8 +38,8 @@
     <NavLink label="Search" to="/search" />
     <NavLink label="Import" to="/importProducts" />
     <NavLink label="Settings" to="/settings" />
-    <NavLink label="Test" to="/test" />
     <!--
+    <NavLink label="Test" to="/test" />
     <NavLink label="Palettes" to="/palettes" />
     <NavLink label="Icons" to="/icons" />
     -->
