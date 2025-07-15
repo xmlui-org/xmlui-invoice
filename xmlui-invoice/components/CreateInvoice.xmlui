@@ -86,7 +86,7 @@
             width="20%"
             bindTo="quantity"
             type="number"
-            initialValue="1"
+            initialValue="{1}"
             minValue="1" />
           <FormItem
             width="20%"
