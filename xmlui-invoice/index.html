@@ -110,6 +110,16 @@
             return diffDays;
         }
 
+        window.validateDueDate = function (dueDate, issueDate) {
+            if (!dueDate || !issueDate) {
+                console.log('validateDueDate: one or both dates missing, returning true');
+                return true;
+            }
+            const isDueBefore = new Date(dueDate) < new Date(issueDate);
+            const result = !isDueBefore; // true means validation passes
+            return result;
+        }
+
     </script>
 
 </head>
