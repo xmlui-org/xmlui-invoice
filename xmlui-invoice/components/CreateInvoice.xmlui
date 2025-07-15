@@ -21,14 +21,18 @@
           initialValue="{ formatToday() }"
           bindTo="issueDate"
           label="Issue date"
-          width="25%" />
+          width="25%"
+          enabled="false" />
         <FormItem
           type="datePicker"
           dateFormat="yyyy-MM-dd"
           initialValue="{ formatToday(30) }"
           bindTo="dueDate"
           label="Due date"
-          width="25%" />
+          width="25%"
+          onValidate="(value) => {
+            return window.validateDueDate(value, $data.issueDate);
+          }" />
       </FlowLayout>
       <H2>
         Line Items
