@@ -19,14 +19,15 @@
         required="true" />
       <FormItem
         pattern="email"
-        bindTo="email"
+      bindTo="email"
         label="Email"
         placeholder="example@email.com"
         required="true" />
       <FormItem
         bindTo="phone"
         label="Phone"
-        placeholder="(123) 456-7890"
+        placeholder="123 456 7890"
+        regex="{window.phoneRegex}"
         required="true" />
       <FormItem
         type="textarea"

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="xmlui/0.9.74.js"></script>
+    <script src="xmlui/0.9.79.js"></script>
     <script src="xmlui/papaparse.min.js"></script>
     <script>
         // Helper functions
@@ -119,6 +119,9 @@
             const result = !isDueBefore; // true means validation passes
             return result;
         }
+
+        // match 10-digit us phone numbers
+        window.phoneRegex = /^(?:\+1\s?)?(?:\(?\d{3}\)?[\s.-]?)\d{3}[\s.-]?\d{4}$/
 
     </script>
 
