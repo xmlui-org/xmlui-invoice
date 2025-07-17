@@ -93,6 +93,6 @@
   </Pages>
   <Footer>
     Built with XMLUI
-    <ToneChangerButton />
+    <ToneSwitch />
   </Footer>
 </App>
