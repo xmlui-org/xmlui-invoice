@@ -12,7 +12,7 @@
     <Column bindTo="phone" />
     <Column bindTo="outstanding">
       <Text>
-        {$item.outstanding ? '$' + $item.outstanding : ''}
+        {$item.outstanding && '$' + $item.outstanding.toFixed(2)}
       </Text>
     </Column>
     <Column canSort="{false}" header="Details">

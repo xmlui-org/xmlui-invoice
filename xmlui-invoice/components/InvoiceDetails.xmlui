@@ -4,6 +4,9 @@
         <Column canSort="{false}" bindTo="client" />
         <Column canSort="{false}" bindTo="issue_date" />
         <Column canSort="{false}" bindTo="due_date" />
+        <Column canSort="{false}" bindTo="total">
+           ${$item.total}
+        </Column>
         <Column canSort="{false}" header="Status">
             <StatusBadge status="{$item.status}" />
         </Column>
@@ -28,9 +31,6 @@
         <Table data="{JSON.parse($props.details.items)}">
             <Column bindTo="product" />
             <Column bindTo="quantity" />
-            <Column bindTo="total">
-                ${$item.total}
-            </Column>
             <Column header="price">
                 ${$item.price}
             </Column>
