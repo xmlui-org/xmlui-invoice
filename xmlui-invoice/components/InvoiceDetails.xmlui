@@ -26,7 +26,7 @@
             <Option label="draft" value="draft" />
         </FormItem>
         <Table data="{JSON.parse($props.details.items)}">
-            <Column bindTo="name" />
+            <Column bindTo="product" />
             <Column bindTo="quantity" />
             <Column bindTo="total">
                 ${$item.total}
