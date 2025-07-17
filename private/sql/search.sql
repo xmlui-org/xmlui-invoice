@@ -2,7 +2,7 @@
 -- Returns normalized results with table name, primary key, title, and snippet
 
 WITH search_params AS (
-    SELECT :searchTerm as term
+    SELECT :q as term
 )
 
 SELECT

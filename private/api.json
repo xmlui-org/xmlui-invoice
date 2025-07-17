@@ -193,12 +193,12 @@
       }
     },
     {
-      "path": "/search/:searchTerm",
+      "path": "/search",
       "methods": {
         "GET": {
           "description": "Universal search across all tables",
           "sqlFile": "sql/search.sql",
-          "params": ["searchTerm"]
+          "params": ["q"]
         }
       }
     },
