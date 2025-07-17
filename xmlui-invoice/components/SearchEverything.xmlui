@@ -7,7 +7,7 @@
         <Card when="{searchTerm.value}">
             <DataSource
                 id="search"
-                url="/api/search/{searchTerm.value}" />
+                url="/api/search?q={encodeURIComponent(searchTerm.value)}" />
             <Text>
                 Found {search.value ? search.value.length : 0} results for
                 "{searchTerm.value}":
