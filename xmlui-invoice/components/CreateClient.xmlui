@@ -2,15 +2,13 @@
   <H1>
     Add New Client
   </H1>
-  <!-- TODO!!!!     inProgressNotificationMessage="Creating client..."
-                    completedNotificationMessage="Client created successfully"
-                     onSuccess="Actions.navigate('/clients')"
-                    -->
   <Form
     id="newClientForm"
     submitUrl="/api/clients"
     submitMethod="POST"
-    onCancel="Actions.navigate('/clients')">
+    inProgressNotificationMessage="Creating client..."
+    completedNotificationMessage="Client created successfully"
+    onSuccess="Actions.navigate('/clients')">
     <Card>
       <FormItem
         bindTo="name"
@@ -33,7 +31,9 @@
         type="textarea"
         bindTo="address"
         label="Address"
-        placeholder="Enter client address" />
+        placeholder="Enter client address"
+        required="true"
+      />
     </Card>
   </Form>
 </Component>
