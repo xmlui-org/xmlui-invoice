@@ -11,9 +11,11 @@
         nameKey="month"
         stacked="true"
         showLegend="true"
-        tickFormatter="{(value) => {
+        tickFormatterX="{(value) => {
             return window.formatMonth(value);
-          }}" />
+          }}"
+        tickFormatterY="{(value) => '$' + value}"
+      />
     </Card>
   </VStack>
 </Component>
