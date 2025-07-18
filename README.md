@@ -1,6 +1,6 @@
 # XMLUI Invoice
 
-A sample invoice app, built with [XMLUI](https://TBD), to demonstrate the framework's capabilities.
+A sample invoice app, built with [XMLUI](https://xmlui.com), to demonstrate the framework's capabilities.
 
 ## Features
 
