@@ -17,10 +17,12 @@
         data="/api/dashboard/daily-revenue?start_date={dateRangeSlider.value.startDate}&end_date={dateRangeSlider.value.endDate}"
         dataKeys="{['total']}"
         nameKey="date"
-        tickFormatter="{(value, index) => {
+        tickFormatterX="{(value, index) => {
               if (index % 4 !== 0) return '';
-              return value
-            }}" />
+              return window.formatMonth(value.slice(0,7));
+            }}"
+        tickFormatterY="{(value) => '$' + value}"
+      />
     </Card>
   </VStack>
 </Component>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="xmlui/0.9.79.js"></script>
+    <script src="xmlui/xmlui-0.9.81.js"></script>
     <script src="xmlui/papaparse.min.js"></script>
     <script>
         // Helper functions
@@ -30,10 +30,8 @@
 
         window.formatMonth = function (month) {
             // Input: '2022-06'
-            const [year, monthNum] = month.split('-');
-            const date = new Date(year, monthNum - 1);
+            const date = new Date(month + '-01'); // Much simpler and clearer
             return date.toLocaleString('default', {month: 'short', year: '2-digit'});
-            // Output: 'Jun 22'
         }
 
         window.formatDate = function (date) {
@@ -45,7 +43,8 @@
             if (plusDays !== 0) {
                 date.setDate(date.getDate() + plusDays);
             }
-            return date.toISOString().slice(0, 10).replace(/-/g, '/');
+            const ret = date.toISOString().slice(0, 10);
+            return ret;
         }
 
         window.lineItemTotal = function (lineItems) {
