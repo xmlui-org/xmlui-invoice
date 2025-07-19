@@ -111,9 +111,9 @@ Use this application to explore:
 ## XMLUI Documentation
 
 - [Introduction](https://docs.xmlui.com/)
-- [Tutorial](https://docs.xmlui.com/#/tutorial-01)
-- [Components](https://docs.xmlui.com/#/components/_overview)
-- [Guides](https://docs.xmlui.com/#/app-structure)
+- [Tutorial](https://docs.xmlui.com/tutorial-01)
+- [Components](https://docs.xmlui.com/components/_overview)
+- [Guides](https://docs.xmlui.com/app-structure)
 
 ## License
 
