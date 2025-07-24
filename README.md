@@ -1,6 +1,6 @@
 # XMLUI Invoice
 
-A sample invoice app, built with [XMLUI](https://xmlui.com), to demonstrate the framework's capabilities.
+A sample invoice app, built with [XMLUI](https://xmlui.org), to demonstrate the framework's capabilities.
 
 ## Features
 
@@ -110,12 +110,12 @@ Use this application to explore:
 
 ## XMLUI Documentation
 
-- [Introduction](https://docs.xmlui.com/)
-- [Tutorial](https://docs.xmlui.com/tutorial-01)
-- [Components](https://docs.xmlui.com/components/_overview)
-- [Guides](https://docs.xmlui.com/app-structure)
+- [Introduction](https://docs.xmlui.org/)
+- [Tutorial](https://docs.xmlui.org/tutorial-01)
+- [Components](https://docs.xmlui.org/components/_overview)
+- [Guides](https://docs.xmlui.org/app-structure)
 
 ## License
 
-This project uses the MIT License. See the [main XMLUI repository](https://github.com/xmlui-com/xmlui) for details.
+This project uses the MIT License. See the [main XMLUI repository](https://github.com/xmlui-org/xmlui) for details.
 
