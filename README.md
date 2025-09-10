@@ -30,6 +30,7 @@ A sample invoice app, built with [XMLUI](https://xmlui.org), to demonstrate the 
 
 ### Prerequisites
 - Batteries included! No additional software required.
+- Download and unzip [the release](https://github.com/xmlui-org/xmlui-invoice/releases).
 
 ### Run the app
 
