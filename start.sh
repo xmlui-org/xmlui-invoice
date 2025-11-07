@@ -3,22 +3,20 @@ set -e
 
 ARCH=$(uname -m)
 
+# Check if xmlui is in the path
+if ! command -v xmlui &> /dev/null; then
+    echo "xmlui CLI not found in PATH."
+    echo "Please ensure the xmlui CLI is installed and available in your system PATH."
+    echo "You can download it from: https://xmlui.org/link-goes-here"
+    exit 1
+fi
+
 case "$(uname -s)" in
     Linux)
-        cd xmlui-invoice
-        exec "../test-server/xmlui-test-server-linux-amd64" -db ../private/data.db -api ../private/api.json
+        exec xmlui serve --db ./private/data.db --api ./private/api.json --client ./xmlui-invoice
         ;;
     Darwin)
-        if [ "$ARCH" = "arm64" ]; then
-            # Remove quarantine on macOS
-            xattr -d com.apple.quarantine test-server/xmlui-test-server-macos-arm64 2>/dev/null || true
-            cd xmlui-invoice
-            exec "../test-server/xmlui-test-server-macos-arm64" -db ../private/data.db -api ../private/api.json
-        else
-            xattr -d com.apple.quarantine test-server/xmlui-test-server-macos-intel 2>/dev/null || true
-            cd xmlui-invoice
-            exec "../test-server/xmlui-test-server-macos-intel" -db ../private/data.db -api ../private/api.json
-        fi
+        exec xmlui serve --db ./private/data.db --api ./private/api.json --client ./xmlui-invoice
         ;;
     *)
         echo "Unsupported platform. Windows users: run start.bat"
