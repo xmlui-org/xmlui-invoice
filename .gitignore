@@ -1,1 +1,4 @@
 xmlui-test-server*
+/logs
+/logs/**
+*.log
