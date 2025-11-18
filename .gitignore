@@ -2,3 +2,4 @@ xmlui-test-server*
 /logs
 /logs/**
 *.log
+/db/data.db-*

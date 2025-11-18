@@ -361,7 +361,7 @@
       "$schema":            "https://xmlui.org/schemas/v1/localsvr/db/sqlite3-schema.json",
       "version":            1,
       "type":               "sqlite3",
-      "filepath":           "./dbroot/data.db",
+      "filepath":           "./db/data.db",
       "on_open_sql":        [],
       "busy_timeout":       0,
       "journal_mode":       "",
