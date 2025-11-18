@@ -253,7 +253,7 @@
                "path":         "/dashboard/monthly-status",
                "description":  "Get totals paid and sent by monthl",
                "query":        "",
-               "query_file":   "db/sql/monthly-status.sql",
+               "query_file":   "dbroot/sql/monthly-status.sql",
                "cardinality":  "many",
                "row_type":     "columns",
                "column_types": []
@@ -263,7 +263,7 @@
                "path":         "/dashboard/daily-revenue?{start_date?:date}&{end_date?:date}",
                "description":  "Get daily revenue data",
                "query":        "",
-               "query_file":   "db/sql/daily_revenue.sql",
+               "query_file":   "dbroot/sql/daily_revenue.sql",
                "cardinality":  "many",
                "row_type":     "columns",
                "column_types": []
@@ -293,7 +293,7 @@
                "path":         "/search?{q:string}",
                "description":  "Universal search across all tables",
                "query":        "",
-               "query_file":   "db/sql/search.sql",
+               "query_file":   "dbroot/sql/search.sql",
                "cardinality":  "many",
                "row_type":     "columns",
                "column_types": []
