@@ -1,0 +1,10 @@
+<Component name="Search">
+  <Tabs>
+    <TabItem label="Find invoices issued after date">
+      <SearchInvoicesAfter />
+    </TabItem>
+    <TabItem label="Search clients, products, and invoices">
+      <SearchEverything />
+    </TabItem>
+  </Tabs>
+</Component>
