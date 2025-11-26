@@ -2,11 +2,11 @@ WITH RECURSIVE
     bounds AS (
         SELECT
             COALESCE(
-                    NULLIF({start_date}, ''),
+                    NULLIF(:start_date, ''),
                     MIN(date(paid_date))
             ) AS start_date,
             COALESCE(
-                    NULLIF({end_date}, ''),
+                    NULLIF(:end_date, ''),
                     MAX(date(paid_date))
             ) AS end_date
         FROM invoices
