@@ -1,5 +1,0 @@
-<Component name="InvoiceAvatar">
-  <Theme borderRadius-Avatar="{$props.borderRadius}">
-    <Avatar url="{$props.url}" name="{$props.name}" />
-  </Theme>
-</Component>

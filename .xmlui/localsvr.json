@@ -1,0 +1,373 @@
+{
+   "$schema":  "https://xmlui.org/schemas/v1/localsvr/root-schema.json",
+   "version":  1,
+   "server":   {
+      "$schema": "https://xmlui.org/schemas/v1/localsvr/server-schema.json",
+      "version": 1,
+      "host":    "127.0.0.1",
+      "port":    8844,
+      "api":     {
+         "$schema":   "https://xmlui.org/schemas/v2/localsvr/api-schema.json",
+         "version":   2,
+         "name":      "xmlui-invoice-api",
+         "base_path": "/api",
+         "webroot":   ".",
+         "endpoints": [
+            {
+               "method":       "GET",
+               "path":         "/clients",
+               "description":  "Get all clients with their outstanding balances",
+               "query":        "SELECT c.id, c.name, c.email, c.phone, c.address, coalesce(sum(case when i.status != 'paid' then i.total else 0 end), 0) as outstanding FROM clients c LEFT JOIN invoices i ON c.id = i.client_id AND i.status != 'paid' GROUP BY c.id, c.name, c.email, c.phone ORDER BY name",
+               "query_file":   "",
+               "cardinality":  "many",
+               "row_type":     "columns",
+               "column_types": []
+            },
+            {
+               "method":       "POST",
+               "path":         "/clients",
+               "description":  "Create a new client",
+               "query":        "INSERT INTO clients (name, email, phone, address) VALUES (:name, :email, :phone, :address)",
+               "query_file":   "",
+               "cardinality":  "one",
+               "row_type":     "columns",
+               "column_types": [],
+               "params":       {
+                  "name":    "string",
+                  "email":   "email",
+                  "phone":   "string",
+                  "address": "string"
+               }
+            },
+            {
+               "method":       "GET",
+               "path":         "/clients/{id:int}",
+               "description":  "Get a specific client by ID",
+               "query":        "SELECT c.id, c.name, c.email, c.phone, c.address, (SELECT COUNT(*) FROM invoices WHERE client_id = c.id) as invoice_count, (SELECT SUM(total) FROM invoices WHERE client_id = c.id AND status = 'paid') as paid_total, (SELECT SUM(total) FROM invoices WHERE client_id = c.id AND status != 'paid') as outstanding_total FROM clients c WHERE c.id = :id",
+               "query_file":   "",
+               "cardinality":  "one",
+               "row_type":     "columns",
+               "column_types": []
+            },
+            {
+               "method":       "PUT",
+               "path":         "/clients/{id:int}",
+               "description":  "Update a client",
+               "query":        "UPDATE clients SET name = :name, email = :email, phone = :phone, address = :address WHERE id = :id",
+               "query_file":   "",
+               "cardinality":  "one",
+               "row_type":     "columns",
+               "column_types": [],
+               "params":       {
+                  "name":    "string",
+                  "email":   "email",
+                  "phone":   "string",
+                  "address": "string",
+                  "id":      "int"
+               }
+            },
+            {
+               "method":       "DELETE",
+               "path":         "/clients/{id:int}",
+               "description":  "Delete a client",
+               "query":        "DELETE FROM clients WHERE id = :id",
+               "query_file":   "",
+               "cardinality":  "one",
+               "row_type":     "columns",
+               "column_types": []
+            },
+            {
+               "method":       "GET",
+               "path":         "/clients/{id:int}/invoices",
+               "description":  "Get all invoices for a specific client",
+               "query":        "SELECT invoice_number, REPLACE(issue_date, '/', '-') as issue_date, REPLACE(due_date, '/', '-') as due_date, total, status, notes, items FROM invoices WHERE client_id = :id ORDER BY due_date DESC",
+               "query_file":   "",
+               "cardinality":  "one",
+               "row_type":     "columns",
+               "column_types": []
+            },
+            {
+               "method":       "GET",
+               "path":         "/invoices",
+               "description":  "Get all invoices with client information",
+               "query":        "SELECT invoices.id, invoices.invoice_number, clients.name as client, REPLACE(invoices.issue_date, '/', '-') as issue_date, REPLACE(invoices.due_date, '/', '-') as due_date, REPLACE(invoices.paid_date, '/', '-') as paid_date, invoices.total, invoices.status, invoices.notes, invoices.items FROM invoices JOIN clients ON invoices.client_id = clients.id ORDER BY invoices.due_date DESC",
+               "query_file":   "",
+               "cardinality":  "many",
+               "row_type":     "columns",
+               "column_types": []
+            },
+            {
+               "method":       "POST",
+               "path":         "/invoices",
+               "description":  "Create a new invoice",
+               "query":        "INSERT INTO invoices (client_id, invoice_number, issue_date, due_date, total, items, status) VALUES ((SELECT id FROM clients WHERE name = :client), 'INV-' || (SELECT COALESCE(MAX(CAST(SUBSTR(invoice_number, 5) AS INTEGER)), 1000) + 1 FROM invoices WHERE invoice_number LIKE 'INV-%'), :issueDate, :dueDate, :total, :items, 'draft')",
+               "query_file":   "",
+               "cardinality":  "one",
+               "row_type":     "columns",
+               "column_types": [],
+               "params":       {
+                  "client":    "int",
+                  "issueDate": "date",
+                  "dueDate":   "date",
+                  "total":     "decimal",
+                  "items":     "string"
+               }
+            },
+            {
+               "method":       "GET",
+               "path":         "/invoices/{number:string}",
+               "description":  "Get a specific invoice by invoice number",
+               "query":        "SELECT invoices.id, invoices.invoice_number, clients.name as client_name, clients.email as client_email, clients.phone as client_phone, REPLACE(invoices.issue_date, '/', '-') as issue_date, REPLACE(invoices.due_date, '/', '-') as due_date, invoices.total, invoices.status, invoices.notes, invoices.items FROM invoices JOIN clients ON invoices.client_id = clients.id WHERE invoices.invoice_number = :number",
+               "query_file":   "",
+               "cardinality":  "many",
+               "row_type":     "columns",
+               "column_types": []
+            },
+            {
+               "method":       "PUT",
+               "path":         "/invoices/{number:string}",
+               "description":  "Update an invoice status and notes",
+               "query":        "UPDATE invoices SET status = :status, notes = :notes, paid_date = CASE WHEN :status = 'paid' AND (paid_date IS NULL OR paid_date = '') THEN date('now') ELSE paid_date END WHERE invoice_number = :number",
+               "query_file":   "",
+               "cardinality":  "one",
+               "row_type":     "columns",
+               "column_types": [],
+               "params":       {
+                  "status": "string",
+                  "notes":  "string"
+               }
+            },
+            {
+               "method":       "DELETE",
+               "path":         "/invoices/{number:string}",
+               "description":  "Delete an invoice",
+               "query":        "DELETE FROM invoices WHERE invoice_number = :number",
+               "query_file":   "",
+               "cardinality":  "one",
+               "row_type":     "columns",
+               "column_types": []
+            },
+            {
+               "method":       "GET",
+               "path":         "/invoices/after/:date",
+               "description":  "Get invoices issued after a specific date",
+               "query":        "SELECT REPLACE(i.issue_date, '/', '-') as issue_date, i.status, i.total, c.name FROM invoices i JOIN clients c ON i.client_id = c.id WHERE i.issue_date > date(:date) ORDER BY i.issue_date ASC",
+               "query_file":   "",
+               "cardinality":  "many",
+               "row_type":     "columns",
+               "column_types": []
+            },
+            {
+               "method":       "GET",
+               "path":         "/products",
+               "description":  "Get all products",
+               "query":        "SELECT * FROM products ORDER BY name",
+               "query_file":   "",
+               "cardinality":  "many",
+               "row_type":     "columns",
+               "column_types": []
+            },
+            {
+               "method":       "POST",
+               "path":         "/products",
+               "description":  "Create a new product",
+               "query":        "INSERT INTO products (name, description, price) VALUES (:name, :description, :price)",
+               "query_file":   "",
+               "cardinality":  "one",
+               "row_type":     "columns",
+               "column_types": [],
+               "params":       {
+                  "name":        "string",
+                  "description": "string",
+                  "price":       "decimal"
+               }
+            },
+            {
+               "method":       "GET",
+               "path":         "/products/{id:int}",
+               "description":  "Get a specific product by ID",
+               "query":        "SELECT * FROM products WHERE id = :id",
+               "query_file":   "",
+               "cardinality":  "one",
+               "row_type":     "columns",
+               "column_types": []
+            },
+            {
+               "method":       "PUT",
+               "path":         "/products/{id:int}",
+               "description":  "Update a product",
+               "query":        "UPDATE products SET name = :name, description = :description, price = :price WHERE id = :id",
+               "query_file":   "",
+               "cardinality":  "one",
+               "row_type":     "columns",
+               "column_types": [],
+               "params":       {
+                  "id":          "int",
+                  "name":        "string",
+                  "description": "string",
+                  "price":       "decimal"
+               }
+            },
+            {
+               "method":       "DELETE",
+               "path":         "/products/{id:int}",
+               "description":  "Delete a product",
+               "query":        "DELETE FROM products WHERE id = :id",
+               "query_file":   "",
+               "cardinality":  "one",
+               "row_type":     "columns",
+               "column_types": []
+            },
+            {
+               "method":       "GET",
+               "path":         "/products/byname/{name:string}",
+               "description":  "Get a specific product by name",
+               "query":        "SELECT * FROM products WHERE name = :name",
+               "query_file":   "",
+               "cardinality":  "one",
+               "row_type":     "columns",
+               "column_types": []
+            },
+            {
+               "method":       "GET",
+               "path":         "/dashboard/stats",
+               "description":  "Get dashboard statistics",
+               "query":        "SELECT (SELECT COUNT(*) FROM invoices) AS total_invoices, (SELECT COUNT(*) FROM clients) AS total_clients, (SELECT SUM(total) FROM invoices WHERE status = 'sent') AS outstanding, (SELECT SUM(total) FROM invoices WHERE status = 'paid' AND substr(issue_date, 1, 4) = strftime('%Y', 'now')) AS paid_this_year, (SELECT COUNT(*) FROM invoices WHERE status = 'draft') AS draft_invoices, (SELECT COUNT(*) FROM invoices WHERE status = 'sent') AS sent_invoices, (SELECT COUNT(*) FROM invoices WHERE status = 'paid') AS paid_invoices",
+               "query_file":   "",
+               "cardinality":  "many",
+               "row_type":     "columns",
+               "column_types": []
+            },
+            {
+               "method":       "GET",
+               "path":         "/dashboard/monthly-revenue",
+               "description":  "Get monthly revenue data",
+               "query":        "SELECT substr(paid_date, 1, 7) AS month, sum(total) AS total FROM invoices WHERE status = 'paid' GROUP BY month ORDER BY month",
+               "query_file":   "",
+               "cardinality":  "many",
+               "row_type":     "columns",
+               "column_types": []
+            },
+            {
+               "method":       "GET",
+               "path":         "/dashboard/monthly-status",
+               "description":  "Get totals paid and sent by monthl",
+               "query":        "",
+               "query_file":   "monthly-status.sql",
+               "cardinality":  "many",
+               "row_type":     "columns",
+               "column_types": []
+            },
+            {
+               "method":       "GET",
+               "path":         "/dashboard/daily-revenue?{start_date?:date}&{end_date?:date}",
+               "description":  "Get daily revenue data",
+               "query":        "",
+               "query_file":   "daily_revenue.sql",
+               "cardinality":  "many",
+               "row_type":     "columns",
+               "column_types": []
+            },
+            {
+               "method":       "GET",
+               "path":         "/dashboard/revenue-days",
+               "description":  "Get count of days with revenue",
+               "query":        "select cast( julianday(max(date(paid_date))) - julianday(min(date(paid_date))) as integer) + 1 as days from invoices where paid_date is not null",
+               "query_file":   "",
+               "cardinality":  "one",
+               "row_type":     "columns",
+               "column_types": []
+            },
+            {
+               "method":       "GET",
+               "path":         "/dashboard/date-range",
+               "description":  "Get the earliest invoice date and today's date for slider range",
+               "query":        "SELECT MIN(REPLACE(issue_date, '/', '-')) as first_invoice_date, date('now') as today FROM invoices WHERE issue_date IS NOT NULL",
+               "query_file":   "",
+               "cardinality":  "many",
+               "row_type":     "columns",
+               "column_types": []
+            },
+            {
+               "method":       "GET",
+               "path":         "/search?{q:string}",
+               "description":  "Universal search across all tables",
+               "query":        "",
+               "query_file":   "search.sql",
+               "cardinality":  "many",
+               "row_type":     "columns",
+               "column_types": []
+            },
+            {
+               "method":       "GET",
+               "path":         "/users",
+               "description":  "Get all users",
+               "query":        "SELECT * from users ORDER BY username",
+               "query_file":   "",
+               "cardinality":  "many",
+               "row_type":     "columns",
+               "column_types": []
+            },
+            {
+               "method":       "POST",
+               "path":         "/users",
+               "description":  "Create a new user",
+               "query":        "INSERT INTO users (username, display_name, email, avatar_url) VALUES (:username, :display_name, :email, :avatar_url)",
+               "query_file":   "",
+               "cardinality":  "one",
+               "row_type":     "columns",
+               "column_types": [],
+               "params":       {
+                  "username":     "string",
+                  "display_name": "string",
+                  "email":        "email",
+                  "avatar_url":   "string"
+               }
+            },
+            {
+               "method":       "GET",
+               "path":         "/users/{username:string}",
+               "description":  "Get user by username",
+               "query":        "SELECT * from users where username = :username",
+               "query_file":   "",
+               "cardinality":  "one",
+               "row_type":     "columns",
+               "column_types": []
+            },
+            {
+               "method":       "GET",
+               "path":         "/settings",
+               "description":  "Get settings",
+               "query":        "SELECT * FROM settings LIMIT 1",
+               "query_file":   "",
+               "cardinality":  "one",
+               "row_type":     "columns",
+               "column_types": []
+            },
+            {
+               "method":       "PUT",
+               "path":         "/settings?{avatar_border_radius:string}",
+               "description":  "Update settings",
+               "query":        "UPDATE settings SET avatar_border_radius = :avatar_border_radius",
+               "query_file":   "",
+               "cardinality":  "one",
+               "row_type":     "columns",
+               "column_types": []
+            }
+         ]
+      }
+   },
+   "database": {
+      "$schema":            "https://xmlui.org/schemas/v1/localsvr/db/sqlite3-schema.json",
+      "version":            1,
+      "type":               "sqlite3",
+      "filepath":           "./data.db",
+      "on_open_sql":        [],
+      "busy_timeout":       0,
+      "journal_mode":       "",
+      "synchronous":        "",
+      "foreign_keys":       "",
+      "wal_autocheckpoint": 0,
+      "access_mode":        2
+   }
+}
