@@ -3,6 +3,8 @@ SETLOCAL
 
 :: --- 1. Check if xmlui is in the path ---
 
+CD /d "%~dp0"
+
 WHERE xmlui >NUL 2>NUL
 IF ERRORLEVEL 1 (
     ECHO.
