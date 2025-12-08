@@ -1,0 +1,6 @@
+{
+  "themes": ["themes/invoice.json"],
+  "appGlobals": {
+    "apiUrl": "http://localhost:8080"
+  }
+}

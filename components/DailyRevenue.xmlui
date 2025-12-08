@@ -1,0 +1,28 @@
+<Component name="DailyRevenue">
+  <DataSource
+    id="dateRange"
+    url="/api/dashboard/date-range"
+    method="GET" />
+  <VStack>
+    <H1>
+      {$props.title}
+    </H1>
+    <DateRangeSlider
+      id="dateRangeSlider"
+      minDate="{ dateRange.value[0].first_invoice_date }"
+      maxDate="{ dateRange.value[0].today }" />
+    <Card height="400px">
+      <BarChart
+        layout="horizontal"
+        data="/api/dashboard/daily-revenue?start_date={dateRangeSlider.value.startDate}&end_date={dateRangeSlider.value.endDate}"
+        dataKeys="{['total']}"
+        nameKey="date"
+        tickFormatterX="{(value, index) => {
+              if (index % 4 !== 0) return '';
+              return window.formatMonth(value.slice(0,7));
+            }}"
+        tickFormatterY="{(value) => '$' + value}"
+      />
+    </Card>
+  </VStack>
+</Component>

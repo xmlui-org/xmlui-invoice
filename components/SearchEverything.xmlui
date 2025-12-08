@@ -1,0 +1,22 @@
+<Component name="SearchEverything">
+    <VStack paddingTop="$space-4">
+        <TextBox
+            placeholder="Enter search term..."
+            width="25rem"
+            id="searchTerm" />
+        <Card when="{searchTerm.value}">
+            <DataSource
+                id="search"
+                url="/api/search?q={encodeURIComponent(searchTerm.value)}" />
+            <Text>
+                Found {search.value ? search.value.length : 0} results for
+                "{searchTerm.value}":
+            </Text>
+            <Table data="{search}">
+                <Column bindTo="table_name" header="Type" width="100px" />
+                <Column bindTo="title" header="Title" width="*" />
+                <Column bindTo="snippet" header="Match Details" width="3*" />
+            </Table>
+        </Card>
+    </VStack>
+</Component>

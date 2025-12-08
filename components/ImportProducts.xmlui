@@ -1,0 +1,72 @@
+<Component name="ImportProducts">
+  <script>
+    var parsedCsv = null;
+
+    function isDuplicate(name) {
+      return existingProducts.value.some(p => p.name === name);
+    }
+  </script>
+  <DataSource
+    id="existingProducts"
+    url="/api/products"
+    method="GET" />
+  <H1>
+    Import Products
+  </H1>
+  <Text>
+    Upload a CSV file containing product data (name, description, price) to review and import into your product
+    catalog.
+  </Text>
+  <Card width="30%">
+    <FileInput
+      id="fileInput"
+      acceptsFileType="{['.csv']}"
+      onDidChange="{ (val) => {
+          parsedCsv = window.parseCsv(val[0]).map((item, idx) => { return {...item, id: idx};});
+        }}" />
+  </Card>
+  <Fragment when="{parsedCsv}">
+    <HStack verticalAlignment="center" gap="$space-2">
+      <Text>
+        Select some or all records, then click
+      </Text>
+      <Button
+        label="Import"
+        onClick="{ console.log('selectedProducts', productsFromCsv.getSelectedItems()); importQueue.enqueueItems(productsFromCsv.getSelectedItems())}"
+        enabled="{productsFromCsv.getSelectedItems().length}" />
+    </HStack>
+    <Card>
+      <Table
+        id="productsFromCsv"
+        data="{ parsedCsv }"
+        rowsSelectable="true"
+        rowDisabledPredicate="{(row) => isDuplicate(row.name)}">
+        <Column header="Name">
+          <Text
+            color="{isDuplicate($item.name) ? '$color-danger-500' : '$textColor-primary'}">
+            {$item.name} {isDuplicate($item.name) ? '(duplicate)' : ''}
+          </Text>
+        </Column>
+        <Column bindTo="description" />
+        <Column bindTo="price" />
+      </Table>
+    </Card>
+  </Fragment>
+  <Queue id="importQueue" clearAfterFinish="true">
+    <property name="progressFeedback">
+      <Text
+        value="Importing {pluralize(importQueue.getQueuedItems().length, 'product', 'products')}" />
+    </property>
+    <property name="resultFeedback">
+      <Text
+        value="Imported {pluralize($completedItems.length, 'product', 'products')}" />
+    </property>
+    <event name="process">
+      <APICall
+        url="/api/products"
+        method="post"
+        body="{$param.item}" />
+    </event>
+    <event name="complete" value="productsFromCsv.clearSelection()" />
+  </Queue>
+</Component>

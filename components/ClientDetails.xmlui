@@ -1,0 +1,14 @@
+<Component name="ClientDetails">
+    <H2>
+        Client Details
+    </H2>
+    <Form
+        data="{$props.client}"
+        submitUrl="/api/clients/{$props.client.id}"
+        submitMethod="PUT">
+        <FormItem label="name" bindTo="name" />
+        <FormItem label="email" bindTo="email" />
+        <FormItem label="phone" bindTo="phone" />
+        <FormItem label="address" bindTo="address" />
+    </Form>
+</Component>

@@ -1,0 +1,39 @@
+<Component name="CreateClient">
+  <H1>
+    Add New Client
+  </H1>
+  <Form
+    id="newClientForm"
+    submitUrl="/api/clients"
+    submitMethod="POST"
+    inProgressNotificationMessage="Creating client..."
+    completedNotificationMessage="Client created successfully"
+    onSuccess="Actions.navigate('/clients')">
+    <Card>
+      <FormItem
+        bindTo="name"
+        label="Name"
+        placeholder="Enter client name"
+        required="true" />
+      <FormItem
+        pattern="email"
+      bindTo="email"
+        label="Email"
+        placeholder="example@email.com"
+        required="true" />
+      <FormItem
+        bindTo="phone"
+        label="Phone"
+        placeholder="123 456 7890"
+        regex="{window.phoneRegex}"
+        required="true" />
+      <FormItem
+        type="textarea"
+        bindTo="address"
+        label="Address"
+        placeholder="Enter client address"
+        required="true"
+      />
+    </Card>
+  </Form>
+</Component>
