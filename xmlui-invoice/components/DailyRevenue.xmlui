@@ -13,10 +13,10 @@
       maxDate="{ dateRange.value[0].today }" />
     <Card height="400px">
       <BarChart
-        layout="horizontal"
+        orientation="horizontal"
         data="/api/dashboard/daily-revenue?start_date={dateRangeSlider.value.startDate}&end_date={dateRangeSlider.value.endDate}"
-        dataKeys="{['total']}"
-        nameKey="date"
+        yKeys="{['total']}"
+        xKey="date"
         tickFormatterX="{(value, index) => {
               if (index % 4 !== 0) return '';
               return window.formatMonth(value.slice(0,7));
