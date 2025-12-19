@@ -89,11 +89,5 @@ jobs:
           name: Release ${{ github.event.inputs.tag }}
           files: xmlui-invoice.zip
           body: |
-            XMLUI Invoice ${{ github.event.inputs.tag }}
-
-            Includes XMLUI Test Server ${{ github.event.inputs.server_version }}
-
-            ✅ All-In-One Bundle (xmlui-invoice.zip)
-            - Supports Linux, macOS (Intel & ARM), Windows
-            - Extract the files to a folder
-            - Run ./start.sh (Mac/Linux/WSL) or start.bat (Windows) to launch
+            - Install the [XMLUI CLI](https://github.com/xmlui-org/xmlui-cli/releases)
+            - `xmlui run https://github.com/xmlui-org/xmlui-invoice/releases/latest/download/xmlui-invoice.zip`
