@@ -16,7 +16,7 @@
     <InfoCard
       width="*"
       title="Paid This Year"
-      value="{dashboardStats.value[0].paid_this_year}"
+      value="{ window.coalesce(dashboardStats.value[0].paid_this_year, 0) }"
       currency='true' />
     <InfoCard
       width="*"
