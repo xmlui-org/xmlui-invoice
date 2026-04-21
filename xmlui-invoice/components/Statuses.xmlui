@@ -5,7 +5,7 @@
       {$props.title}
     </H1>
     <Card height="400px">
-      <DonutChart
+      <SimpleDonutChart
         layout="horizontal"
         data="{
                   [

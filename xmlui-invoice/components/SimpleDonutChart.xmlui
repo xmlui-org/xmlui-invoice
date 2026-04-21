@@ -1,0 +1,18 @@
+<Component name="SimpleDonutChart">
+  <EChart
+    height="{$props.height || '100%'}"
+    option="{
+      {
+        tooltip: { trigger: 'item', formatter: '{b}: {c} ({d}%)' },
+        legend: { orient: $props.layout === 'vertical' ? 'vertical' : 'horizontal', bottom: 0 },
+        series: [{
+          type: 'pie',
+          radius: ['40%', '70%'],
+          label: { show: true, formatter: '{b}' },
+          data: ($props.data || []).map(function(item) {
+            return { name: item[$props.nameKey || 'name'], value: item[$props.dataKey || 'value'] }
+          })
+        }]
+      }
+    }" />
+</Component>

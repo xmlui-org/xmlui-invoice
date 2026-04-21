@@ -3,6 +3,10 @@
     id="dateRange"
     url="/api/dashboard/date-range"
     method="GET" />
+  <DataSource
+    id="dailyRevenue"
+    url="/api/dashboard/daily-revenue?start_date={dateRangeSlider.value.startDate}&end_date={dateRangeSlider.value.endDate}"
+    method="GET" />
   <VStack>
     <H1>
       {$props.title}
@@ -12,15 +16,12 @@
       minDate="{ dateRange.value[0].first_invoice_date }"
       maxDate="{ dateRange.value[0].today }" />
     <Card height="400px">
-      <BarChart
+      <SimpleBarChart
         orientation="horizontal"
-        data="/api/dashboard/daily-revenue?start_date={dateRangeSlider.value.startDate}&end_date={dateRangeSlider.value.endDate}"
+        data="{dailyRevenue.value}"
         yKeys="{['total']}"
         xKey="date"
-        tickFormatterX="{(value, index) => {
-              if (index % 4 !== 0) return '';
-              return window.formatMonth(value.slice(0,7));
-            }}"
+        tickFormatterX="{(value, index) => index % 4 !== 0 ? '' : window.formatMonth(value.slice(0,7))}"
         tickFormatterY="{(value) => '$' + value}"
       />
     </Card>

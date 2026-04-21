@@ -1,19 +1,21 @@
 <Component name="MonthlyStatus">
+  <DataSource
+    id="monthlyStatus"
+    url="/api/dashboard/monthly-status"
+    method="GET" />
   <VStack width="{$props.width}">
     <H1>
       {$props.title}
     </H1>
     <Card height="400px">
-      <BarChart
+      <SimpleBarChart
         orientation="horizontal"
-        data="/api/dashboard/monthly-status"
+        data="{monthlyStatus.value}"
         yKeys="{['paid_revenue', 'sent_revenue']}"
         xKey="month"
         stacked="true"
         showLegend="true"
-        tickFormatterX="{(value) => {
-            return window.formatMonth(value);
-          }}"
+        tickFormatterX="{(value) => window.formatMonth(value)}"
         tickFormatterY="{(value) => '$' + value}"
       />
     </Card>

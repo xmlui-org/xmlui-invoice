@@ -1,0 +1,25 @@
+<Component name="SimpleBarChart">
+  <EChart
+    height="{$props.height || '100%'}"
+    option="{
+      {
+        tooltip: { trigger: 'axis' },
+        legend: $props.showLegend ? {} : undefined,
+        grid: { containLabel: true },
+        xAxis: $props.orientation === 'horizontal'
+          ? { type: 'category', data: ($props.data || []).map(function(d) { return d[$props.xKey] }), axisLabel: { formatter: $props.tickFormatterX } }
+          : { type: 'value', axisLabel: { formatter: $props.tickFormatterY } },
+        yAxis: $props.orientation === 'horizontal'
+          ? { type: 'value', axisLabel: { formatter: $props.tickFormatterY } }
+          : { type: 'category', data: ($props.data || []).map(function(d) { return d[$props.xKey] }), axisLabel: { formatter: $props.tickFormatterX } },
+        series: ($props.yKeys || []).map(function(k) {
+          return {
+            type: 'bar',
+            name: k,
+            stack: ($props.stacked === 'true' || $props.stacked === true) ? 'total' : undefined,
+            data: ($props.data || []).map(function(d) { return d[k] })
+          }
+        })
+      }
+    }" />
+</Component>
