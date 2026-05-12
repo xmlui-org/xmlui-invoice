@@ -1,17 +1,22 @@
 <App
   name="XMLUI Invoice"
   layout="vertical-full-header"
-  defaultTheme="invoice"
-  loggedInUser="{{ username: 'demouser', display_name: 'Demo User', avatar_url: '/resources/demouser.png' }}">
-  <AppState
-    id="settings"
-    bucket="settingsState" />
+  loggedInUser="{{
+    username: 'demouser', 
+    display_name: 'Demo User', 
+    avatar_url: '/resources/demouser.png' 
+  }}">
+  <!-- Global state for settings -->
+  <global name="settings" value="{{}}" />
+
+  <!-- Load settings on app start -->
   <DataSource id="settingsLoader" url="/api/settings">
     <event name="loaded">
-      settings.update({ avatar_border_radius: settingsLoader.value[0].avatar_border_radius });
+      settings = { avatar_border_radius: settingsLoader.value[0].avatar_border_radius };
       delay(500);
     </event>
   </DataSource>
+
   <AppHeader>
     <property name="titleTemplate">
       <H1>
@@ -23,7 +28,7 @@
         <InvoiceAvatar
           url="{loggedInUser.avatar_url}"
           name="{loggedInUser.display_name}"
-          borderRadius="{settings.value.avatar_border_radius}" />
+          borderRadius="{settings.avatar_border_radius}" />
         <Text>
           {loggedInUser.display_name}
         </Text>

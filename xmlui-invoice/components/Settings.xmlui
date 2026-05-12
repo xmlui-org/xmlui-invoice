@@ -1,6 +1,6 @@
 <Component name="Settings">
   <DataSource url="/api/users" id="users" />
-  <AppState id="settings" bucket="settingsState" />
+  <!--<AppState id="settings" bucket="settingsState" />-->
   <H1>
     Settings
   </H1>
@@ -29,7 +29,7 @@
           <InvoiceAvatar
             url="{$item.avatar_url}"
             name="{loggedInUser.display_name}"
-            borderRadius="{settings.value.avatar_border_radius}" />
+            borderRadius="{settings.avatar_border_radius}" />
         </Column>
         <Column canSort="{false}" header="logged_in" width="*">
           <Option value="{$item.username}" />
@@ -46,13 +46,14 @@
         width="10rem"
         id="borderRadiusInput"
         placeholder="e.g. 50% or 10px"
-        value="{settings.value.avatar_border_radius}"
+        value="{settings.avatar_border_radius}"
         onDidChange="{(value) => {
         // Only update if we have a valid value and settings is loaded
-        if (value && settings.value) {
-          settings.update({
+        if (value && settings) {
+          settings = {
+            ...settings,
             avatar_border_radius: value
-          });
+          };
         }
       }}" />
       <Button onClick="{() => updateSettings.execute()}">
@@ -63,7 +64,7 @@
       id="updateSettings"
       method="put"
       url="/api/settings"
-      body="{settings.value}"
+      body="{settings}"
       completedNotificationMessage="Settings saved successfully"
       errorNotificationMessage="Failed to save settings" />
   </Card>
